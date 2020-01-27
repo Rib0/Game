@@ -1,15 +1,18 @@
 module.exports = {
-  plugins: [
-    require('stylelint'),
-    require('postcss-import'),
-    require('postcss-nested'),
-    require('postcss-normalize'),
-    require('postcss-preset-env')({
-      stage: 0,
-      autoprefixer: { grid: false },
-      importFrom: './src/base.css',
-    }),
-    require('postcss-css-variables'),
-    require('postcss-flexbugs-fixes'),
-  ],
+    plugins: [
+        require('postcss-import'),
+        require('postcss-preset-env')({
+            stage: 0,
+            autoprefixer: { grid: false },
+            features: {
+                'custom-media-queries': true,
+            },
+            preserve: false,
+        }),
+        require('postcss-flexbugs-fixes'),
+        require('cssnano')({
+            preset: 'default',
+        }),
+        require('postcss-nested'),
+    ],
 };
