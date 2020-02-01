@@ -7,8 +7,8 @@
     "dev": "cross-env webpack-dev-server --mode=development",
     "build": "cross-env NODE_ENV='production' webpack --mode=production",
     "analyze": "cross-env NODE_ENV='analyze' webpack --mode=production",
-    "prettier": "prettier --write ./src/js/**/**/**",
-    "eslint": "eslint ./src/js/**/**/*.js"
+    "prettier": "prettier --write ./src/javascript/**/**/*.js",
+    "eslint": "eslint ./src/javascript/**/**/*.js"
   },
   "author": "Nikita Sidenko",
   "license": "ISC",
@@ -73,7 +73,7 @@
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.1.2",
     "redux": "^4.0.1",
-    "redux-act": "^1.7.7",
+    "redux-actions": "^2.6.5",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
