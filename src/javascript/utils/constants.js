@@ -1,52 +1,59 @@
 import GameView from 'components/Views/GameView';
+import MenuView from 'components/Views/MenuView';
 
 export const VIEWS = {
     menu: {
-        type: 'navigation',
-        options: [
-            {
-                value: 'menu/difficulty',
-                label: 'Сложность',
-                actionName: 'changeView',
-            },
-            {
-                value: 'menu/gameType',
-                label: 'Тип игры',
-                actionName: 'changeView',
-            },
-            {
-                value: 'menu/Game',
-                label: 'Начать игру',
-                actionName: '',
-            },
-        ],
+        component: MenuView,
+        props: {
+            options: [
+                {
+                    value: 'menu/Game',
+                    label: 'Начать игру',
+                    actionName: 'changeView',
+                },
+                {
+                    value: 'menu/difficulty',
+                    label: 'Сложность',
+                    actionName: 'changeView',
+                },
+            ],
+        },
     },
     'menu/difficulty': {
-        type: 'navigation',
-        options: [
-            {
-                value: '',
-                label: 'Сложно',
-                actionName: 'changeDifficulty',
-            },
-            {
-                value: '',
-                label: 'Средне',
-                actionName: 'changeDifficulty',
-            },
-            {
-                value: '',
-                label: 'Легко',
-                actionName: 'changeDifficulty', // отдельный компонент с меню
-            },
-        ],
+        component: MenuView,
+        props: {
+            valueName: 'difficulty',
+            options: [
+                {
+                    value: GameView.gameDifficulties.easy,
+                    label: 'Легко',
+                    actionName: 'changeDifficulty',
+                },
+                {
+                    value: GameView.gameDifficulties.normal,
+                    label: 'Средне',
+                    actionName: 'changeDifficulty',
+                },
+                {
+                    value: GameView.gameDifficulties.hard,
+                    label: 'Сложно',
+                    actionName: 'changeDifficulty',
+                },
+                {
+                    value: 'menu',
+                    label: '<',
+                    actionName: 'changeView',
+                    type: 'back',
+                },
+            ],
+        },
     },
     'menu/gameType': {
-        type: 'navigation',
+        component: MenuView,
+        valueName: 'gameType',
         options: [],
     },
     'menu/Game': {
-        type: 'component',
-        component: GameView, // name of the component отдельный компонент с игрой
+        component: GameView,
     },
 };

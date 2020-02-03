@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import styles from './styles.css';
@@ -53,7 +54,11 @@ class ProgressBar extends PureComponent {
 
         return (
             <div className={styles.progressBar}>
-                <div ref={elem => (this.progress = elem)} style={progressInnerStyles} className={styles.progressInner} />
+                <div
+                    ref={elem => (this.progress = elem)}
+                    style={progressInnerStyles}
+                    className={styles.progressInner}
+                />
             </div>
         );
     }
@@ -69,4 +74,6 @@ ProgressBar.defaultProps = {
     transitionDuration: 'slow',
 };
 
-export default ProgressBar;
+const mapStateToProps = state => ({});
+
+export default connect(mapStateToProps)(ProgressBar);

@@ -2,7 +2,7 @@
     width: 500px;
     height: 40px;
     margin: 300px auto;
-    background: gainsboro;
+    border: 2px solid var(--colorOrange);
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
@@ -11,7 +11,7 @@
 .progressInner {
     width: 20%;
     height: 100%;
-    background: green;
+    background: var(--colorOrange);
     transition: width 1s linear;
 
     &.slow {

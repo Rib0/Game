@@ -1,0 +1,9 @@
+:root {
+    /* colors */
+    --colorBlack: #000;
+    --colorWhite: #FFF;
+    --colorOrange: rgb(225,138,13);
+
+    /* sizes */
+    --defaultFontSize: 14px;
+}

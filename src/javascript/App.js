@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 
-import ProgressBar from 'components/ProgressBar';
+import MainView from 'components/Views/MainView';
 
 class App extends PureComponent {
     render() {
-        return <ProgressBar />;
+        return <MainView />;
     }
 }
 

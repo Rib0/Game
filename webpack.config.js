@@ -12,7 +12,7 @@ const isProd = process.env.NODE_ENV === 'production';
 const isAnalyze = process.env.NODE_ENV === 'analyze';
 
 const config = {
-    entry: ['./src'],
+    entry: ['./src', './src/index.css'],
     output: {
         path: path.resolve(__dirname, 'build/'),
         filename: !isProd ? '[name].js' : '[name].[hash].js',
@@ -87,7 +87,7 @@ const config = {
         extensions: ['.js', '.json'],
         modules: ['node_modules', path.resolve(__dirname, 'src/javascript')],
         alias: {
-            Images: path.resolve(__dirname, 'src/img/'),
+            Images: path.resolve(__dirname, 'src/images/'),
         },
     },
     stats: {

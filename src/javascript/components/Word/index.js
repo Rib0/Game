@@ -10,9 +10,20 @@ class Word extends PureComponent {
         ],
     };
 
+    componentDidUpdate() {
+        const { word } = this.props;
+        const stateWord = word.split('').map(letter => ({ letter, complete: false }));
+
+        this.setState({
+            word: stateWord,
+        });
+    }
+
     onKeyDown = () => {};
 
     render() {
+        const { word } = this.state;
+
         return <div />;
     }
 }

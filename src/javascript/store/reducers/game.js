@@ -10,15 +10,15 @@ const initialState = {
     word: '',
 };
 
-export const game = handleActions(
+export default handleActions(
     {
         [changeGameType]: (state, { payload }) => ({
             ...state,
-            gameType: payload.type,
+            gameType: payload,
         }),
         [changeDifficulty]: (state, { payload }) => ({
             ...state,
-            difficulty: payload.difficulty,
+            difficulty: payload,
         }),
         [changeHealth]: (state, { payload }) => ({
             ...state,
@@ -26,15 +26,15 @@ export const game = handleActions(
         }),
         [changeTime]: (state, { payload }) => ({
             ...state,
-            time: payload.time,
+            time: payload,
         }),
         [changeScore]: (state, { payload }) => ({
             ...state,
-            score: payload.score,
+            score: payload,
         }),
         [changeWord]: (state, payload) => ({
             ...state,
-            word: payload.word,
+            word: payload,
         }),
     },
     initialState

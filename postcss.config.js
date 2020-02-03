@@ -8,6 +8,7 @@ module.exports = {
                 'custom-media-queries': true,
             },
             preserve: false,
+            importFrom: './src/root.css'
         }),
         require('postcss-flexbugs-fixes'),
         require('cssnano')({
