@@ -5,58 +5,27 @@ import PropTypes from 'prop-types';
 import styles from './styles.css';
 
 class ProgressBar extends PureComponent {
-    static transitionDurations = {
-        slow: '1000ms',
-        medium: '700ms',
-        fast: '400ms',
-    };
-
-    constructor(props) {
-        super(props);
-        const { transitionDuration } = props;
-
-        this.state = {
-            width: 100,
-            speed: ProgressBar.transitionDurations[transitionDuration],
-        };
-    }
 
     componentDidMount() {
-        const { speed, width } = this.state;
+        const { handleTransitionEnd } = this.props;
 
-        this.timerId = setInterval(() => {
-            this.setState({
-                width: width - 20, // start game
-            });
-        }, parseInt(speed));
-
-        this.progress.addEventListener('transitionend', this.checkEndGame);
+        this.progress.addEventListener('transitionend', handleTransitionEnd);
     }
 
-    componentWillUnmount() {}
-
-    checkEndGame = () => {
-        const { width } = this.state;
-
-        if (width < 0) {
-            console.log('Вы проиграли');
-            clearInterval(this.timerId);
-        }
-    };
+    componentWillUnmount() {
+        this.progress.removeEventListener('transitionend', handleTransitionEnd)
+    }
 
     render() {
-        const { width, speed } = this.state;
+        const { innerStyles } = this.props;
 
-        const progressInnerStyles = {
-            width: `${width}%`,
-            transitionDuration: speed,
-        };
+        console.log(innerStyles)
 
         return (
             <div className={styles.progressBar}>
                 <div
                     ref={elem => (this.progress = elem)}
-                    style={progressInnerStyles}
+                    style={innerStyles}
                     className={styles.progressInner}
                 />
             </div>
@@ -65,13 +34,8 @@ class ProgressBar extends PureComponent {
 }
 
 ProgressBar.propTypes = {
-    width: PropTypes.number,
-    transitionDuration: PropTypes.oneOf[Object.keys(ProgressBar.transitionDurations)],
-};
-
-ProgressBar.defaultProps = {
-    width: 0,
-    transitionDuration: 'slow',
+    health: PropTypes.number,
+    handleTransitionEnd: PropTypes.func
 };
 
 const mapStateToProps = state => ({});

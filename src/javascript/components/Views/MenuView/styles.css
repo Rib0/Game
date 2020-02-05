@@ -1,20 +1,10 @@
-@keyframes activate {
-    50% {
-        transform: scale(1.1);
-    }
-
-    100% {
-        transform: scale(1);
-    }
-}
-
 .listItem {
-    text-align: center;
     color: var(--colorWhite);
+    text-align: center;
+    margin-bottom: 15px;
 
     &.active {
         color: var(--colorOrange);
-        animation: activate .2s;
     }
 }
 
@@ -28,10 +18,7 @@
     font-size: 3rem;
     font-family: sans-serif;
     color: inherit;
-
-    &:hover {
-        color: var(--colorOrange)
-    }
+    border-bottom: 3px solid transparent;
 
     &.back {
         border: 5px solid var(--colorOrange);
@@ -40,4 +27,7 @@
         width: auto;
     }
 
+    &:not(.back):hover {
+        border-bottom: 3px solid var(--colorOrange)
+    }
 }

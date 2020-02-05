@@ -1,5 +1,4 @@
 import { createActions } from 'redux-actions';
-import { request } from 'utils';
 
 const payloadCreator = payload => payload;
 
@@ -11,8 +10,3 @@ export const { changeGameType, changeDifficulty, changeHealth, changeTime, chang
     CHANGE_SCORE: payloadCreator,
     CHANGE_WORD: payloadCreator,
 });
-
-export const fetchWord = () => dispatch => {
-    request('http://free-generator.ru/generator.php?action=word&type=0')
-        .then(console.log)
-}

@@ -25,17 +25,17 @@ export const VIEWS = {
             valueName: 'difficulty',
             options: [
                 {
-                    value: GameView.gameDifficulties.easy,
+                    value: 'easy',
                     label: 'Легко',
                     actionName: 'changeDifficulty',
                 },
                 {
-                    value: GameView.gameDifficulties.normal,
+                    value: 'normal',
                     label: 'Средне',
                     actionName: 'changeDifficulty',
                 },
                 {
-                    value: GameView.gameDifficulties.hard,
+                    value: 'hard',
                     label: 'Сложно',
                     actionName: 'changeDifficulty',
                 },

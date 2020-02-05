@@ -19,15 +19,13 @@ class MenuView extends PureComponent {
     };
 
     render() {
-        const { options, difficulty } = this.props;
-
-        //move li into another component
+        const { options, valueName, ...props } = this.props;
 
         return (
             <div>
                 <ul>
                     {options.map(option => (
-                        <li className={cx('listItem', { active: option.value === difficulty })} key={option.label}>
+                        <li className={cx('listItem', { active: option.value === props[valueName] })} key={option.label}>
                             <button
                                 type="button"
                                 data-action={option.actionName}
