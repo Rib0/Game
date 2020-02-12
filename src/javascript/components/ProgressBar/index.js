@@ -5,21 +5,24 @@ import PropTypes from 'prop-types';
 import styles from './styles.css';
 
 class ProgressBar extends PureComponent {
-
     componentDidMount() {
         const { handleTransitionEnd } = this.props;
 
         this.progress.addEventListener('transitionend', handleTransitionEnd);
     }
 
+    componentDidUpdate() {
+        const { word } = this.props;
+    }
+
     componentWillUnmount() {
-        this.progress.removeEventListener('transitionend', handleTransitionEnd)
+        const { handleTransitionEnd } = this.props;
+
+        this.progress.removeEventListener('transitionend', handleTransitionEnd);
     }
 
     render() {
         const { innerStyles } = this.props;
-
-        console.log(innerStyles)
 
         return (
             <div className={styles.progressBar}>
@@ -35,7 +38,7 @@ class ProgressBar extends PureComponent {
 
 ProgressBar.propTypes = {
     health: PropTypes.number,
-    handleTransitionEnd: PropTypes.func
+    handleTransitionEnd: PropTypes.func,
 };
 
 const mapStateToProps = state => ({});

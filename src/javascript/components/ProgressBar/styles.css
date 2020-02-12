@@ -1,7 +1,7 @@
 .progressBar {
     width: 500px;
     height: 40px;
-    margin: 300px auto;
+    margin: 100px auto;
     border: 2px solid var(--colorOrange);
     border-radius: 10px;
     overflow: hidden;

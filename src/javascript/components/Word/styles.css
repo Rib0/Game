@@ -1,0 +1,27 @@
+.word {
+    display: flex;
+    justify-content: center;
+}
+
+.letter {
+    position: relative;
+    font-size: 90px;
+    font-weight: bold;
+    color: var(--colorWhite);
+    overflow: hidden;
+
+    &.complete > .inner {
+        width: 100%;
+    }
+}
+
+.inner {
+    width: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: width .2s;
+    color: var(--colorOrange);
+    overflow: hidden;
+    white-space: nowrap;
+}

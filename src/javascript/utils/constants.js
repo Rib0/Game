@@ -7,13 +7,13 @@ export const VIEWS = {
         props: {
             options: [
                 {
-                    value: 'menu/Game',
                     label: 'Начать игру',
+                    value: 'menu/Game',
                     actionName: 'changeView',
                 },
                 {
-                    value: 'menu/difficulty',
                     label: 'Сложность',
+                    value: 'menu/difficulty',
                     actionName: 'changeView',
                 },
             ],
@@ -25,23 +25,23 @@ export const VIEWS = {
             valueName: 'difficulty',
             options: [
                 {
-                    value: 'easy',
                     label: 'Легко',
+                    value: 'easy',
                     actionName: 'changeDifficulty',
                 },
                 {
-                    value: 'normal',
                     label: 'Средне',
+                    value: 'normal',
                     actionName: 'changeDifficulty',
                 },
                 {
-                    value: 'hard',
                     label: 'Сложно',
+                    value: 'hard',
                     actionName: 'changeDifficulty',
                 },
                 {
-                    value: 'menu',
                     label: '<',
+                    value: 'menu',
                     actionName: 'changeView',
                     type: 'back',
                 },

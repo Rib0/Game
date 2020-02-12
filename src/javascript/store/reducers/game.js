@@ -1,12 +1,18 @@
 import { handleActions } from 'redux-actions';
-import { changeGameType, changeDifficulty, changeHealth, changeScore, changeWord } from '../actions/game';
+import {
+    changeGameType,
+    changeDifficulty,
+    changeHealth,
+    changeScore,
+    changeWord,
+} from '../actions/game';
 
 const initialState = {
     gameType: '',
-    difficulty: '',
+    difficulty: 'normal',
     health: 100,
     score: 0,
-    word: ''
+    word: 'сковорода',
 };
 
 export default handleActions(
@@ -29,7 +35,7 @@ export default handleActions(
         }),
         [changeWord]: (state, payload) => ({
             ...state,
-            word: payload
+            word: payload,
         }),
     },
     initialState

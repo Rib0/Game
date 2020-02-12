@@ -4,6 +4,7 @@
 
 html {
     font-size: var(--defaultFontSize);
+    font-family: sans-serif;
 }
 
 body {

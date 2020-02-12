@@ -5,36 +5,86 @@ import PropTypes from 'prop-types';
 import { changeHealth, changeWord } from 'store/actions';
 import ProgressBar from 'components/ProgressBar';
 import Word from 'components/Word';
-import data from 'dict.json';
+import Button from 'components/Button';
+import styles from './styles.css';
 
-const WORDS_AMOUNT = 3000;
+const WORDS_AMOUNT = 9;
 const HEALTH_STEP = -25;
+
+const data = [
+    'сковорода',
+    'ветка',
+    'компьютер',
+    'яблоко',
+    'виноград',
+    'компания',
+    'паралеллограмм',
+    'школа',
+    'океан',
+    'спорт'
+]
 
 class GameView extends PureComponent {
     static gameTypes = {};
 
     static gameDifficulties = {
-        easy: '700ms',
-        normal: '500ms',
-        hard: '300ms',
+        easy: '2000ms',
+        normal: '1500ms',
+        hard: '1300ms',
     };
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            started: false,
-        }
+    state = {
+        started: false,
+        wordArray: [],
+    };
 
-        this.words = data.slice(0, WORDS_AMOUNT);
+    componentDidMount() {
+        this.getRandomWord(); // change to getRandomWord
     }
 
     getRandomWord = () => {
         const { changeWord } = this.props;
-        const randomValue = Math.floor(Math.random() * (WORDS_AMOUNT - 0 + 1)) + 0;
-        const currentWord = data[randomValue];
+        const randomIndex = Math.floor(Math.random() * (WORDS_AMOUNT - 0 + 1)) + 0;
+        const newWord = data[randomIndex];
 
-        changeWord(currentWord);
-    }
+        changeWord(newWord);
+        this.generateWordArray(newWord);
+    };
+
+    generateWordArray = word => {
+        const wordArray = word.split('').map(letter => ({ letter, complete: false }));
+
+        this.setState({
+            wordArray,
+        });
+    };
+
+    resetWord = () => {
+        const { wordArray } = this.state;
+
+        const resetedWord = wordArray.map(word => ({ ...word, complete: false }));
+        this.setState({
+            wordArray: resetedWord,
+        });
+    };
+
+    getRightLetter = () => {
+        const { wordArray } = this.state;
+
+        let isComplete = false;
+        const newWordArray = wordArray.map(word => {
+            if (!isComplete && !word.complete) {
+                isComplete = true;
+                return { ...word, complete: true };
+            } else {
+                return word;
+            }
+        });
+
+        this.setState({
+            wordArray: newWordArray,
+        });
+    };
 
     changeHealth = (diff = HEALTH_STEP) => {
         const { changeHealth, health } = this.props;
@@ -43,7 +93,7 @@ class GameView extends PureComponent {
 
         newHealth = newHealth > 100 ? 100 : newHealth < 0 ? 0 : newHealth;
         changeHealth(newHealth);
-    }
+    };
 
     handleTransitionEnd = () => {
         const { health } = this.props;
@@ -59,11 +109,14 @@ class GameView extends PureComponent {
         const timeOut = parseInt(GameView.gameDifficulties[difficulty]);
 
         this.timerId = setInterval(this.changeHealth, timeOut);
-    }
+        this.setState({
+            started: true,
+        });
+    };
 
     stopGame = () => {
-        clearInterval(this.timerId)
-    }
+        clearInterval(this.timerId);
+    };
 
     componentWillUnmount() {
         this.stopGame();
@@ -71,17 +124,37 @@ class GameView extends PureComponent {
 
     render() {
         const { health, difficulty, ...props } = this.props;
+        const { started, wordArray } = this.state;
 
         const innerStyles = {
             width: `${health}%`,
-            transitionDuration: GameView.gameDifficulties[difficulty]
-        }
+            transitionDuration: GameView.gameDifficulties[difficulty],
+        };
 
         return (
-            <div>
-                <button onClick={this.startGame}>qwe</button>
-                <ProgressBar innerStyles={innerStyles} changeHealth={changeHealth} handleTransitionEnd={this.handleTransitionEnd} />
-                <Word {...props} />
+            <div className={styles.row}>
+                <div className={styles.col}>
+                    {!started && <Button text="Старт" onClick={this.startGame} />}
+                </div>
+                <div className={styles.col}>
+                    {started && (
+                        <Word
+                            {...props}
+                            wordArray={wordArray}
+                            getRandomWord={this.getRandomWord}
+                            generateWordArray={this.generateWordArray}
+                            resetWord={this.resetWord}
+                            getRightLetter={this.getRightLetter}
+                        />
+                    )}
+                </div>
+                <div className={styles.col}>
+                    <ProgressBar
+                        innerStyles={innerStyles}
+                        changeHealth={changeHealth}
+                        handleTransitionEnd={this.handleTransitionEnd}
+                    />
+                </div>
             </div>
         );
     }
@@ -91,12 +164,12 @@ GameView.propTypes = {
     difficulty: PropTypes.oneOf(Object.keys(GameView.gameDifficulties)),
     health: PropTypes.number,
     score: PropTypes.number,
-    word: PropTypes.string,
+    word: PropTypes.array,
 };
 
 GameView.defaultProps = {
-    difficulty: 'normal'
-}
+    difficulty: 'normal',
+};
 
 const mapStateToProps = ({ game }) => ({
     ...game,
@@ -104,7 +177,7 @@ const mapStateToProps = ({ game }) => ({
 
 const mapDispatchToProps = {
     changeHealth,
-    changeWord
+    changeWord,
 };
 
 export default connect(
