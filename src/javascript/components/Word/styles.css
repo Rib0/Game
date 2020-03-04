@@ -20,7 +20,8 @@
     position: absolute;
     top: 0;
     left: 0;
-    transition: width .2s;
+    transition-property: width;
+    transition-timing-function: linear;
     color: var(--colorOrange);
     overflow: hidden;
     white-space: nowrap;

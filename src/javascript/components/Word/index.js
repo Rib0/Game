@@ -8,27 +8,45 @@ const cx = classNames.bind(styles);
 
 class Word extends PureComponent {
 
+    state = {
+        transitionDuration: '.2s'
+    }
+
     componentDidMount() {
         document.body.addEventListener('keydown', this.onKeyDown);
     }
 
+    resetTransition() {
+        this.setState({
+            transitionDuration: '0s'
+        })
+        setTimeout(() => {
+            this.setState({
+                transitionDuration: '.2s'
+            })
+        }, 0)
+    }
+
     componentDidUpdate(prevProps) {
-        const { wordArray, getRandomWord } = this.props;
+        const { wordArray, getRightWord } = this.props;
 
         if (prevProps.wordArray !== wordArray) {
             const isComplete = wordArray.every(word => word.complete);
-            isComplete && getRandomWord();
+            isComplete && (getRightWord(), this.resetTransition())
         }
     }
 
     onKeyDown = event => {
+        const { started } = this.props;
+        if (!started) return;
+
         const { key } = event;
         const { wordArray, getRightLetter, resetWord } = this.props;
         const currentLetter = wordArray.find(word => !word.complete);
 
         const { letter } = currentLetter;
 
-        letter === key ? getRightLetter() : resetWord();
+        letter === key ? getRightLetter() : (resetWord(), this.resetTransition());
     };
 
     componentWillUnmount() {
@@ -37,13 +55,14 @@ class Word extends PureComponent {
 
     render() {
         const { wordArray } = this.props;
+        const { transitionDuration } = this.state;
 
         return (
             <div className={styles.word}>
                 {wordArray.map(({ letter, complete }, index) => (
                     <span key={index} className={cx('letter', { complete })}>
                         {letter}
-                        <div className={styles.inner}>{letter}</div>
+                        <div style={{ transitionDuration }} className={styles.inner}>{letter}</div>
                     </span>
                 ))}
             </div>
@@ -52,7 +71,7 @@ class Word extends PureComponent {
 }
 
 Word.propTypes = {
-    word: PropTypes.array, // todo proptypes
+    wordArray: PropTypes.array, // todo proptypes
 };
 
 export default Word;

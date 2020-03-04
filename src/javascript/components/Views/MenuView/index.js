@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import classNames from 'classNames/bind';
+import classNames from 'classnames/bind';
 
 import * as actions from 'store/actions';
 import styles from './styles.css';

@@ -11,10 +11,6 @@ class ProgressBar extends PureComponent {
         this.progress.addEventListener('transitionend', handleTransitionEnd);
     }
 
-    componentDidUpdate() {
-        const { word } = this.props;
-    }
-
     componentWillUnmount() {
         const { handleTransitionEnd } = this.props;
 
