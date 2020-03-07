@@ -7,10 +7,9 @@ import styles from './styles.css';
 const cx = classNames.bind(styles);
 
 class Word extends PureComponent {
-
     state = {
-        transitionDuration: '.2s'
-    }
+        transitionDuration: '.2s',
+    };
 
     componentDidMount() {
         document.body.addEventListener('keydown', this.onKeyDown);
@@ -18,13 +17,13 @@ class Word extends PureComponent {
 
     resetTransition() {
         this.setState({
-            transitionDuration: '0s'
-        })
+            transitionDuration: '0s',
+        });
         setTimeout(() => {
             this.setState({
-                transitionDuration: '.2s'
-            })
-        }, 0)
+                transitionDuration: '.2s',
+            });
+        }, 0);
     }
 
     componentDidUpdate(prevProps) {
@@ -32,14 +31,11 @@ class Word extends PureComponent {
 
         if (prevProps.wordArray !== wordArray) {
             const isComplete = wordArray.every(word => word.complete);
-            isComplete && (getRightWord(), this.resetTransition())
+            isComplete && (getRightWord(), this.resetTransition());
         }
     }
 
     onKeyDown = event => {
-        const { started } = this.props;
-        if (!started) return;
-
         const { key } = event;
         const { wordArray, getRightLetter, resetWord } = this.props;
         const currentLetter = wordArray.find(word => !word.complete);
@@ -62,7 +58,9 @@ class Word extends PureComponent {
                 {wordArray.map(({ letter, complete }, index) => (
                     <span key={index} className={cx('letter', { complete })}>
                         {letter}
-                        <div style={{ transitionDuration }} className={styles.inner}>{letter}</div>
+                        <div style={{ transitionDuration }} className={styles.inner}>
+                            {letter}
+                        </div>
                     </span>
                 ))}
             </div>

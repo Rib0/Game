@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { changeHealth, changeWord } from 'store/actions';
+import { changeHealth, changeView } from 'store/actions';
 import ProgressBar from 'components/ProgressBar';
 import Word from 'components/Word';
 import Button from 'components/Button';
@@ -21,8 +21,8 @@ const data = [
     'паралеллограмм',
     'школа',
     'океан',
-    'спорт'
-]
+    'спорт',
+];
 
 class GameView extends PureComponent {
     static gameTypes = {};
@@ -33,30 +33,27 @@ class GameView extends PureComponent {
         hard: '1300ms',
     };
 
-    state = {
-        started: false,
-        texts: {
-            gameMessage: '',
-            buttonText: 'Начать игру'
-        },
-        wordArray: [],
-        transitionDuration: '0ms'
-    }
+    constructor(props) {
+        super(props);
 
-    componentDidUpdate(prevProps, prevState) {
-        const { started } = this.state;
+        const { difficulty } = props;
+        this.transitionDuration = GameView.gameDifficulties[difficulty];
 
-        if (started !== prevState.started && started) {
-            this.getRandomWord();
-        }
+        this.state = {
+            started: false,
+            texts: {
+                gameMessage: '',
+                buttonText: 'Старт',
+            },
+            wordArray: [],
+            transitionDuration: '0ms',
+        };
     }
 
     getRandomWord = () => {
-        const { changeWord } = this.props;
         const randomIndex = Math.floor(Math.random() * (WORDS_AMOUNT - 0 + 1)) + 0;
         const newWord = data[randomIndex];
 
-        changeWord(newWord); // remove
         const wordArray = newWord.split('').map(letter => ({ letter, complete: false }));
 
         this.setState({
@@ -81,9 +78,8 @@ class GameView extends PureComponent {
             if (!isComplete && !word.complete) {
                 isComplete = true;
                 return { ...word, complete: true };
-            } else {
-                return word;
             }
+            return word;
         });
 
         this.setState({
@@ -101,16 +97,12 @@ class GameView extends PureComponent {
     };
 
     getRightWord = () => {
-        this.getRandomWord();
-        this.changeHealth(25);
         this.stopGame();
-        
-        setTimeout(() => {
-            this.startGame();
-        }, 0);
-    }
+        this.getRandomWord();
+        this.changeImmediately(50);
+    };
 
-    handleTransitionEnd = () => { // remove word from redux
+    handleTransitionEnd = () => {
         const { health } = this.props;
 
         if (!health) {
@@ -118,34 +110,45 @@ class GameView extends PureComponent {
         }
     };
 
-    startGame = () => {
-        const { difficulty } = this.props;
-        const transitionDuration = GameView.gameDifficulties[difficulty];
+    changeImmediately(value) {
+        this.setState({
+            transitionDuration: `${0}ms`,
+        });
+        this.changeHealth(value);
+        setTimeout(() => {
+            this.setState({ transitionDuration: this.transitionDuration });
+            this.changeHealth(-25);
+            this.timerId = setInterval(this.changeHealth, parseInt(this.transitionDuration));
+        }, 0);
+    }
 
-        this.changeHealth(-25);
-        this.timerId = setInterval(this.changeHealth, parseInt(transitionDuration)); // move start game to anotger method
+    startGame = () => {
+        const { texts } = this.props;
+
+        this.getRandomWord();
+        this.changeImmediately(100);
 
         this.setState({
             started: true,
-            transitionDuration,
+            texts: {
+                ...texts,
+                gameMessage: '',
+            },
         });
     };
 
     stopGame() {
-        this.setState({
-            transitionDuration: `${0}ms`,
-        })
         clearInterval(this.timerId);
-    };
+    }
 
     getLoose() {
         this.stopGame();
         this.setState({
             texts: {
-                gameMessage: 'Вы проиграли',
-                buttonText: 'Играть еще'
+                gameMessage: 'Вы проиграли!',
+                buttonText: 'Играть еще',
             },
-            started: false
+            started: false,
         });
     }
 
@@ -154,8 +157,13 @@ class GameView extends PureComponent {
     }
 
     render() {
-        const { health, difficulty, ...props } = this.props;
-        const { started, wordArray, transitionDuration, texts: { buttonText, gameMessage } } = this.state;
+        const { health, difficulty, changeView, ...props } = this.props;
+        const {
+            started,
+            wordArray,
+            transitionDuration,
+            texts: { buttonText, gameMessage },
+        } = this.state;
 
         const innerStyles = {
             width: `${health}%`,
@@ -164,32 +172,39 @@ class GameView extends PureComponent {
 
         return (
             <div className={styles.row}>
-                <div className={styles.col}>
-                    {!started && (
-                        <>
-                            <Button text={buttonText} onClick={this.startGame} />
-                            {gameMessage && <div>{gameMessage}</div>}
-                        </>
-                    )}
-                </div>
-                <div className={styles.col}>
-                    {started && (
-                        <Word
-                            {...props}
-                            wordArray={wordArray}
-                            resetWord={this.resetWord}
-                            getRightLetter={this.getRightLetter}
-                            getRightWord={this.getRightWord}
-                            disabled={!started}
-                        />
-                    )}
-                </div>
-                <div className={styles.col}>
-                    <ProgressBar
-                        innerStyles={innerStyles}
-                        handleTransitionEnd={this.handleTransitionEnd}
-                    />
-                </div>
+                {!started && (
+                    <div className={styles.col}>
+                        {gameMessage && (
+                            <>
+                                <div className={styles.message}>{gameMessage}</div>
+                                <Button text="В главное меню" onClick={() => changeView('menu')} />
+                                <br />
+                                <br />
+                            </>
+                        )}
+                        <Button text={buttonText} onClick={this.startGame} />
+                    </div>
+                )}
+                {started && (
+                    <>
+                        <div className={styles.col}>
+                            <Word
+                                {...props}
+                                wordArray={wordArray}
+                                resetWord={this.resetWord}
+                                getRightLetter={this.getRightLetter}
+                                getRightWord={this.getRightWord}
+                                disabled={!started}
+                            />
+                        </div>
+                        <div className={styles.col}>
+                            <ProgressBar
+                                innerStyles={innerStyles}
+                                handleTransitionEnd={this.handleTransitionEnd}
+                            />
+                        </div>
+                    </>
+                )}
             </div>
         );
     }
@@ -212,7 +227,7 @@ const mapStateToProps = ({ game }) => ({
 
 const mapDispatchToProps = {
     changeHealth,
-    changeWord,
+    changeView,
 };
 
 export default connect(
