@@ -1,2 +1,2 @@
-export { changeGameType, changeDifficulty, changeHealth, changeScore, changeWord } from './game';
+export { changeGameType, changeDifficulty, changeHealth, changeScore } from './game';
 export { changeView } from './views';

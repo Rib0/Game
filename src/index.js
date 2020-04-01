@@ -5,10 +5,9 @@ import { render } from 'react-dom';
 import store from 'store';
 import App from 'App';
 
-// install unfetch
-
 render(
-<Provider store={store}>
-    <App />
-</Provider>, 
-document.getElementById('app'));
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.getElementById('app')
+);

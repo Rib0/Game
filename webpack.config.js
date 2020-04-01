@@ -85,7 +85,11 @@ const config = {
     },
     resolve: {
         extensions: ['.js', '.json'],
-        modules: ['node_modules', path.resolve(__dirname, 'src/javascript')],
+        modules: [
+            'node_modules',
+            path.resolve(__dirname, 'src/javascript'),
+            path.resolve(__dirname, 'src'),
+        ],
         alias: {
             Images: path.resolve(__dirname, 'src/images/'),
         },

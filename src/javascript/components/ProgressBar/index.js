@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import styles from './styles.css';
@@ -33,10 +32,8 @@ class ProgressBar extends PureComponent {
 }
 
 ProgressBar.propTypes = {
-    health: PropTypes.number,
     handleTransitionEnd: PropTypes.func,
+    innerStyles: PropTypes.objectOf(PropTypes.string),
 };
 
-const mapStateToProps = state => ({});
-
-export default connect(mapStateToProps)(ProgressBar);
+export default ProgressBar;

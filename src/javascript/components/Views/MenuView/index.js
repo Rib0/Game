@@ -48,8 +48,8 @@ class MenuView extends PureComponent {
     }
 }
 
-const mapStateToProps = ({ game: { difficulty } }) => ({
-    difficulty,
+const mapStateToProps = ({ game }) => ({
+    ...game,
 });
 
 const mapDispatchToProps = {
@@ -58,6 +58,7 @@ const mapDispatchToProps = {
 
 MenuView.propTypes = {
     options: PropTypes.arrayOf(PropTypes.object),
+    valueName: PropTypes.string,
 };
 
 export default connect(

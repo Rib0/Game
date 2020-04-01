@@ -1,31 +1,23 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import classNames from 'classnames/bind';
 
-import { changeHealth, changeView } from 'store/actions';
+/* eslint-disable no-shadow */
+import { changeHealth, changeView, changeScore } from 'store/actions';
 import ProgressBar from 'components/ProgressBar';
 import Word from 'components/Word';
 import Button from 'components/Button';
 import styles from './styles.css';
 
-const WORDS_AMOUNT = 9;
+const cx = classNames.bind(styles);
 const HEALTH_STEP = -25;
 
-const data = [
-    'сковорода',
-    'ветка',
-    'компьютер',
-    'яблоко',
-    'виноград',
-    'компания',
-    'паралеллограмм',
-    'школа',
-    'океан',
-    'спорт',
-];
-
 class GameView extends PureComponent {
-    static gameTypes = {};
+    static gameTypes = {
+        survival: 0,
+        time: 1,
+    };
 
     static gameDifficulties = {
         easy: '2000ms',
@@ -36,8 +28,10 @@ class GameView extends PureComponent {
     constructor(props) {
         super(props);
 
-        const { difficulty } = props;
-        this.transitionDuration = GameView.gameDifficulties[difficulty];
+        const { difficulty, words, gameType } = props;
+        this.withTime = GameView.gameTypes[gameType];
+        this.transitionDuration = !this.withTime ? GameView.gameDifficulties[difficulty] : '25s';
+        this.wordsAmount = words.length;
 
         this.state = {
             started: false,
@@ -51,8 +45,9 @@ class GameView extends PureComponent {
     }
 
     getRandomWord = () => {
-        const randomIndex = Math.floor(Math.random() * (WORDS_AMOUNT - 0 + 1)) + 0;
-        const newWord = data[randomIndex];
+        const { words } = this.props;
+        const randomIndex = Math.floor(Math.random() * this.wordsAmount);
+        const newWord = words[randomIndex];
 
         const wordArray = newWord.split('').map(letter => ({ letter, complete: false }));
 
@@ -97,9 +92,14 @@ class GameView extends PureComponent {
     };
 
     getRightWord = () => {
+        const { changeScore } = this.props;
+
         this.stopGame();
         this.getRandomWord();
-        this.changeImmediately(50);
+        if (!withTime) {
+            this.changeImmediately(50);
+        }
+        changeScore();
     };
 
     handleTransitionEnd = () => {
@@ -118,16 +118,17 @@ class GameView extends PureComponent {
         setTimeout(() => {
             this.setState({ transitionDuration: this.transitionDuration });
             this.changeHealth(-25);
-            this.timerId = setInterval(this.changeHealth, parseInt(this.transitionDuration));
+            this.timerId = setInterval(this.changeHealth, parseInt(this.transitionDuration, 10));
         }, 0);
     }
 
     startGame = () => {
-        const { texts } = this.props;
+        const { changeScore } = this.props;
+        const { texts } = this.state;
 
+        changeScore(0);
         this.getRandomWord();
         this.changeImmediately(100);
-
         this.setState({
             started: true,
             texts: {
@@ -142,10 +143,12 @@ class GameView extends PureComponent {
     }
 
     getLoose() {
+        const { score } = this.props;
+
         this.stopGame();
         this.setState({
             texts: {
-                gameMessage: 'Вы проиграли!',
+                gameMessage: `Вы проиграли, угадано слов - ${score}!`,
                 buttonText: 'Играть еще',
             },
             started: false,
@@ -157,7 +160,7 @@ class GameView extends PureComponent {
     }
 
     render() {
-        const { health, difficulty, changeView, ...props } = this.props;
+        const { health, difficulty, changeView, score, ...props } = this.props;
         const {
             started,
             wordArray,
@@ -169,6 +172,10 @@ class GameView extends PureComponent {
             width: `${health}%`,
             transitionDuration,
         };
+
+        const scoreClassName = cx('score', {
+            score__increated: !!parseInt(transitionDuration, 10) && score,
+        });
 
         return (
             <div className={styles.row}>
@@ -187,6 +194,11 @@ class GameView extends PureComponent {
                 )}
                 {started && (
                     <>
+                        <div className={styles.col}>
+                            <div className={scoreClassName}>
+                                Счет: <div className={styles.scoreInner}>{score}</div>
+                            </div>
+                        </div>
                         <div className={styles.col}>
                             <Word
                                 {...props}
@@ -211,13 +223,18 @@ class GameView extends PureComponent {
 }
 
 GameView.propTypes = {
+    gameType: PropTypes.oneOf(Object.keys(GameView.gameTypes)),
     difficulty: PropTypes.oneOf(Object.keys(GameView.gameDifficulties)),
     health: PropTypes.number,
     score: PropTypes.number,
-    word: PropTypes.string,
+    words: PropTypes.arrayOf(PropTypes.string),
+    changeHealth: PropTypes.func,
+    changeView: PropTypes.func,
+    changeScore: PropTypes.func,
 };
 
 GameView.defaultProps = {
+    gameType: 'survival',
     difficulty: 'normal',
 };
 
@@ -228,6 +245,7 @@ const mapStateToProps = ({ game }) => ({
 const mapDispatchToProps = {
     changeHealth,
     changeView,
+    changeScore,
 };
 
 export default connect(
