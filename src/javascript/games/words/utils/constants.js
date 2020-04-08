@@ -1,5 +1,5 @@
-import GameView from 'components/Views/GameView';
-import MenuView from 'components/Views/MenuView';
+import GameView from 'games/words/components/Views/GameView';
+import MenuView from 'games/words/components/Views/MenuView';
 import data from 'data.json';
 
 const getWords = () => {

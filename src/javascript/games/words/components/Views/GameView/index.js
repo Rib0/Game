@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 
 /* eslint-disable no-shadow */
-import { changeHealth, changeView, changeScore } from 'store/actions';
-import ProgressBar from 'components/ProgressBar';
-import Word from 'components/Word';
-import Button from 'components/Button';
+import { changeHealth, changeView, changeScore } from 'games/words/store/actions';
+import ProgressBar from 'games/words/components/ProgressBar';
+import Word from 'games/words/components/Word';
+import Button from 'games/words/components/Button';
 import styles from './styles.css';
 
 const cx = classNames.bind(styles);
@@ -30,7 +30,9 @@ class GameView extends PureComponent {
 
         const { difficulty, words, gameType } = props;
         this.withTime = GameView.gameTypes[gameType];
-        this.transitionDuration = !this.withTime ? GameView.gameDifficulties[difficulty] : '25s';
+        this.transitionDuration = !this.withTime
+            ? GameView.gameDifficulties[difficulty]
+            : '25000ms';
         this.wordsAmount = words.length;
 
         this.state = {
@@ -41,7 +43,18 @@ class GameView extends PureComponent {
             },
             wordArray: [],
             transitionDuration: '0ms',
+            increasing: false,
         };
+    }
+
+    componentDidUpdate(prevProps) {
+        const { score } = prevProps;
+        const { score: curScore } = this.props;
+
+        if (score !== curScore) {
+            this.setState({ increasing: false });
+            setTimeout(() => this.setState({ increasing: true }), 0);
+        }
     }
 
     getRandomWord = () => {
@@ -96,7 +109,7 @@ class GameView extends PureComponent {
 
         this.stopGame();
         this.getRandomWord();
-        if (!withTime) {
+        if (!this.withTime) {
             this.changeImmediately(50);
         }
         changeScore();
@@ -166,6 +179,7 @@ class GameView extends PureComponent {
             wordArray,
             transitionDuration,
             texts: { buttonText, gameMessage },
+            increasing,
         } = this.state;
 
         const innerStyles = {
@@ -174,7 +188,7 @@ class GameView extends PureComponent {
         };
 
         const scoreClassName = cx('score', {
-            score__increated: !!parseInt(transitionDuration, 10) && score,
+            score__increated: increasing,
         });
 
         return (
