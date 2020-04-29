@@ -9,12 +9,13 @@ html {
 
 body {
     margin: 0;
-    width: 100vw;
-    height: 100vh;
     background-size: cover;
+    height: 100vh;
+    width: 100vw;
 }
 
-ul, ol {
+ul,
+ol {
     list-style-type: none;
     margin: 0;
     padding: 0;

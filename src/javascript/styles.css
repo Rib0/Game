@@ -1,3 +1,7 @@
+body {
+    background: var(--colorWhite);
+}
+
 .container {
     width: 100%;
     max-width: 1200px;
@@ -11,9 +15,14 @@
     max-width: 50%;
     text-align: center;
     position: relative;
-    border: 1px solid var(--colorWhite);
-    height: 50vh;
     padding-top: 20px;
+    min-height: 400px;
+    overflow: auto;
+    background-size: cover;
+
+    &:first-child {
+        border-right: 1px solid var(--colorWhite)
+    }
 }
 
 .item {
@@ -25,7 +34,8 @@
     &--left {
         cursor: pointer;
 
-        &:hover, &.selected {
+        &:hover,
+        &.selected {
             text-decoration: underline;
         }
     }
@@ -36,7 +46,7 @@
         top: 20px;
         left: 0;
         width: 100%;
-        transition: opacity .2s linear;
+        transition: opacity 0.2s linear;
         text-align: justify;
         padding: 0 20px;
 
@@ -61,3 +71,8 @@
     }
 }
 
+.backButton {
+    position: fixed;
+    top: 50px;
+    left: 50px;
+}

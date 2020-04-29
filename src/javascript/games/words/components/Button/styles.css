@@ -11,6 +11,6 @@
 
     &:hover {
         color: var(--colorOrange);
-        border-color: var(--colorOrange)
+        border-color: var(--colorOrange);
     }
 }

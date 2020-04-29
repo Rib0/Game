@@ -28,6 +28,6 @@
     }
 
     &:not(.back):hover {
-        border-bottom: 3px solid var(--colorOrange)
+        border-bottom: 3px solid var(--colorOrange);
     }
 }

@@ -5,6 +5,7 @@ import classNames from 'classnames/bind';
 import Words from 'games/words/components/Views/MainView';
 import WordsStore from 'games/words/store';
 import WordsBg from 'images/bg.png';
+import Button from 'games/words/components/Button';
 
 import styles from './styles.css';
 
@@ -21,7 +22,8 @@ const COMPONENTS = [
     },
     {
         name: 'Пятнашки',
-        description: 'Старая добрая игра в пятнашки, достаточно проста в понимании, поможет провести время с пользой.',
+        description:
+            'Старая добрая игра в пятнашки, достаточно проста в понимании, поможет провести время с пользой.',
     },
 ];
 
@@ -35,9 +37,13 @@ class App extends PureComponent {
         const { started, active } = this.state;
         const { bgImage } = COMPONENTS[active] || {};
 
-        // поправить высоту столбцов (вылезает текст за рамки)
-        if (started !== prevState.started && started) {
-            document.body.style.backgroundImage = `url(${bgImage})`
+        if (started !== prevState.started) {
+            if (started) {
+                document.body.style.background = `url(${bgImage}) 0% 20% no-repeat`;
+                document.body.style.backgroundSize = 'cover';
+            } else {
+                document.body.style.background = ''
+            }
         }
     }
 
@@ -48,7 +54,9 @@ class App extends PureComponent {
         this.setState({ active: Number(active) });
     };
 
-    handleStart = () => this.setState({ started: true })
+    handleChangeBack = () => this.setState({ active: -1, started: false });
+
+    handleStart = () => this.setState({ started: true });
 
     renderMainMenu() {
         const { active } = this.state;
@@ -74,13 +82,22 @@ class App extends PureComponent {
                             key={description}
                             className={cx('item', 'item--right', { visible: index === active })}
                         >
-                            {description}<br/>
-                            <button onClick={this.handleStart} className={styles.button}>Начать</button>
+                            {description}
+                            <br />
+                            <button onClick={this.handleStart} className={styles.button}>
+                                Начать
+                            </button>
                         </div>
                     ))}
                 </div>
             </div>
         );
+    }
+
+    renderBackButton() {
+        return (
+            <Button text="Список игр" onClick={this.handleChangeBack} className={styles.backButton} />
+        )
     }
 
     render() {
@@ -91,10 +108,16 @@ class App extends PureComponent {
 
         return store ? (
             <Provider store={store}>
-                <Component />
+                <>
+                    {this.renderBackButton()}
+                    <Component />
+                </>
             </Provider>
         ) : (
-            <Component />
+            <>
+                {this.renderBackButton()}
+                <Component />
+            </>
         );
     }
 }

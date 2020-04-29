@@ -32,7 +32,7 @@ class GameView extends PureComponent {
         this.withTime = GameView.gameTypes[gameType];
         this.transitionDuration = !this.withTime
             ? GameView.gameDifficulties[difficulty]
-            : '25000ms';
+            : '15000ms';
         this.wordsAmount = words.length;
 
         this.state = {
@@ -45,6 +45,7 @@ class GameView extends PureComponent {
             transitionDuration: '0ms',
             increasing: false,
         };
+
     }
 
     componentDidUpdate(prevProps) {
@@ -101,15 +102,16 @@ class GameView extends PureComponent {
         let newHealth = health + diff;
 
         newHealth = newHealth > 100 ? 100 : newHealth < 0 ? 0 : newHealth;
+
         changeHealth(newHealth);
     };
 
     getRightWord = () => {
         const { changeScore } = this.props;
 
-        this.stopGame();
         this.getRandomWord();
         if (!this.withTime) {
+            this.stopGame();
             this.changeImmediately(50);
         }
         changeScore();
