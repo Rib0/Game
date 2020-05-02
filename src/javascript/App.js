@@ -7,6 +7,8 @@ import WordsStore from 'games/words/store';
 import WordsBg from 'images/bg.png';
 import Button from 'games/words/components/Button';
 
+import Digits from 'games/digits/components/MainView';
+
 import styles from './styles.css';
 
 const cx = classNames.bind(styles);
@@ -24,6 +26,7 @@ const COMPONENTS = [
         name: 'Пятнашки',
         description:
             'Старая добрая игра в пятнашки, достаточно проста в понимании, поможет провести время с пользой.',
+        component: Digits,
     },
 ];
 
@@ -42,7 +45,7 @@ class App extends PureComponent {
                 document.body.style.background = `url(${bgImage}) 0% 20% no-repeat`;
                 document.body.style.backgroundSize = 'cover';
             } else {
-                document.body.style.background = ''
+                document.body.style.background = '';
             }
         }
     }
@@ -96,8 +99,12 @@ class App extends PureComponent {
 
     renderBackButton() {
         return (
-            <Button text="Список игр" onClick={this.handleChangeBack} className={styles.backButton} />
-        )
+            <Button
+                text="Список игр"
+                onClick={this.handleChangeBack}
+                className={styles.backButton}
+            />
+        );
     }
 
     render() {

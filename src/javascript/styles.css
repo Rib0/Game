@@ -21,7 +21,7 @@ body {
     background-size: cover;
 
     &:first-child {
-        border-right: 1px solid var(--colorWhite)
+        border-right: 1px solid var(--colorWhite);
     }
 }
 

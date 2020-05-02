@@ -6,7 +6,7 @@ const initialState = 'menu';
 export default handleActions(
     {
         [changeView]: (state, { payload }) => payload,
-        [dropStore]: () => initialState
+        [dropStore]: () => initialState,
     },
     initialState
 );

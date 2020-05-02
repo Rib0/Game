@@ -8,12 +8,12 @@ export const {
     changeHealth,
     changeTime,
     changeScore,
-    dropStore
+    dropStore,
 } = createActions({
     CHANGE_GAME_TYPE: payloadCreator,
     CHANGE_DIFFICULTY: payloadCreator,
     CHANGE_HEALTH: payloadCreator,
     CHANGE_TIME: payloadCreator,
     CHANGE_SCORE: payloadCreator,
-    DROP_STORE: payloadCreator
+    DROP_STORE: payloadCreator,
 });

@@ -45,7 +45,6 @@ class GameView extends PureComponent {
             transitionDuration: '0ms',
             increasing: false,
         };
-
     }
 
     componentDidUpdate(prevProps) {

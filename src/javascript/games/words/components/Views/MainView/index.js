@@ -7,7 +7,6 @@ import { dropStore } from 'games/words/store/actions';
 import styles from './styles.css';
 
 class MainView extends PureComponent {
-    
     componentWillUnmount() {
         const { dropStore } = this.props;
         dropStore();
@@ -30,11 +29,14 @@ const mapStateToProps = ({ view }) => ({
 });
 
 const mapDispatchToProps = {
-    dropStore
-}
+    dropStore,
+};
 
 MainView.propTypes = {
     view: PropTypes.oneOf(Object.keys(VIEWS)),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainView);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(MainView);

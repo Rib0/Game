@@ -1,5 +1,11 @@
 import { handleActions } from 'redux-actions';
-import { changeGameType, changeDifficulty, changeHealth, changeScore, dropStore } from '../actions/game';
+import {
+    changeGameType,
+    changeDifficulty,
+    changeHealth,
+    changeScore,
+    dropStore,
+} from '../actions/game';
 
 const initialState = {
     gameType: 'survival',
@@ -27,8 +33,8 @@ export default handleActions(
             score: typeof payload === 'undefined' ? state.score + 1 : payload,
         }),
         [dropStore]: () => ({
-            ...initialState
-        })
+            ...initialState,
+        }),
     },
     initialState
 );

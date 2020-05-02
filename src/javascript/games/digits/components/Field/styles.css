@@ -1,18 +1,19 @@
 .field {
-    display: flex;
-    flex-wrap: wrap;
+    width: 100%;
+    margin: 100px auto;
+    max-width: 400px;
+    height: 400px;
+    position: relative;
+    border: 1px solid black;
 }
 
-.row {
-    display: flex;
-    flex: 0 0 100%;
-    max-width: 100%;
-}
-
-.col {
-    flex: 0 0 25%;
-    max-width: 25%;
-}
-
-.value {
+.cell {
+    display: inline-block;
+    width: 25%;
+    border: 1px solid black;
+    height: 100px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition-property: top, left, opacity;
 }
