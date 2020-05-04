@@ -1,3 +1,4 @@
+import { hot } from 'react-hot-loader/root';
 import React, { PureComponent } from 'react';
 import { Provider } from 'react-redux';
 import classNames from 'classnames/bind';
@@ -129,4 +130,4 @@ class App extends PureComponent {
     }
 }
 
-export default App;
+export default hot(App);

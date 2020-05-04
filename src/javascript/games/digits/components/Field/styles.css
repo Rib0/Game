@@ -15,5 +15,7 @@
     position: absolute;
     top: 0;
     left: 0;
+    opacity: 0;
     transition-property: top, left, opacity;
+    transition-duration: .3s
 }

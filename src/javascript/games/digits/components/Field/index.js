@@ -3,9 +3,9 @@ import React, { PureComponent } from 'react';
 import styles from './styles.css';
 
 class Field extends PureComponent {
-    static Cell({ children, style }) {
+    static Cell({ children, style, onClick, data }) {
         return (
-            <div className={styles.cell} style={style}>
+            <div className={styles.cell} onClick={onClick} style={style} {...data}>
                 {children}
             </div>
         );

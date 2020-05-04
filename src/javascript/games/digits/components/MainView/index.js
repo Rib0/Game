@@ -10,7 +10,7 @@ class MainView extends PureComponent {
     static CellSize = 100;
 
     state = {
-        field: {},
+        field: [],
         loading: true,
     };
 
@@ -30,20 +30,20 @@ class MainView extends PureComponent {
 
     loadCells() {
         const fieldsCount = Math.pow(MainView.SideSize.length, 2);
-        const field = {};
 
-        for (const value of new Array(fieldsCount).keys()) {
-            if (!value) {
-                field[value] = undefined;
-                continue;
-            }
-
+        const field = new Array(fieldsCount - 1).fill(1).reduce((acc, v, index) => {
             let randomValue = this.getRandom(1, fieldsCount);
-            while (Object.values(field).includes(randomValue)) {
+            while (acc.find(({ value }) => value === randomValue)) {
                 randomValue = this.getRandom(1, fieldsCount);
             }
-            field[value] = randomValue;
-        }
+            acc.push({
+                value: randomValue,
+                order: index + 1,
+            });
+
+            return acc;
+        }, []);
+
         this.setState({
             field,
         });
@@ -51,22 +51,47 @@ class MainView extends PureComponent {
 
     getCellStyles(index) {
         const { loading } = this.state;
-
-        if (!index) return {};
-
-        const SideSize = MainView.SideSize.length;
-        const leftMulti = index % SideSize;
-        const topMulti = parseInt(index / SideSize);
+        const sideSize = MainView.SideSize.length;
+        const leftMulti = index % sideSize;
+        const topMulti = parseInt(index / sideSize);
 
         return {
-            top: loading ? 0 : `${topMulti * MainView.CellSize  }px`,
-            left: loading ? 0 : `${leftMulti * MainView.CellSize  }px`,
-            opacity: index < Math.pow(SideSize, 2) - 1 && loading ? '0' : '1',
-            transitionDuration: `${0.4 + leftMulti / 15 + topMulti / 15}s`,
+            top: loading ? 0 : `${topMulti * MainView.CellSize}px`,
+            left: loading ? 0 : `${leftMulti * MainView.CellSize}px`,
+            opacity: index < Math.pow(sideSize, 2) - 1 && loading ? 0 : 1,
         };
     }
 
-    onClick = () => {};
+    findEmptyCell(index) {
+        const { field } = this.state;
+        const fieldsCount = Math.pow(MainView.SideSize.length, 2);
+
+        const emptyCell = Array.from(new Array(fieldsCount).keys()).find(
+            value => !field.map(({ order }) => order).includes(value)
+        );
+        const emptyCellIndex = [index - 1, index + 1, index - 4, index + 4].find(
+            index => index === emptyCell
+        );
+
+        return emptyCellIndex;
+    }
+
+    onClick = e => {
+        const {
+            dataset: { index },
+        } = e.currentTarget;
+        const emptyIndex = this.findEmptyCell(Number(index));
+        if (emptyIndex === undefined) return;
+
+        const { field } = this.state;
+        const newField = field.map(cell =>
+            cell.order === Number(index) ? { ...cell, order: emptyIndex } : cell
+        );
+
+        this.setState({
+            field: newField,
+        });
+    };
 
     render() {
         const { field } = this.state;
@@ -75,11 +100,16 @@ class MainView extends PureComponent {
             <>
                 <button onClick={this.generateField}>Сгенерировать</button>
                 <Field>
-                    {Object.values(field).map((value, index) => (
-                        <Field.Cell style={this.getCellStyles(index)} key={index}>
-                            <div className={styles.value} onClick={value ? this.onClick : () => {}}>
-                                {value}
-                            </div>
+                    {field.map(({ value, order }) => (
+                        <Field.Cell
+                            style={this.getCellStyles(order)}
+                            onClick={this.onClick}
+                            data={{
+                                'data-index': order,
+                            }}
+                            key={value}
+                        >
+                            <div className={styles.value}>{value}</div>
                         </Field.Cell>
                     ))}
                 </Field>
