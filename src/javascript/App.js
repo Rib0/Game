@@ -7,6 +7,7 @@ import Words from 'games/words/components/Views/MainView';
 import WordsStore from 'games/words/store';
 import WordsBg from 'images/bg.png';
 import Button from 'games/words/components/Button';
+import Icon from 'games/digits/components/Icon';
 
 import Digits from 'games/digits/components/MainView';
 
@@ -32,17 +33,19 @@ const COMPONENTS = [
 ];
 
 class App extends PureComponent {
+
     state = {
-        started: false,
+        isMenuOpen: false,
+        isStarted: false,
         active: -1,
     };
 
     componentDidUpdate(p, prevState) {
-        const { started, active } = this.state;
+        const { isStarted, active } = this.state;
         const { bgImage } = COMPONENTS[active] || {};
 
-        if (started !== prevState.started) {
-            if (started) {
+        if (isStarted !== prevState.isStarted) {
+            if (isStarted) {
                 document.body.style.background = `url(${bgImage}) 0% 20% no-repeat`;
                 document.body.style.backgroundSize = 'cover';
             } else {
@@ -58,9 +61,14 @@ class App extends PureComponent {
         this.setState({ active: Number(active) });
     };
 
-    handleChangeBack = () => this.setState({ active: -1, started: false });
+    handleChangeBack = () => {
+        this.setState({ active: -1, isStarted: false });
+        this.handleToggleMenu();
+    }
 
-    handleStart = () => this.setState({ started: true });
+    handleToggleMenu = () => this.setState(prevState => ({ isMenuOpen: !prevState.isMenuOpen }));
+
+    handleStart = () => this.setState({ isStarted: true });
 
     renderMainMenu() {
         const { active } = this.state;
@@ -88,7 +96,7 @@ class App extends PureComponent {
                         >
                             {description}
                             <br />
-                            <button onClick={this.handleStart} className={styles.button}>
+                            <button onClick={this.handleStart} className={styles.button}> {/* todo перенсти все стили кнопки к компонент кнопки */}
                                 Начать
                             </button>
                         </div>
@@ -98,35 +106,33 @@ class App extends PureComponent {
         );
     }
 
-    renderBackButton() {
-        return (
-            <Button
-                text="Список игр"
-                onClick={this.handleChangeBack}
-                className={styles.backButton}
-            />
-        );
-    }
+    // todo поправить все стили styles
 
     render() {
-        const { active, started } = this.state;
+        const { active, isStarted, isMenuOpen } = this.state;
         const { component: Component, store } = COMPONENTS[active] || {};
 
-        if (!started) return this.renderMainMenu();
-
-        return store ? (
-            <Provider store={store}>
-                <>
-                    {this.renderBackButton()}
-                    <Component />
-                </>
-            </Provider>
-        ) : (
+        return (
             <>
-                {this.renderBackButton()}
-                <Component />
+                <div className={styles.header}>
+                    <Icon
+                        rotated={isMenuOpen}
+                        onClick={this.handleToggleMenu}
+                        type={Icon.IconTypes.faBars}
+                        size={Icon.IconSizes.large}
+                    />
+                </div>
+                <ul className={cx('menu', { active: isMenuOpen })}>
+                    <li className={styles.menuItem} onClick={this.handleChangeBack}>Вернуться к списку игр</li> {/* todo поместить сюда кнопку с кастомным стилем */}
+                </ul>
+                {isStarted ? store ? (
+                    <Provider store={store}>
+                        <Component />
+                    </Provider>
+                ) : <Component /> : this.renderMainMenu()
+                }
             </>
-        );
+        )
     }
 }
 

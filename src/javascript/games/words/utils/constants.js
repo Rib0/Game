@@ -1,21 +1,5 @@
 import GameView from 'games/words/components/Views/GameView';
 import MenuView from 'games/words/components/Views/MenuView';
-import data from 'data.json';
-
-const getWords = () => {
-    const wordsAmount = data.length - 1;
-    const words = [];
-
-    while (words.length < 100) {
-        const randomIndex = Math.floor(Math.random() * (wordsAmount - 0 + 1));
-        const randomWord = data[randomIndex];
-        if (randomWord.length > 5) {
-            words.push(randomWord.toLowerCase());
-        }
-    }
-
-    return words;
-};
 
 export const VIEWS = {
     menu: {
@@ -95,8 +79,5 @@ export const VIEWS = {
     },
     'menu/Game': {
         component: GameView,
-        props: {
-            words: getWords(),
-        },
     },
 };

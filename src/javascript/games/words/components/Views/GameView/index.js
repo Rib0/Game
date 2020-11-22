@@ -4,10 +4,11 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 
 /* eslint-disable no-shadow */
-import { changeHealth, changeView, changeScore } from 'games/words/store/actions';
+import { changeHealth, changeView, changeScore, setLoading, unsetLoading } from 'games/words/store/actions';
 import ProgressBar from 'games/words/components/ProgressBar';
-import Word from 'games/words/components/Word';
+import Word from 'games/words/components/Word'; // todo alias for this
 import Button from 'games/words/components/Button';
+import Loader from 'games/words/components/Loader';
 import styles from './styles.css';
 
 const cx = classNames.bind(styles);
@@ -28,14 +29,15 @@ class GameView extends PureComponent {
     constructor(props) {
         super(props);
 
-        const { difficulty, words, gameType } = props;
+        const { difficulty, gameType } = props;
         this.withTime = GameView.gameTypes[gameType];
         this.transitionDuration = !this.withTime
             ? GameView.gameDifficulties[difficulty]
             : '15000ms';
-        this.wordsAmount = words.length;
 
         this.state = {
+            loading: true,
+            words: [],
             started: false,
             texts: {
                 gameMessage: '',
@@ -45,6 +47,24 @@ class GameView extends PureComponent {
             transitionDuration: '0ms',
             increasing: false,
         };
+    }
+
+    componentDidMount() {
+        const { setLoading, unsetLoading } = this.props;
+
+        setLoading();
+        import(/* webpackChunkName: 'jsonData' */ '../../../../../../data.json')
+            .then(data => {
+                setTimeout(() => {
+                    const words = this.getWords(Object.values(data));
+
+                    this.setState({
+                        loading: false,
+                        words
+                    });
+                    unsetLoading();
+                }, 800); // типо загрузка
+            })
     }
 
     componentDidUpdate(prevProps) {
@@ -57,8 +77,24 @@ class GameView extends PureComponent {
         }
     }
 
+    getWords(data) {
+        const wordsAmount = data.length - 2;
+        const words = [];
+
+        while (words.length < wordsAmount) {
+            const randomIndex = Math.floor(Math.random() * (wordsAmount - 0 + 1));
+            const randomWord = data[randomIndex];
+            if (randomWord.length > 5) {
+                words.push(randomWord.toLowerCase());
+            }
+        };
+        this.wordsAmount = words.length;
+
+        return words;
+    };
+
     getRandomWord = () => {
-        const { words } = this.props;
+        const { words } = this.state;
         const randomIndex = Math.floor(Math.random() * this.wordsAmount);
         const newWord = words[randomIndex];
 
@@ -174,7 +210,7 @@ class GameView extends PureComponent {
     }
 
     render() {
-        const { health, difficulty, changeView, score, ...props } = this.props;
+        const { health, difficulty, changeView, score, loading, ...props } = this.props;
         const {
             started,
             wordArray,
@@ -191,6 +227,8 @@ class GameView extends PureComponent {
         const scoreClassName = cx('score', {
             score__increated: increasing,
         });
+
+        if (loading) return <Loader />;
 
         return (
             <div className={styles.row}>
@@ -242,10 +280,12 @@ GameView.propTypes = {
     difficulty: PropTypes.oneOf(Object.keys(GameView.gameDifficulties)),
     health: PropTypes.number,
     score: PropTypes.number,
-    words: PropTypes.arrayOf(PropTypes.string),
     changeHealth: PropTypes.func,
     changeView: PropTypes.func,
     changeScore: PropTypes.func,
+    setLoading: PropTypes.func,
+    unsetLoading: PropTypes.func,
+    loading: PropTypes.bool
 };
 
 GameView.defaultProps = {
@@ -261,6 +301,8 @@ const mapDispatchToProps = {
     changeHealth,
     changeView,
     changeScore,
+    setLoading,
+    unsetLoading
 };
 
 export default connect(

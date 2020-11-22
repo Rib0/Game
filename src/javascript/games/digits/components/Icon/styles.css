@@ -1,0 +1,10 @@
+.icon {
+    cursor: pointer;
+    color: var(--colorWhite);
+    z-index: 1000;
+    transition: transform 0.2s linear;
+
+    &.rotated {
+        transform: rotate(90deg);
+    }
+}

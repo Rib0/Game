@@ -1,8 +1,9 @@
 :root {
     /* colors */
     --colorBlack: #000;
-    --colorWhite: #FFF;
-    --colorOrange: rgb(225,138,13);
+    --colorWhite: #fff;
+    --colorOrange: rgb(225, 138, 13);
+    --colorGray: rgb(148, 139, 139);
 
     /* sizes */
     --defaultFontSize: 14px;

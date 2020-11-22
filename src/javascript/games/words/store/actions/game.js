@@ -9,6 +9,8 @@ export const {
     changeTime,
     changeScore,
     dropStore,
+    setLoading,
+    unsetLoading
 } = createActions({
     CHANGE_GAME_TYPE: payloadCreator,
     CHANGE_DIFFICULTY: payloadCreator,
@@ -16,4 +18,6 @@ export const {
     CHANGE_TIME: payloadCreator,
     CHANGE_SCORE: payloadCreator,
     DROP_STORE: payloadCreator,
+    SET_LOADING: payloadCreator,
+    UNSET_LOADING: payloadCreator
 });

@@ -7,12 +7,12 @@ import styles from './styles.css';
 const cx = classNames.bind(styles);
 
 const Button = props => {
-    const { text, onClick, className } = props;
+    const { text, className, ...respProps } = props;
 
     const buttonClassName = cx('button', className);
 
     return (
-        <button className={buttonClassName} onClick={onClick}>
+        <button className={buttonClassName} {...respProps}>
             {text}
         </button>
     );

@@ -1,18 +1,32 @@
 import React, { PureComponent } from 'react';
 
+import Button from 'games/words/components/Button';
 import Field from '../Field';
+import Modal from '../Modal';
 
 import styles from './styles.css';
 
 class MainView extends PureComponent {
     static SideSize = new Array(4);
-
     static CellSize = 100;
+    static defaultLoadTime = 500;
 
     state = {
         field: [],
-        loading: true,
-    };
+        loading: false,
+        cheaterMode: false,
+        hasWin: false,
+    }; // todo добавить режим бога и background
+
+
+    componentDidUpdate(p, prevState) {
+        const { prevField } = prevState;
+        const { field, loading } = this.state;
+
+        if (prevField !== field && !loading) {
+            this.checkWin();
+        }
+    }
 
     getRandom(min, max) {
         min = Math.ceil(min);
@@ -20,16 +34,8 @@ class MainView extends PureComponent {
         return Math.floor(Math.random() * (max - min)) + min;
     }
 
-    generateField = () => {
-        this.setState({ loading: true });
-        setTimeout(() => {
-            this.loadCells();
-            setTimeout(() => this.setState({ loading: false }), 0);
-        }, 1000);
-    };
-
     loadCells() {
-        const fieldsCount = Math.pow(MainView.SideSize.length, 2);
+        const fieldsCount = MainView.SideSize.length ** 2;
 
         const field = new Array(fieldsCount - 1).fill(1).reduce((acc, v, index) => {
             let randomValue = this.getRandom(1, fieldsCount);
@@ -49,22 +55,30 @@ class MainView extends PureComponent {
         });
     }
 
+    generateField = () => {
+        this.setState({ loading: true });
+        setTimeout(() => {
+            this.loadCells();
+            setTimeout(() => this.setState({ loading: false }), 0);
+        }, MainView.defaultLoadTime);
+    };
+
     getCellStyles(index) {
         const { loading } = this.state;
         const sideSize = MainView.SideSize.length;
         const leftMulti = index % sideSize;
-        const topMulti = parseInt(index / sideSize);
+        const topMulti = parseInt(index / sideSize, 10);
 
         return {
             top: loading ? 0 : `${topMulti * MainView.CellSize}px`,
             left: loading ? 0 : `${leftMulti * MainView.CellSize}px`,
-            opacity: index < Math.pow(sideSize, 2) - 1 && loading ? 0 : 1,
+            opacity: index < sideSize ** 2 - 1 && loading ? 0 : 1,
         };
     }
 
     findEmptyCell(index) {
         const { field } = this.state;
-        const fieldsCount = Math.pow(MainView.SideSize.length, 2);
+        const fieldsCount = MainView.SideSize.length ** 2;
 
         const emptyCell = Array.from(new Array(fieldsCount).keys()).find(
             value => !field.map(({ order }) => order).includes(value)
@@ -74,6 +88,45 @@ class MainView extends PureComponent {
         );
 
         return emptyCellIndex;
+    }
+
+    makeWin = () => { // for test
+        const { field } = this.state;
+
+        this.setState({
+            loading: true,
+        })
+
+        setTimeout(() => {
+            const sortedField = field.map((v, index) => ({ value: index + 1, order: index }));
+            this.setState({ field: sortedField })
+            setTimeout(() => {
+                this.setState({ loading: false });
+            }, 0);
+        }, MainView.defaultLoadTime);
+    };
+
+    checkWin() {
+        const { field } = this.state;
+        const hasWin = field.every(({ value, order }, index) => value === order + 1);
+
+        if (hasWin) {
+            this.setState({
+                hasWin
+            })
+        }
+    }
+
+    onAcceptWin = () => {
+        this.setState({ hasWin: false });
+
+        this.generateField();
+    }
+
+    toggleCheaterMode() { // todo доделать с checkbox
+        this.setState(({ cheaterMode }) => ({
+            cheaterMode: !cheaterMode
+        }))
     }
 
     onClick = e => {
@@ -94,25 +147,54 @@ class MainView extends PureComponent {
     };
 
     render() {
-        const { field } = this.state;
+        const { field, loading, hasWin } = this.state;
 
         return (
             <>
-                <button onClick={this.generateField}>Сгенерировать</button>
+                <Button
+                    className={styles.button}
+                    onClick={this.generateField}
+                    disabled={loading}
+                    text="Сгенерировать"
+                />
+                {/* {!loading && (
+                    <Button
+                        className={styles.button}
+                        onClick={this.makeWin}
+                        text="Выиграть"
+                    />
+                )} */}
                 <Field>
-                    {field.map(({ value, order }) => (
-                        <Field.Cell
-                            style={this.getCellStyles(order)}
-                            onClick={this.onClick}
-                            data={{
-                                'data-index': order,
-                            }}
-                            key={value}
-                        >
-                            <div className={styles.value}>{value}</div>
-                        </Field.Cell>
-                    ))}
+                    {field.map(({ value, order }) => {
+                        const style = {
+                            ...this.getCellStyles(order),
+                            backgroundColor: value - order === 1 && 'lightgreen',
+                        };
+
+                        return (
+                            <Field.Cell
+                                style={style}
+                                onClick={this.onClick}
+                                data={{
+                                    'data-index': order,
+                                }}
+                                key={value}
+                            >
+                                <div className={styles.value}>{value}</div>
+                            </Field.Cell>
+                        );
+                    })}
                 </Field>
+                <Modal
+                    isOpen={hasWin}
+                    caption={"Вы выиграли!"}
+                    acceptButtonText={"Начать заного"}
+                    onAccept={this.onAcceptWin}
+                >
+                    <Modal.Content>
+                        Игра окончена
+                    </Modal.Content>
+                </Modal>
             </>
         );
     }

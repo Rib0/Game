@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -10,14 +8,16 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const isProd = process.env.NODE_ENV === 'production';
 const isAnalyze = process.env.NODE_ENV === 'analyze';
-
+// todo добавить неподдерживаемый браузер
+// todo дописать все propTypes
+// todo перенести все общие компоненты в общую папку
 const config = {
-    entry: ['./src', './src/index.css'],
+    entry: ['./src', './src/index.css'], // todo add polifyll
     output: {
-        path: path.resolve(__dirname, 'build/'),
+        path: path.resolve(__dirname, 'build'),
         filename: !isProd ? '[name].js' : '[name].[hash].js',
     },
-    devtool: 'cheap-module-source-map',
+    devtool: 'cheap-module-source-map', // todo source map for production
     devServer: {
         compress: true,
         overlay: true,
@@ -39,6 +39,8 @@ const config = {
                     },
                 },
                 extractComments: false,
+                cache: true,
+                parallel: true
             }),
         ],
     },
@@ -49,7 +51,34 @@ const config = {
                     {
                         test: /\.js$/,
                         exclude: /node_modules/,
-                        loader: 'babel-loader',
+                        use: [
+                            {
+                                loader: 'cache-loader',
+                                options: {
+                                    cacheDirectory: path.resolve(
+                                        __dirname,
+                                        'node_modules/.cache/cache-loader'
+                                    ),
+                                },
+                            },
+                            'babel-loader'
+                        ]
+                    },
+                    {
+                        test: /\.tsx?$/,
+                        exclude: /node-modules/,
+                        use: [
+                            {
+                                loader: 'cache-loader',
+                                options: {
+                                    cacheDirectory: path.resolve(
+                                        __dirname,
+                                        'node_modules/.cache/cache-loader'
+                                    ),
+                                },
+                            },
+                            'ts-loader'
+                        ]
                     },
                     {
                         test: /\.css$/,
@@ -58,6 +87,15 @@ const config = {
                                 loader: MiniCssExtractPlugin.loader,
                                 options: {
                                     hmr: !isProd,
+                                },
+                            },
+                            {
+                                loader: 'cache-loader',
+                                options: {
+                                    cacheDirectory: path.resolve(
+                                        __dirname,
+                                        'node_modules/.cache/cache-loader'
+                                    ),
                                 },
                             },
                             {
@@ -73,18 +111,31 @@ const config = {
                         ],
                     },
                     {
-                        loader: 'file-loader',
-                        exclude: /\.(js|css|html|svg)/,
-                        options: {
-                            name: 'images/[name]_[hash].[ext]',
-                        },
+                        exclude: /\.(js|css|html|svg|json)/,
+                        use: [
+                            {
+                                loader: 'cache-loader',
+                                options: {
+                                    cacheDirectory: path.resolve(
+                                        __dirname,
+                                        'node_modules/.cache/cache-loader'
+                                    ),
+                                },
+                            },
+                            {
+                                loader: 'file-loader',
+                                options: {
+                                    name: 'media/[name]_[hash].[ext]',
+                                },
+                            }
+                        ],
                     },
                 ],
             },
         ],
     },
     resolve: {
-        extensions: ['.js', '.json'],
+        extensions: ['.js', '.json', '.tsx'],
         modules: [
             'node_modules',
             path.resolve(__dirname, 'src/javascript'),
@@ -117,13 +168,13 @@ const config = {
             filename: 'index.html',
         }),
         isProd &&
-            new CleanWebpackPlugin({
-                cleanStaleWebpackAssets: false,
-            }),
+        new CleanWebpackPlugin({
+            cleanStaleWebpackAssets: false,
+        }),
         isAnalyze &&
-            new BundleAnalyzerPlugin({
-                analyzerPort: 8000,
-            }),
+        new BundleAnalyzerPlugin({
+            analyzerPort: 8000,
+        }),
     ].filter(Boolean),
 };
 
