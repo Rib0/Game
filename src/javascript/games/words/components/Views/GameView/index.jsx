@@ -3,12 +3,16 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 
-/* eslint-disable no-shadow */
-import { changeHealth, changeView, changeScore, setLoading, unsetLoading } from 'games/words/store/actions';
-import ProgressBar from 'games/words/components/ProgressBar';
-import Word from 'games/words/components/Word'; // todo alias for this
-import Button from 'games/words/components/Button';
-import Loader from 'games/words/components/Loader';
+import {
+    changeHealth,
+    changeView,
+    changeScore,
+    setLoading,
+    unsetLoading,
+} from 'WordsGame/store/actions';
+import ProgressBar from 'WordsGame/components/ProgressBar';
+import Word from 'WordsGame/components/Word';
+import { Button, Loader } from 'Base';
 import styles from './styles.css';
 
 const cx = classNames.bind(styles);
@@ -53,18 +57,17 @@ class GameView extends PureComponent {
         const { setLoading, unsetLoading } = this.props;
 
         setLoading();
-        import(/* webpackChunkName: 'jsonData' */ '../../../../../../data.json')
-            .then(data => {
-                setTimeout(() => {
-                    const words = this.getWords(Object.values(data));
+        import(/* webpackChunkName: 'jsonData' */ '../../../../../../data.json').then(data => {
+            setTimeout(() => {
+                const words = this.getWords(Object.values(data));
 
-                    this.setState({
-                        loading: false,
-                        words
-                    });
-                    unsetLoading();
-                }, 800); // типо загрузка
-            })
+                this.setState({
+                    loading: false,
+                    words,
+                });
+                unsetLoading();
+            }, 800); // типо загрузка
+        });
     }
 
     componentDidUpdate(prevProps) {
@@ -87,11 +90,11 @@ class GameView extends PureComponent {
             if (randomWord.length > 5) {
                 words.push(randomWord.toLowerCase());
             }
-        };
+        }
         this.wordsAmount = words.length;
 
         return words;
-    };
+    }
 
     getRandomWord = () => {
         const { words } = this.state;
@@ -105,7 +108,7 @@ class GameView extends PureComponent {
         });
     };
 
-    resetWord = () => {
+    resetWord = missedIndex => {
         const { wordArray } = this.state;
 
         const resetedWord = wordArray.map(word => ({ ...word, complete: false }));
@@ -285,7 +288,7 @@ GameView.propTypes = {
     changeScore: PropTypes.func,
     setLoading: PropTypes.func,
     unsetLoading: PropTypes.func,
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
 };
 
 GameView.defaultProps = {
@@ -302,7 +305,7 @@ const mapDispatchToProps = {
     changeView,
     changeScore,
     setLoading,
-    unsetLoading
+    unsetLoading,
 };
 
 export default connect(

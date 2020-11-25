@@ -1,22 +1,25 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import Button from 'games/words/components/Button';
+import { Button } from 'Base';
 
-import styles from './styles.css'
+import styles from './styles.css';
 
 class Modal extends PureComponent {
-
     static Content({ children }) {
-        return (
-            <div className={styles.content}>
-                {children}
-            </div>
-        )
+        return <div className={styles.content}>{children}</div>;
     }
 
     render() {
-        const { caption, isOpen, children, onAccept, acceptButtonText, onDecline, declineButtonText } = this.props;
+        const {
+            caption,
+            isOpen,
+            children,
+            onAccept,
+            acceptButtonText,
+            onDecline,
+            declineButtonText,
+        } = this.props;
 
         if (!isOpen) return null;
 
@@ -24,11 +27,7 @@ class Modal extends PureComponent {
             <>
                 <div className={styles.overlay} />
                 <div className={styles.modal}>
-                    {caption && (
-                        <div className={styles.caption}>
-                            {caption}
-                        </div>
-                    )}
+                    {caption && <div className={styles.caption}>{caption}</div>}
                     {children}
                     <div className={styles.buttons}>
                         <Button
@@ -39,7 +38,7 @@ class Modal extends PureComponent {
                     </div>
                 </div>
             </>
-        )
+        );
     }
 }
 
@@ -50,7 +49,7 @@ Modal.propTypes = {
     onAccept: PropTypes.func,
     acceptButtonText: PropTypes.string,
     onDecline: PropTypes.func,
-    declineButtonText: PropTypes.string
-}
+    declineButtonText: PropTypes.string,
+};
 
 export default Modal;

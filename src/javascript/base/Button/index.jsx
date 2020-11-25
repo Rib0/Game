@@ -7,12 +7,12 @@ import styles from './styles.css';
 const cx = classNames.bind(styles);
 
 const Button = props => {
-    const { text, className, ...respProps } = props;
+    const { text, className, ...otherProps } = props;
 
     const buttonClassName = cx('button', className);
 
     return (
-        <button className={buttonClassName} {...respProps}>
+        <button className={buttonClassName} {...otherProps}>
             {text}
         </button>
     );

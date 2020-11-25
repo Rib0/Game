@@ -9,8 +9,7 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const isProd = process.env.NODE_ENV === 'production';
 const isAnalyze = process.env.NODE_ENV === 'analyze';
 // todo добавить неподдерживаемый браузер
-// todo дописать все propTypes
-// todo перенести все общие компоненты в общую папку
+// todo проверить все на eslint в конце разработки
 const config = {
     entry: ['./src', './src/index.css'], // todo add polifyll
     output: {
@@ -40,7 +39,7 @@ const config = {
                 },
                 extractComments: false,
                 cache: true,
-                parallel: true
+                parallel: true,
             }),
         ],
     },
@@ -49,7 +48,7 @@ const config = {
             {
                 oneOf: [
                     {
-                        test: /\.js$/,
+                        test: /\.(js|jsx)$/,
                         exclude: /node_modules/,
                         use: [
                             {
@@ -61,8 +60,8 @@ const config = {
                                     ),
                                 },
                             },
-                            'babel-loader'
-                        ]
+                            'babel-loader',
+                        ],
                     },
                     {
                         test: /\.tsx?$/,
@@ -77,8 +76,8 @@ const config = {
                                     ),
                                 },
                             },
-                            'ts-loader'
-                        ]
+                            'ts-loader',
+                        ],
                     },
                     {
                         test: /\.css$/,
@@ -127,7 +126,7 @@ const config = {
                                 options: {
                                     name: 'media/[name]_[hash].[ext]',
                                 },
-                            }
+                            },
                         ],
                     },
                 ],
@@ -135,7 +134,7 @@ const config = {
         ],
     },
     resolve: {
-        extensions: ['.js', '.json', '.tsx'],
+        extensions: ['.js', '.jsx', '.json', '.tsx', 'ts'],
         modules: [
             'node_modules',
             path.resolve(__dirname, 'src/javascript'),
@@ -143,6 +142,9 @@ const config = {
         ],
         alias: {
             Images: path.resolve(__dirname, 'src/images/'),
+            Base: path.resolve(__dirname, 'src/javascript/base/'),
+            WordsGame: path.resolve(__dirname, 'src/javascript/games/words/'),
+            DigitsGame: path.resolve(__dirname, 'src/javascript/games/digits/'),
         },
     },
     stats: {
@@ -151,9 +153,6 @@ const config = {
         colors: true,
         hash: false,
         publicPath: false,
-    },
-    node: {
-        fs: 'empty',
     },
     plugins: [
         new MiniCssExtractPlugin({

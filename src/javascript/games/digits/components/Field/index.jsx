@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './styles.css';
 
@@ -16,6 +17,10 @@ class Field extends PureComponent {
 
         return <div className={styles.field}>{children}</div>;
     }
+}
+
+Field.propTypes = {
+    children: PropTypes.element
 }
 
 export default Field;

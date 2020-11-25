@@ -6,7 +6,7 @@ import {
     changeScore,
     dropStore,
     setLoading,
-    unsetLoading
+    unsetLoading,
 } from '../actions/game';
 
 const initialState = {
@@ -14,7 +14,7 @@ const initialState = {
     difficulty: 'normal',
     health: 100,
     score: 0,
-    loading: false
+    loading: false,
 };
 
 export default handleActions(
@@ -40,12 +40,12 @@ export default handleActions(
         }),
         [setLoading]: state => ({
             ...state,
-            loading: true
+            loading: true,
         }),
         [unsetLoading]: state => ({
             ...state,
-            loading: false
-        })
+            loading: false,
+        }),
     },
     initialState
 );

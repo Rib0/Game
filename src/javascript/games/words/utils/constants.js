@@ -1,5 +1,5 @@
-import GameView from 'games/words/components/Views/GameView';
-import MenuView from 'games/words/components/Views/MenuView';
+import GameView from 'WordsGame/components/Views/GameView';
+import MenuView from 'WordsGame/components/Views/MenuView';
 
 export const VIEWS = {
     menu: {

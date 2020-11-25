@@ -5,19 +5,20 @@ module.exports = ({ webpack: { mode } }) => {
         plugins: [
             require('postcss-import'),
             require('postcss-preset-env')({
-                stage: 2,
+                stage: 3,
                 autoprefixer: { grid: false },
                 features: {
                     'custom-media-queries': true,
                 },
                 preserve: false,
-                importFrom: './src/root.css'
+                importFrom: './src/root.css',
             }),
             require('postcss-flexbugs-fixes'),
-            isDevMode && require('cssnano')({
+            isDevMode &&
+            require('cssnano')({
                 preset: 'default',
             }),
             require('postcss-nested'),
         ].filter(Boolean),
-    }
+    };
 };

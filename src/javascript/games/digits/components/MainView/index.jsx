@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react';
 
-import Button from 'games/words/components/Button';
+import { Button, Modal } from 'Base';
 import Field from '../Field';
-import Modal from '../Modal';
 
 import styles from './styles.css';
 
@@ -17,7 +16,6 @@ class MainView extends PureComponent {
         cheaterMode: false,
         hasWin: false,
     }; // todo добавить режим бога и background
-
 
     componentDidUpdate(p, prevState) {
         const { prevField } = prevState;
@@ -90,16 +88,16 @@ class MainView extends PureComponent {
         return emptyCellIndex;
     }
 
-    makeWin = () => { // for test
+    makeWin = () => { // only for test
         const { field } = this.state;
 
         this.setState({
             loading: true,
-        })
+        });
 
         setTimeout(() => {
             const sortedField = field.map((v, index) => ({ value: index + 1, order: index }));
-            this.setState({ field: sortedField })
+            this.setState({ field: sortedField });
             setTimeout(() => {
                 this.setState({ loading: false });
             }, 0);
@@ -112,8 +110,8 @@ class MainView extends PureComponent {
 
         if (hasWin) {
             this.setState({
-                hasWin
-            })
+                hasWin,
+            });
         }
     }
 
@@ -121,12 +119,13 @@ class MainView extends PureComponent {
         this.setState({ hasWin: false });
 
         this.generateField();
-    }
+    };
 
-    toggleCheaterMode() { // todo доделать с checkbox
+    toggleCheaterMode() {
+        // todo доделать с checkbox
         this.setState(({ cheaterMode }) => ({
-            cheaterMode: !cheaterMode
-        }))
+            cheaterMode: !cheaterMode,
+        }));
     }
 
     onClick = e => {
@@ -187,13 +186,11 @@ class MainView extends PureComponent {
                 </Field>
                 <Modal
                     isOpen={hasWin}
-                    caption={"Вы выиграли!"}
-                    acceptButtonText={"Начать заного"}
+                    caption="Вы выиграли!"
+                    acceptButtonText="Начать заного"
                     onAccept={this.onAcceptWin}
                 >
-                    <Modal.Content>
-                        Игра окончена
-                    </Modal.Content>
+                    <Modal.Content>Игра окончена</Modal.Content>
                 </Modal>
             </>
         );

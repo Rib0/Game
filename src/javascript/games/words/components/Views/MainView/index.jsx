@@ -1,9 +1,9 @@
-import React, { PureComponent, lazy, Suspense } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { VIEWS } from 'games/words/utils/constants';
-import { dropStore } from 'games/words/store/actions';
+import { VIEWS } from 'WordsGame/utils/constants';
+import { dropStore } from 'WordsGame/store/actions';
 import styles from './styles.css';
 
 class MainView extends PureComponent {
@@ -34,6 +34,7 @@ const mapDispatchToProps = {
 
 MainView.propTypes = {
     view: PropTypes.oneOf(Object.keys(VIEWS)),
+    dropStore: PropTypes.func
 };
 
 export default connect(

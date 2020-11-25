@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 
-import * as actions from 'games/words/store/actions';
+import * as actions from 'WordsGame/store/actions';
 import styles from './styles.css';
 
 const cx = classNames.bind(styles);

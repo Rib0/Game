@@ -3,13 +3,13 @@ import React, { PureComponent } from 'react';
 import { Provider } from 'react-redux';
 import classNames from 'classnames/bind';
 
-import Words from 'games/words/components/Views/MainView';
-import WordsStore from 'games/words/store';
+import Words from 'WordsGame/components/Views/MainView';
+import WordsStore from 'WordsGame/store';
 import WordsBg from 'images/bg.png';
-import Button from 'games/words/components/Button';
-import Icon from 'games/digits/components/Icon';
 
-import Digits from 'games/digits/components/MainView';
+import Digits from 'DigitsGame/components/MainView';
+
+import { Icon, Button } from 'Base';
 
 import styles from './styles.css';
 
@@ -33,7 +33,6 @@ const COMPONENTS = [
 ];
 
 class App extends PureComponent {
-
     state = {
         isMenuOpen: false,
         isStarted: false,
@@ -64,7 +63,7 @@ class App extends PureComponent {
     handleChangeBack = () => {
         this.setState({ active: -1, isStarted: false });
         this.handleToggleMenu();
-    }
+    };
 
     handleToggleMenu = () => this.setState(prevState => ({ isMenuOpen: !prevState.isMenuOpen }));
 
@@ -96,7 +95,9 @@ class App extends PureComponent {
                         >
                             {description}
                             <br />
-                            <button onClick={this.handleStart} className={styles.button}> {/* todo перенсти все стили кнопки к компонент кнопки */}
+                            <button onClick={this.handleStart} className={styles.button}>
+                                {' '}
+                                {/* todo перенсти все стили кнопки к компонент кнопки */}
                                 Начать
                             </button>
                         </div>
@@ -123,16 +124,24 @@ class App extends PureComponent {
                     />
                 </div>
                 <ul className={cx('menu', { active: isMenuOpen })}>
-                    <li className={styles.menuItem} onClick={this.handleChangeBack}>Вернуться к списку игр</li> {/* todo поместить сюда кнопку с кастомным стилем */}
+                    <li className={styles.menuItem} onClick={this.handleChangeBack}>
+                        Вернуться к списку игр
+                    </li>{' '}
+                    {/* todo поместить сюда кнопку с кастомным стилем */}
                 </ul>
-                {isStarted ? store ? (
-                    <Provider store={store}>
-                        <Component />
-                    </Provider>
-                ) : <Component /> : this.renderMainMenu()
-                }
+                {isStarted ? (
+                    store ? (
+                        <Provider store={store}>
+                            <Component />
+                        </Provider>
+                    ) : (
+                            <Component />
+                        )
+                ) : (
+                        this.renderMainMenu()
+                    )}
             </>
-        )
+        );
     }
 }
 
