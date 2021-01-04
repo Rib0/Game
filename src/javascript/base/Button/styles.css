@@ -1,16 +1,39 @@
 .button {
-    padding: 10px 20px;
+    padding: 5px 10px;
     outline: none;
     background: none;
     color: var(--colorWhite);
-    border: 3px solid var(--colorWhite);
+    border: 2px solid var(--colorWhite);
     border-radius: 10px;
     font-size: 20px;
     font-weight: bold;
     cursor: pointer;
 
-    &:hover {
+    &.medium {
+        padding: 5px 10px;
+    }
+
+    &.large {
+        padding: 10px 20px;
+    }
+
+    &.default {
+        background: var(--colorBlack);
+        font-size: calc(var(--defaultFontSize) * 1.5);
+
+        &:hover {
+            border-color: var(--colorOrange);
+            color: var(--colorOrange);
+        }
+    }
+
+    &.styled {
         color: var(--colorOrange);
         border-color: var(--colorOrange);
+
+        &:hover {
+            color: red;
+            border-color: red;
+        }
     }
 }

@@ -79,7 +79,7 @@ class App extends PureComponent {
                     {COMPONENTS.map(({ name }, index) => (
                         <div
                             key={index}
-                            className={cx('item', 'item--left', { selected: index === active })}
+                            className={cx('item', 'itemLeft', { selected: index === active })}
                             data-active={index}
                             onClick={this.onChangeActive}
                         >
@@ -91,23 +91,22 @@ class App extends PureComponent {
                     {COMPONENTS.map(({ description }, index) => (
                         <div
                             key={description}
-                            className={cx('item', 'item--right', { visible: index === active })}
+                            className={cx('item', 'itemRight', { visible: index === active })}
                         >
-                            {description}
-                            <br />
-                            <button onClick={this.handleStart} className={styles.button}>
-                                {' '}
-                                {/* todo перенсти все стили кнопки к компонент кнопки */}
-                                Начать
-                            </button>
+                            <div className={styles.text}>
+                                {description}
+                            </div>
+                            <Button
+                                text="Начать"
+                                onClick={this.handleStart}
+                                type={Button.Types.default}
+                            />
                         </div>
                     ))}
                 </div>
             </div>
         );
     }
-
-    // todo поправить все стили styles
 
     render() {
         const { active, isStarted, isMenuOpen } = this.state;
@@ -127,7 +126,6 @@ class App extends PureComponent {
                     <li className={styles.menuItem} onClick={this.handleChangeBack}>
                         Вернуться к списку игр
                     </li>{' '}
-                    {/* todo поместить сюда кнопку с кастомным стилем */}
                 </ul>
                 {isStarted ? (
                     store ? (

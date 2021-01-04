@@ -10,13 +10,14 @@ const isProd = process.env.NODE_ENV === 'production';
 const isAnalyze = process.env.NODE_ENV === 'analyze';
 // todo добавить неподдерживаемый браузер
 // todo проверить все на eslint в конце разработки
+// todo добавить адаптив
 const config = {
-    entry: ['./src', './src/index.css'], // todo add polifyll
+    entry: ['./src', './src/index.css'],
     output: {
         path: path.resolve(__dirname, 'build'),
         filename: !isProd ? '[name].js' : '[name].[hash].js',
     },
-    devtool: 'cheap-module-source-map', // todo source map for production
+    devtool: !isProd ? 'inline-cheap-module-source-map' : 'source-map',
     devServer: {
         compress: true,
         overlay: true,
@@ -50,34 +51,12 @@ const config = {
                     {
                         test: /\.(js|jsx)$/,
                         exclude: /node_modules/,
-                        use: [
-                            {
-                                loader: 'cache-loader',
-                                options: {
-                                    cacheDirectory: path.resolve(
-                                        __dirname,
-                                        'node_modules/.cache/cache-loader'
-                                    ),
-                                },
-                            },
-                            'babel-loader',
-                        ],
+                        use: ['babel-loader'],
                     },
                     {
                         test: /\.tsx?$/,
                         exclude: /node-modules/,
-                        use: [
-                            {
-                                loader: 'cache-loader',
-                                options: {
-                                    cacheDirectory: path.resolve(
-                                        __dirname,
-                                        'node_modules/.cache/cache-loader'
-                                    ),
-                                },
-                            },
-                            'ts-loader',
-                        ],
+                        use: ['ts-loader'],
                     },
                     {
                         test: /\.css$/,
@@ -86,15 +65,6 @@ const config = {
                                 loader: MiniCssExtractPlugin.loader,
                                 options: {
                                     hmr: !isProd,
-                                },
-                            },
-                            {
-                                loader: 'cache-loader',
-                                options: {
-                                    cacheDirectory: path.resolve(
-                                        __dirname,
-                                        'node_modules/.cache/cache-loader'
-                                    ),
                                 },
                             },
                             {
@@ -113,15 +83,6 @@ const config = {
                         exclude: /\.(js|css|html|svg|json)/,
                         use: [
                             {
-                                loader: 'cache-loader',
-                                options: {
-                                    cacheDirectory: path.resolve(
-                                        __dirname,
-                                        'node_modules/.cache/cache-loader'
-                                    ),
-                                },
-                            },
-                            {
                                 loader: 'file-loader',
                                 options: {
                                     name: 'media/[name]_[hash].[ext]',
@@ -129,7 +90,18 @@ const config = {
                             },
                         ],
                     },
-                ],
+                ].map(loader => ({
+                    ...loader,
+                    use: [...loader.use, {
+                        loader: 'cache-loader',
+                        options: {
+                            cacheDirectory: path.resolve(
+                                __dirname,
+                                'node_modules/.cache/cache-loader'
+                            ),
+                        },
+                    },]
+                })),
             },
         ],
     },

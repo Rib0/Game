@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
+import ReactTooltip from 'react-tooltip';
 
 import * as actions from 'WordsGame/store/actions';
 import styles from './styles.css';
@@ -24,22 +25,24 @@ class MenuView extends PureComponent {
         return (
             <div>
                 <ul>
-                    {options.map(option => (
+                    {options.map(({ value, label, actionName, type, tooltipText }) => (
                         <li
                             className={cx('listItem', {
-                                active: option.value === props[valueName],
+                                active: value === props[valueName],
                             })}
-                            key={option.label}
+                            key={label}
                         >
                             <button
                                 type="button"
-                                data-action={option.actionName}
-                                data-value={option.value}
-                                className={cx('button', { back: option.type === 'back' })}
+                                data-action={actionName}
+                                data-value={value}
+                                className={cx('button', { back: type === 'back' })}
                                 onClick={this.onClick}
+                                data-tip={tooltipText && tooltipText}
                             >
-                                {option.label}
+                                {label}
                             </button>
+                            {tooltipText && <ReactTooltip />}
                         </li>
                     ))}
                 </ul>

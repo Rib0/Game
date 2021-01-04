@@ -33,7 +33,6 @@ class Modal extends PureComponent {
                         <Button
                             text={acceptButtonText || 'Ок'}
                             onClick={onAccept}
-                            className={styles.button}
                         />
                     </div>
                 </div>

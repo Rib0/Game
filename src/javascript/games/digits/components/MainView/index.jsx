@@ -13,9 +13,8 @@ class MainView extends PureComponent {
     state = {
         field: [],
         loading: false,
-        cheaterMode: false,
         hasWin: false,
-    }; // todo добавить режим бога и background
+    };
 
     componentDidUpdate(p, prevState) {
         const { prevField } = prevState;
@@ -54,6 +53,9 @@ class MainView extends PureComponent {
     }
 
     generateField = () => {
+        const { loading } = this.state;
+        if (loading) return;
+
         this.setState({ loading: true });
         setTimeout(() => {
             this.loadCells();
@@ -121,13 +123,6 @@ class MainView extends PureComponent {
         this.generateField();
     };
 
-    toggleCheaterMode() {
-        // todo доделать с checkbox
-        this.setState(({ cheaterMode }) => ({
-            cheaterMode: !cheaterMode,
-        }));
-    }
-
     onClick = e => {
         const {
             dataset: { index },
@@ -149,20 +144,14 @@ class MainView extends PureComponent {
         const { field, loading, hasWin } = this.state;
 
         return (
-            <>
+            <div className={styles.container}>
                 <Button
+                    size={Button.Sizes.large}
                     className={styles.button}
                     onClick={this.generateField}
                     disabled={loading}
                     text="Сгенерировать"
                 />
-                {/* {!loading && (
-                    <Button
-                        className={styles.button}
-                        onClick={this.makeWin}
-                        text="Выиграть"
-                    />
-                )} */}
                 <Field>
                     {field.map(({ value, order }) => {
                         const style = {
@@ -192,7 +181,7 @@ class MainView extends PureComponent {
                 >
                     <Modal.Content>Игра окончена</Modal.Content>
                 </Modal>
-            </>
+            </div>
         );
     }
 }

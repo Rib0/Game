@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // todo сделать Button component with Icon, убрать margin у button
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './styles.css';
 
 class Icon extends PureComponent {

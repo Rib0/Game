@@ -240,12 +240,12 @@ class GameView extends PureComponent {
                         {gameMessage && (
                             <>
                                 <div className={styles.message}>{gameMessage}</div>
-                                <Button text="В главное меню" onClick={() => changeView('menu')} />
+                                <Button type={Button.Types.default} text="В главное меню" onClick={() => changeView('menu')} />
                                 <br />
                                 <br />
                             </>
                         )}
-                        <Button text={buttonText} onClick={this.startGame} />
+                        <Button type={Button.Types.default} text={buttonText} onClick={this.startGame} />
                     </div>
                 )}
                 {started && (

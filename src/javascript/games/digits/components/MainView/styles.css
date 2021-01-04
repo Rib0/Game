@@ -11,9 +11,10 @@
 }
 
 .button {
-    color: red;
-    border-color: red;
     margin-left: 50%;
-    margin-top: 20;
     transform: translateX(-50%);
+}
+
+.container {
+    padding-top: 20px;
 }

@@ -15,6 +15,7 @@ export const VIEWS = {
                     label: 'Сложность',
                     value: 'menu/difficulty',
                     actionName: 'changeView',
+                    tooltipText: 'Сложность меняется только в режиме "Выживание"'
                 },
                 {
                     label: 'Тип игры',

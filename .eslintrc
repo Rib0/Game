@@ -3,9 +3,14 @@
         "es6": true,
         "browser": true
     },
-    "extends": ["airbnb", "prettier", "prettier/react"],
-    "plugins": ["babel"],
-    "parser": "babel-eslint",
+    "extends": [
+        "airbnb",
+        "prettier",
+        "prettier/react"
+    ],
+    "plugins": [
+        "babel"
+    ],
     "parserOptions": {
         "ecmaVersion": 6,
         "sourceType": "module",
@@ -23,12 +28,24 @@
         "react/sort-comp": "off",
         "no-nested-ternary": "off",
         "linebreak-style": "off",
-        "jsx-a11y/anchor-is-valid": ["error", { "components": ["Link"], "specialLink": ["to"] }],
+        "jsx-a11y/anchor-is-valid": [
+            "error",
+            {
+                "components": [
+                    "Link"
+                ],
+                "specialLink": [
+                    "to"
+                ]
+            }
+        ],
         "jsx-a11y/label-has-for": [
             2,
             {
                 "required": {
-                    "every": ["id"]
+                    "every": [
+                        "id"
+                    ]
                 }
             }
         ]

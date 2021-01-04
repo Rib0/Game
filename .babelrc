@@ -1,29 +1,31 @@
 {
 	"presets": [
-		"@babel/preset-env",
-		"@babel/preset-react"
-	],
-	"plugins" : [
-		"@babel/plugin-transform-arrow-functions",
 		[
-			"@babel/plugin-proposal-class-properties", 
-			{ 
-				"loose": true 
+			"@babel/preset-env",
+			{
+				"useBuiltIns": "entry",
+				"corejs": "3.5.0",
 			}
 		],
+		"@babel/preset-react"
+	],
+	"plugins": [
 		[
-			"@babel/plugin-transform-spread",
+			"@babel/plugin-proposal-class-properties",
 			{
 				"loose": true
 			}
 		],
-		["transform-react-remove-prop-types", {
-			"mode": "wrap",
-			"ignoreFilenames": ["node_modules"]
-		}],
+		[
+			"transform-react-remove-prop-types",
+			{
+				"mode": "wrap",
+				"ignoreFilenames": [
+					"node_modules"
+				]
+			}
+		],
 		"@babel/plugin-syntax-dynamic-import",
-		"@babel/plugin-proposal-object-rest-spread",
-		"@babel/plugin-proposal-export-default-from",
 		"@babel/plugin-transform-react-constant-elements",
 		"react-hot-loader/babel",
 	]
