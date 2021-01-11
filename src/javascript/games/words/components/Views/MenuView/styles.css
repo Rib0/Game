@@ -1,0 +1,33 @@
+.listItem {
+    color: var(--colorWhite);
+    text-align: center;
+    margin-bottom: 15px;
+
+    &.active {
+        color: var(--colorOrange);
+    }
+}
+
+.button {
+    border: none;
+    outline: none;
+    background: none;
+    padding: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 3rem;
+    font-family: sans-serif;
+    color: inherit;
+    border-bottom: 3px solid transparent;
+
+    &.back {
+        border: 5px solid var(--colorOrange);
+        border-radius: 100px;
+        padding: 0 10px;
+        width: auto;
+    }
+
+    &:not(.back):hover {
+        border-bottom: 3px solid var(--colorOrange);
+    }
+}

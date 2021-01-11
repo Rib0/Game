@@ -1,0 +1,42 @@
+@keyframes missedAnimation {
+    0% {
+        color: red;
+    }
+
+    100% {
+        color: auto
+    }
+}
+
+.word {
+    display: flex;
+    justify-content: center;
+}
+
+.letter {
+    position: relative;
+    font-size: 90px;
+    font-weight: bold;
+    color: var(--colorWhite);
+    overflow: hidden;
+
+    &.missed {
+        animation: missedAnimation .1s steps(1);
+    }
+
+    &.complete > .inner {
+        width: 100%;
+    }
+}
+
+.inner {
+    width: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition-property: width;
+    transition-timing-function: linear;
+    color: var(--colorOrange);
+    overflow: hidden;
+    white-space: nowrap;
+}

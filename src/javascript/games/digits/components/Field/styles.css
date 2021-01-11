@@ -1,0 +1,21 @@
+.field {
+    width: 100%;
+    max-width: 400px;
+    height: 400px;
+    margin: 30px auto;
+    position: relative;
+    border: 1px solid black;
+}
+
+.cell {
+    display: inline-block;
+    width: 25%;
+    border: 1px solid black;
+    height: 100px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition-property: top, left, opacity;
+    transition-duration: .3s
+}
