@@ -5,17 +5,21 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 const isProd = process.env.NODE_ENV === 'production';
 const isAnalyze = process.env.NODE_ENV === 'analyze';
 // todo добавить неподдерживаемый браузер
 // todo проверить все на eslint в конце разработки
 // todo добавить адаптив
+// todo add imagemin
+// todo обновить зависимости в package.json
+
 const config = {
     entry: ['./src', './src/index.css'],
     output: {
         path: path.resolve(__dirname, 'build'),
-        filename: !isProd ? '[name].js' : '[name].[hash].js',
+        filename: !isProd ? '[name].js' : '[name].[chunkhash].js',
     },
     devtool: !isProd ? 'inline-cheap-module-source-map' : 'source-map',
     devServer: {
@@ -28,6 +32,10 @@ const config = {
         contentBase: path.resolve(__dirname, 'build/'),
     },
     optimization: {
+        runtimeChunk: true, // избавляет от проблемы изспользования модулями одних и тех же чанков
+        splitChunks: {
+            chunks: 'all', // выносит общие модули из всех чанков
+        },
         minimizer: [
             new TerserPlugin({
                 terserOptions: {
@@ -49,14 +57,9 @@ const config = {
             {
                 oneOf: [
                     {
-                        test: /\.(js|jsx)$/,
+                        test: /\.(js|jsx|tsx|ts)$/,
                         exclude: /node_modules/,
-                        use: ['babel-loader'],
-                    },
-                    {
-                        test: /\.tsx?$/,
-                        exclude: /node-modules/,
-                        use: ['ts-loader'],
+                        use: ['babel-loader'], // for mapping loaders
                     },
                     {
                         test: /\.css$/,
@@ -134,10 +137,15 @@ const config = {
         new webpack.DefinePlugin({
             _ENV: JSON.stringify(process.env.NODE_ENV),
         }),
+        isProd && new webpack.HashedModuleIdsPlugin({ // при импорте модулю дается id порядкового импорта, при изменении порядка импорта
+            hashDigestLength: 5,                     // id поменяется и все чанки поменяют свой chunkhash, чтобы этого не случилось,
+        }),                                         // этот плагин дает id вне зависимости от порядка импорта модуля
         new HtmlWebpackPlugin({
-            inject: false,
             template: './index.html',
             filename: 'index.html',
+        }),
+        new ESLintPlugin({
+            extensions: ['js', 'jsx', 'ts', 'tsx'],
         }),
         isProd &&
         new CleanWebpackPlugin({

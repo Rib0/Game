@@ -30,10 +30,7 @@ class Modal extends PureComponent {
                     {caption && <div className={styles.caption}>{caption}</div>}
                     {children}
                     <div className={styles.buttons}>
-                        <Button
-                            text={acceptButtonText || 'Ок'}
-                            onClick={onAccept}
-                        />
+                        <Button text={acceptButtonText || 'Ок'} onClick={onAccept} />
                     </div>
                 </div>
             </>

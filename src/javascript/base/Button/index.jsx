@@ -9,13 +9,13 @@ const cx = classNames.bind(styles);
 class Button extends PureComponent {
     static Types = {
         default: 'default',
-        styled: 'styled'
+        styled: 'styled',
     };
 
     static Sizes = {
         medium: 'medium',
-        large: 'large'
-    }
+        large: 'large',
+    };
 
     render() {
         const { type, size, text, className, children, ...otherProps } = this.props;
@@ -29,11 +29,11 @@ class Button extends PureComponent {
             </button>
         );
     }
-};
+}
 
 Button.defaultProps = {
     type: Button.Types.styled,
-    size: Button.Sizes.medium
+    size: Button.Sizes.medium,
 };
 
 Button.propTypes = {
@@ -41,7 +41,7 @@ Button.propTypes = {
     text: PropTypes.string.isRequired,
     onClick: PropTypes.func,
     className: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-    children: PropTypes.element
+    children: PropTypes.element,
 };
 
 export default Button;

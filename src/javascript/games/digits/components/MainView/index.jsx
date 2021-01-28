@@ -90,21 +90,21 @@ class MainView extends PureComponent {
         return emptyCellIndex;
     }
 
-    makeWin = () => { // only for test
-        const { field } = this.state;
+    // makeWin = () => { for test only
+    //     const { field } = this.state;
 
-        this.setState({
-            loading: true,
-        });
+    //     this.setState({
+    //         loading: true,
+    //     });
 
-        setTimeout(() => {
-            const sortedField = field.map((v, index) => ({ value: index + 1, order: index }));
-            this.setState({ field: sortedField });
-            setTimeout(() => {
-                this.setState({ loading: false });
-            }, 0);
-        }, MainView.defaultLoadTime);
-    };
+    //     setTimeout(() => {
+    //         const sortedField = field.map((v, index) => ({ value: index + 1, order: index }));
+    //         this.setState({ field: sortedField });
+    //         setTimeout(() => {
+    //             this.setState({ loading: false });
+    //         }, 0);
+    //     }, MainView.defaultLoadTime);
+    // };
 
     checkWin() {
         const { field } = this.state;

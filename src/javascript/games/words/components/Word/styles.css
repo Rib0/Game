@@ -4,7 +4,7 @@
     }
 
     100% {
-        color: auto
+        color: auto;
     }
 }
 
@@ -21,7 +21,7 @@
     overflow: hidden;
 
     &.missed {
-        animation: missedAnimation .1s steps(1);
+        animation: missedAnimation 0.1s steps(1);
     }
 
     &.complete > .inner {

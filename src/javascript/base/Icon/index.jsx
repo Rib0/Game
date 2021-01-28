@@ -29,7 +29,7 @@ Icon.propTypes = {
     type: PropTypes.oneOf(Object.values(Icon.IconTypes)),
     size: PropTypes.oneOf(Object.values(Icon.IconSizes)),
     onClick: PropTypes.func,
-    rotated: PropTypes.bool
+    rotated: PropTypes.bool,
 };
 
 export default Icon;

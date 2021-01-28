@@ -1,1 +1,3 @@
 .eslintrc
+src/images
+src/data.json

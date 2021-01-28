@@ -72,9 +72,7 @@ class App extends PureComponent {
                             key={description}
                             className={cx('item', 'itemRight', { visible: index === active })}
                         >
-                            <div className={styles.text}>
-                                {description}
-                            </div>
+                            <div className={styles.text}>{description}</div>
                             <Button
                                 text="Начать"
                                 onClick={this.handleStart}
@@ -112,11 +110,11 @@ class App extends PureComponent {
                             <Component />
                         </Provider>
                     ) : (
-                            <Component />
-                        )
+                        <Component />
+                    )
                 ) : (
-                        this.renderMainMenu()
-                    )}
+                    this.renderMainMenu()
+                )}
             </>
         );
     }

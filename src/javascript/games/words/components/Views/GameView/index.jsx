@@ -201,7 +201,7 @@ class GameView extends PureComponent {
         this.stopGame();
         this.setState({
             texts: {
-                gameMessage: `Вы проиграли, угадано слов - ${score}!`,
+                gameMessage: `Вы проиграли, введено слов - ${score}!`,
                 buttonText: 'Играть еще',
             },
             started: false,
@@ -240,12 +240,20 @@ class GameView extends PureComponent {
                         {gameMessage && (
                             <>
                                 <div className={styles.message}>{gameMessage}</div>
-                                <Button type={Button.Types.default} text="В главное меню" onClick={() => changeView('menu')} />
+                                <Button
+                                    type={Button.Types.default}
+                                    text="В главное меню"
+                                    onClick={() => changeView('menu')}
+                                />
                                 <br />
                                 <br />
                             </>
                         )}
-                        <Button type={Button.Types.default} text={buttonText} onClick={this.startGame} />
+                        <Button
+                            type={Button.Types.default}
+                            text={buttonText}
+                            onClick={this.startGame}
+                        />
                     </div>
                 )}
                 {started && (
@@ -308,7 +316,4 @@ const mapDispatchToProps = {
     unsetLoading,
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(GameView);
+export default connect(mapStateToProps, mapDispatchToProps)(GameView);

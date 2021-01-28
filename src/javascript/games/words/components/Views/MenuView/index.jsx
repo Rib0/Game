@@ -64,7 +64,4 @@ MenuView.propTypes = {
     valueName: PropTypes.string,
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(MenuView);
+export default connect(mapStateToProps, mapDispatchToProps)(MenuView);

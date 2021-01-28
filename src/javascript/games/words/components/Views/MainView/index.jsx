@@ -34,10 +34,7 @@ const mapDispatchToProps = {
 
 MainView.propTypes = {
     view: PropTypes.oneOf(Object.keys(VIEWS)),
-    dropStore: PropTypes.func
+    dropStore: PropTypes.func,
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(MainView);
+export default connect(mapStateToProps, mapDispatchToProps)(MainView);

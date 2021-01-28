@@ -8,14 +8,15 @@
         "prettier",
         "prettier/react"
     ],
-    "plugins": [
-        "babel"
-    ],
+    "parser": "@babel/eslint-parser",
     "parserOptions": {
         "ecmaVersion": 6,
         "sourceType": "module",
         "ecmaFeatures": {
             "jsx": true
+        },
+        "babelOptions": {
+            "configFile": ".babelrc.json"
         }
     },
     "rules": {

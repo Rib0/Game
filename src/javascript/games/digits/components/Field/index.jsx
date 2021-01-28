@@ -20,7 +20,7 @@ class Field extends PureComponent {
 }
 
 Field.propTypes = {
-    children: PropTypes.element
-}
+    children: PropTypes.element,
+};
 
 export default Field;

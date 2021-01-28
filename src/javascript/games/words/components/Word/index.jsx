@@ -9,7 +9,7 @@ const cx = classNames.bind(styles);
 class Word extends PureComponent {
     state = {
         transitionDuration: '.2s',
-        missedIndex: null
+        missedIndex: null,
     };
 
     componentDidMount() {
@@ -42,9 +42,9 @@ class Word extends PureComponent {
         const missedLetterIndex = wordArray.findIndex(word => !word.complete);
         this.setState({ missedIndex: missedLetterIndex });
         setTimeout(() => {
-            this.setState({ missedIndex: null })
+            this.setState({ missedIndex: null });
         }, 100);
-    };
+    }
 
     onKeyDown = event => {
         const { key } = event;
@@ -54,7 +54,9 @@ class Word extends PureComponent {
 
         const { letter } = currentLetter;
 
-        letter === key ? getRightLetter() : (this.handleMiss(), resetWord(), this.resetTransition());
+        letter === key
+            ? getRightLetter()
+            : (this.handleMiss(), resetWord(), this.resetTransition());
     };
 
     componentWillUnmount() {
@@ -68,7 +70,10 @@ class Word extends PureComponent {
         return (
             <div className={styles.word}>
                 {wordArray.map(({ letter, complete }, index) => (
-                    <span key={index} className={cx('letter', { complete, missed: missedIndex === index })}>
+                    <span
+                        key={index}
+                        className={cx('letter', { complete, missed: missedIndex === index })}
+                    >
                         {letter}
                         <div style={{ transitionDuration }} className={styles.inner}>
                             {letter}
@@ -81,14 +86,16 @@ class Word extends PureComponent {
 }
 
 Word.propTypes = {
-    wordArray: PropTypes.arrayOf(PropTypes.shape({
-        letter: PropTypes.string,
-        complete: PropTypes.bool,
-        missed: PropTypes.bool
-    })),
+    wordArray: PropTypes.arrayOf(
+        PropTypes.shape({
+            letter: PropTypes.string,
+            complete: PropTypes.bool,
+            missed: PropTypes.bool,
+        })
+    ),
     getRightWord: PropTypes.func,
     getRightLetter: PropTypes.func,
-    resetWord: PropTypes.func
+    resetWord: PropTypes.func,
 };
 
 export default Word;
