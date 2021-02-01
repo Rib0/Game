@@ -6,6 +6,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const ESLintPlugin = require('eslint-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const isProd = process.env.NODE_ENV === 'production';
 const isAnalyze = process.env.NODE_ENV === 'analyze';
@@ -14,6 +15,7 @@ const isAnalyze = process.env.NODE_ENV === 'analyze';
 // todo добавить адаптив
 // todo add imagemin
 // todo обновить зависимости в package.json
+// todo перенсти некоторые пакеты в devDependencies в package.json
 
 const config = {
     entry: ['./src', './src/index.css'],
@@ -144,9 +146,22 @@ const config = {
             template: './index.html',
             filename: 'index.html',
         }),
-        new ESLintPlugin({
-            extensions: ['js', 'jsx', 'ts', 'tsx'],
-        }),
+        // new ESLintPlugin({
+        //     extensions: ['js', 'jsx', 'ts', 'tsx'],
+        // }),
+        // new ForkTsCheckerWebpackPlugin({ // for speed up .ts linting and type checking
+        //     typescript: {
+        //         diagnosticOptions: {
+        //             semantic: true,
+        //             syntactic: true,
+        //         },
+        //         mode: 'write-references',
+        //     },
+        //     eslint: {
+        //         enabled: true,
+        //         files: './src/javascript/games/balls/**/*'
+        //     },
+        // }),
         isProd &&
         new CleanWebpackPlugin({
             cleanStaleWebpackAssets: false,

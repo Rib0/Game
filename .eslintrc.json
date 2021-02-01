@@ -5,6 +5,7 @@
     },
     "extends": [
         "airbnb",
+        "plugin:react-hooks/recommended",
         "prettier",
         "prettier/react"
     ],
@@ -57,5 +58,38 @@
                 "config": "webpack.config.js"
             }
         }
-    }
+    },
+    "overrides": [
+        {
+            "files": [
+                "src/**/*.ts",
+                "src/**/*.tsx"
+            ],
+            "extends": [
+                "airbnb-typescript",
+                "plugin:@typescript-eslint/recommended",
+                "plugin:@typescript-eslint/recommended-requiring-type-checking",
+                "plugin:react-hooks/recommended",
+                "prettier/@typescript-eslint",
+                "prettier",
+                "prettier/react"
+            ],
+            "parser": "@typescript-eslint/parser",
+            "parserOptions": {
+                "ecmaVersion": 6,
+                "sourceType": "module",
+                "ecmaFeatures": {
+                    "jsx": true
+                },
+                "project": [
+                    "tsconfig.json"
+                ],
+                "tsconfigRootDir": "."
+            },
+            "plugins": [
+                "@typescript-eslint"
+            ],
+            "rules": {}
+        }
+    ]
 }

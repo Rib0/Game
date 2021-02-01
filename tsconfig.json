@@ -1,12 +1,19 @@
 {
     "compilerOptions": {
-        "target": "es5",
+        "target": "es6",
         "jsx": "react",
         "sourceMap": true,
         "noFallthroughCasesInSwitch": false,
         "allowSyntheticDefaultImports": true,
+        "moduleResolution": "node",
         "esModuleInterop": true,
         "allowJs": true,
         "outDir": "./build",
     },
+    "include": [
+        "./src/javascript/games/balls"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
 }

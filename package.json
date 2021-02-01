@@ -8,8 +8,8 @@
     "build": "cross-env NODE_ENV=production webpack --mode=production",
     "prunecaches": "rimraf ./node_modules/.cache/",
     "analyze": "cross-env NODE_ENV=analyze webpack --mode=production",
-    "prettier": "prettier --write ./src/**/**/*",
-    "eslint": "eslint --ext .js,.jsx,.ts,.tsx src/",
+    "prettier": "prettier --write src/**",
+    "eslint": "eslint --cache --ext .js,.jsx,.ts,.tsx src/",
     "repo": "npm repo"
   },
   "repository": {
@@ -93,10 +93,13 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.12.1",
+    "@typescript-eslint/eslint-plugin": "^4.14.2",
+    "@typescript-eslint/parser": "^4.14.2",
     "cache-loader": "^4.1.0",
     "cross-env": "^6.0.3",
     "eslint": "^7.18.0",
     "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-airbnb-typescript": "^12.0.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-babel": "^5.3.1",
     "eslint-plugin-import": "^2.22.1",
@@ -104,6 +107,7 @@
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-webpack-plugin": "^2.4.3",
+    "fork-ts-checker-webpack-plugin": "^6.1.0",
     "html-webpack-plugin": "^4.5.1",
     "husky": "^3.0.4",
     "lint-staged": "^9.2.3",
