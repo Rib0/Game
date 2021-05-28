@@ -17,8 +17,6 @@ class Modal extends PureComponent {
             children,
             onAccept,
             acceptButtonText,
-            onDecline,
-            declineButtonText,
         } = this.props;
 
         if (!isOpen) return null;

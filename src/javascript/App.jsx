@@ -1,11 +1,11 @@
 import { hot } from 'react-hot-loader/root';
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Suspense } from 'react';
 import { Provider } from 'react-redux';
 import classNames from 'classnames/bind';
 
 import { COMPONENTS } from './menuItems';
 
-import { Icon, Button } from 'Base';
+import { Icon, Button, Loader } from 'Base';
 
 import styles from './styles.css';
 
@@ -41,10 +41,9 @@ class App extends PureComponent {
 
     handleChangeBack = () => {
         this.setState({ active: -1, isStarted: false });
-        this.handleToggleMenu();
     };
 
-    handleToggleMenu = () => this.setState(prevState => ({ isMenuOpen: !prevState.isMenuOpen }));
+    // handleToggleMenu = () => this.setState(prevState => ({ isMenuOpen: !prevState.isMenuOpen })); для будущего меню
 
     handleStart = () => this.setState({ isStarted: true });
 
@@ -86,36 +85,41 @@ class App extends PureComponent {
     }
 
     render() {
-        const { active, isStarted, isMenuOpen } = this.state;
+        const { active, isStarted } = this.state;
         const { component: Component, store } = COMPONENTS[active] || {};
 
         return (
-            <>
+            <div className={styles.app}>
                 <div className={styles.header}>
-                    <Icon
-                        rotated={isMenuOpen}
-                        onClick={this.handleToggleMenu}
-                        type={Icon.IconTypes.faBars}
-                        size={Icon.IconSizes.large}
+                    <Button
+                        onClick={this.handleChangeBack}
+                        iconType={Icon.IconTypes.faHome}
+                        iconClassName={styles.homeIcon}
                     />
                 </div>
-                <ul className={cx('menu', { active: isMenuOpen })}>
+                {/* <ul className={styles.menu}>
                     <li className={styles.menuItem} onClick={this.handleChangeBack}>
-                        Вернуться к списку игр
+                        {' '}
+                        INSERT BUTTON
+                        Вернуться к списку игр ---- ЕСЛИ БУДЕТ НУЖНО МЕНЮ
                     </li>{' '}
-                </ul>
+                </ul> */}
                 {isStarted ? (
                     store ? (
                         <Provider store={store}>
-                            <Component />
+                            <Suspense fallback={<Loader />}>
+                                <Component />
+                            </Suspense>
                         </Provider>
                     ) : (
-                        <Component />
-                    )
+                            <Suspense fallback={<Loader />}>
+                                <Component />
+                            </Suspense>
+                        )
                 ) : (
-                    this.renderMainMenu()
-                )}
-            </>
+                        this.renderMainMenu()
+                    )}
+            </div>
         );
     }
 }

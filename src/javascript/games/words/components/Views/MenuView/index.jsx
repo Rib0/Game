@@ -5,6 +5,7 @@ import classNames from 'classnames/bind';
 import ReactTooltip from 'react-tooltip';
 
 import * as actions from 'WordsGame/store/actions';
+import { initialState as gameInitialState } from 'WordsGame/store/reducers/game';
 import styles from './styles.css';
 
 const cx = classNames.bind(styles);
@@ -20,7 +21,7 @@ class MenuView extends PureComponent {
     };
 
     render() {
-        const { options, valueName, ...props } = this.props;
+        const { options, storeKeyName, ...props } = this.props;
 
         return (
             <div>
@@ -28,7 +29,7 @@ class MenuView extends PureComponent {
                     {options.map(({ value, label, actionName, type, tooltipText }) => (
                         <li
                             className={cx('listItem', {
-                                active: value === props[valueName],
+                                active: value === props[storeKeyName],
                             })}
                             key={label}
                         >
@@ -61,7 +62,7 @@ const mapDispatchToProps = {
 
 MenuView.propTypes = {
     options: PropTypes.arrayOf(PropTypes.object),
-    valueName: PropTypes.string,
+    storeKeyName: PropTypes.oneOf(Object.keys(gameInitialState)),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MenuView);

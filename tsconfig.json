@@ -5,6 +5,7 @@
         "sourceMap": true,
         "noFallthroughCasesInSwitch": false,
         "allowSyntheticDefaultImports": true,
+        "noImplicitAny": false,
         "moduleResolution": "node",
         "esModuleInterop": true,
         "allowJs": true,

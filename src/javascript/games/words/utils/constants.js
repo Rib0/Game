@@ -28,21 +28,21 @@ export const VIEWS = {
     'menu/difficulty': {
         component: MenuView,
         props: {
-            valueName: 'difficulty',
+            storeKeyName: 'difficulty',
             options: [
                 {
                     label: 'Легко',
-                    value: 'easy',
+                    value: GameView.gameDifficulties.easy,
                     actionName: 'changeDifficulty',
                 },
                 {
                     label: 'Средне',
-                    value: 'normal',
+                    value: GameView.gameDifficulties.normal,
                     actionName: 'changeDifficulty',
                 },
                 {
                     label: 'Сложно',
-                    value: 'hard',
+                    value: GameView.gameDifficulties.hard,
                     actionName: 'changeDifficulty',
                 },
                 {
@@ -57,16 +57,16 @@ export const VIEWS = {
     'menu/gameType': {
         component: MenuView,
         props: {
-            valueName: 'gameType',
+            storeKeyName: 'gameType',
             options: [
                 {
                     label: 'Выживание',
-                    value: 'survival',
+                    value: GameView.gameTypes.survival,
                     actionName: 'changeGameType',
                 },
                 {
                     label: 'На время (1 минута)',
-                    value: 'time',
+                    value: GameView.gameTypes.time,
                     actionName: 'changeGameType',
                 },
                 {

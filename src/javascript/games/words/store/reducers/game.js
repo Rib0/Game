@@ -8,10 +8,11 @@ import {
     setLoading,
     unsetLoading,
 } from '../actions/game';
+import View from 'WordsGame/components/Views/GameView';
 
-const initialState = {
-    gameType: 'survival',
-    difficulty: 'normal',
+export const initialState = {
+    gameType: View.gameTypes.survival,
+    difficulty: View.gameDifficulties.normal,
     health: 100,
     score: 0,
     loading: false,

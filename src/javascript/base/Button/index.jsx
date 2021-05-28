@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 
+import Icon from '../Icon';
+
 import styles from './styles.css';
 
 const cx = classNames.bind(styles);
@@ -18,14 +20,24 @@ class Button extends PureComponent {
     };
 
     render() {
-        const { type, size, text, className, children, ...otherProps } = this.props;
+        const { type, size, iconType, text, className, iconClassName, children, ...otherProps } = this.props;
 
-        const buttonClassName = cx('button', Button.Types[type], Button.Sizes[size], className);
+        const buttonClassName = cx('button', iconType && 'buttonWithIcon', type, size, className);
+
+        if (iconType) return (
+            <button className={buttonClassName} {...otherProps}>
+                <Icon
+                    onClick={this.handleToggleMenu}
+                    type={iconType}
+                    size={Icon.IconSizes.large}
+                    className={iconClassName}
+                />
+            </button>
+        )
 
         return (
             <button className={buttonClassName} {...otherProps}>
                 {text}
-                {children}
             </button>
         );
     }
@@ -38,9 +50,13 @@ Button.defaultProps = {
 
 Button.propTypes = {
     type: PropTypes.oneOf(Object.values(Button.Types)),
-    text: PropTypes.string.isRequired,
+    size: PropTypes.oneOf(Object.values(Button.Sizes)),
+    iconType: PropTypes.oneOf(Object.values(Icon.IconTypes)),
+    iconSize: PropTypes.oneOf(Object.values(Icon.IconSizes)),
+    text: PropTypes.string,
     onClick: PropTypes.func,
     className: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    iconClassName: PropTypes.string,
     children: PropTypes.element,
 };
 

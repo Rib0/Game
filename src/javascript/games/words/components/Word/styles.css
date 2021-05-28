@@ -1,6 +1,6 @@
 @keyframes missedAnimation {
     0% {
-        color: red;
+        color: var(--colorRed);
     }
 
     100% {

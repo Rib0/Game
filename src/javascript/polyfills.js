@@ -1,2 +1,2 @@
 import 'unfetch/polyfill';
-// import 'core-js/stable'; todo add some polyfills from core-js
+// check in firefox, chrome, edge, yandex browser, ie11

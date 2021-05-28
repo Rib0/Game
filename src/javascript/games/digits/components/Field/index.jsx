@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+import MainView from '../MainView';
 import styles from './styles.css';
 
 class Field extends PureComponent {
@@ -12,15 +13,50 @@ class Field extends PureComponent {
         );
     }
 
-    render() {
-        const { children } = this.props;
+    getCellStyles = (index) => {
+        const { loading } = this.props;
+        const sideSize = MainView.SideSize.length;
+        const leftMulti = index % sideSize;
+        const topMulti = parseInt(index / sideSize, 10);
 
-        return <div className={styles.field}>{children}</div>;
+        return {
+            top: loading ? 0 : `${topMulti * MainView.CellSize}px`,
+            left: loading ? 0 : `${leftMulti * MainView.CellSize}px`,
+            opacity: index < sideSize ** 2 - 1 && loading ? 0 : 1,
+        };
+    }
+
+    render() {
+        const { field, onClick } = this.props;
+
+        return <div className={styles.field}>
+            {field.map(({ value, order }) => {
+                const style = {
+                    ...this.getCellStyles(order),
+                    backgroundColor: value - order === 1 && 'lightgreen',
+                };
+
+                return (
+                    <Field.Cell
+                        style={style}
+                        onClick={onClick}
+                        data={{
+                            'data-index': order,
+                        }}
+                        key={value}
+                    >
+                        <div className={styles.value}>{value}</div>
+                    </Field.Cell>
+                );
+            })}
+        </div>;
     }
 }
 
 Field.propTypes = {
-    children: PropTypes.element,
+    field: PropTypes.arrayOf(PropTypes.object),
+    onClick: PropTypes.func,
+    loading: PropTypes.bool
 };
 
 export default Field;

@@ -32,8 +32,13 @@
         border-color: var(--colorOrange);
 
         &:hover {
-            color: red;
-            border-color: red;
+            color: var(--colorRed);
+            border-color: var(--colorRed);
         }
+    }
+
+    &.buttonWithIcon {
+        padding: 4px;
+        border: none;
     }
 }

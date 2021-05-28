@@ -63,19 +63,6 @@ class MainView extends PureComponent {
         }, MainView.defaultLoadTime);
     };
 
-    getCellStyles(index) {
-        const { loading } = this.state;
-        const sideSize = MainView.SideSize.length;
-        const leftMulti = index % sideSize;
-        const topMulti = parseInt(index / sideSize, 10);
-
-        return {
-            top: loading ? 0 : `${topMulti * MainView.CellSize}px`,
-            left: loading ? 0 : `${leftMulti * MainView.CellSize}px`,
-            opacity: index < sideSize ** 2 - 1 && loading ? 0 : 1,
-        };
-    }
-
     findEmptyCell(index) {
         const { field } = this.state;
         const fieldsCount = MainView.SideSize.length ** 2;
@@ -90,25 +77,9 @@ class MainView extends PureComponent {
         return emptyCellIndex;
     }
 
-    // makeWin = () => { for test only
-    //     const { field } = this.state;
-
-    //     this.setState({
-    //         loading: true,
-    //     });
-
-    //     setTimeout(() => {
-    //         const sortedField = field.map((v, index) => ({ value: index + 1, order: index }));
-    //         this.setState({ field: sortedField });
-    //         setTimeout(() => {
-    //             this.setState({ loading: false });
-    //         }, 0);
-    //     }, MainView.defaultLoadTime);
-    // };
-
     checkWin() {
         const { field } = this.state;
-        const hasWin = field.every(({ value, order }, index) => value === order + 1);
+        const hasWin = field.every(({ value, order }) => value === order + 1);
 
         if (hasWin) {
             this.setState({
@@ -152,27 +123,7 @@ class MainView extends PureComponent {
                     disabled={loading}
                     text="Сгенерировать"
                 />
-                <Field>
-                    {field.map(({ value, order }) => {
-                        const style = {
-                            ...this.getCellStyles(order),
-                            backgroundColor: value - order === 1 && 'lightgreen',
-                        };
-
-                        return (
-                            <Field.Cell
-                                style={style}
-                                onClick={this.onClick}
-                                data={{
-                                    'data-index': order,
-                                }}
-                                key={value}
-                            >
-                                <div className={styles.value}>{value}</div>
-                            </Field.Cell>
-                        );
-                    })}
-                </Field>
+                <Field field={field} onClick={this.onClick} loading={loading} />
                 <Modal
                     isOpen={hasWin}
                     caption="Вы выиграли!"

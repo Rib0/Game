@@ -5,16 +5,19 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const ImageminPlugin = require('imagemin-webpack-plugin').default
 const ESLintPlugin = require('eslint-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const isProd = process.env.NODE_ENV === 'production';
 const isAnalyze = process.env.NODE_ENV === 'analyze';
+
 // todo добавить неподдерживаемый браузер
 // todo проверить все на eslint в конце разработки
 // todo добавить адаптив
-// todo add imagemin
 // todo обновить зависимости в package.json
+// todo change on webpack 5
+// todo use color variables in styled comp
 // todo перенсти некоторые пакеты в devDependencies в package.json
 
 const config = {
@@ -22,6 +25,7 @@ const config = {
     output: {
         path: path.resolve(__dirname, 'build'),
         filename: !isProd ? '[name].js' : '[name].[chunkhash].js',
+        chunkFilename: !isProd ? '[name].js' : '[name].[chunkhash].js', // for code splitting
     },
     devtool: !isProd ? 'inline-cheap-module-source-map' : 'source-map',
     devServer: {
@@ -34,9 +38,11 @@ const config = {
         contentBase: path.resolve(__dirname, 'build/'),
     },
     optimization: {
-        runtimeChunk: true, // избавляет от проблемы изспользования модулями одних и тех же чанков
+        runtimeChunk: true, // чтобы при изменении одного модуля не менялся весь app,
+        // вместо него будут менять лишь runtimechunk весом в 2кб
+        // использовать с HashedModuleIdsPlugin
         splitChunks: {
-            chunks: 'all', // выносит общие модули из всех чанков
+            chunks: 'all', // выносит общие модули и из node_modules из всех чанков
         },
         minimizer: [
             new TerserPlugin({
@@ -61,7 +67,7 @@ const config = {
                     {
                         test: /\.(js|jsx|tsx|ts)$/,
                         exclude: /node_modules/,
-                        use: ['babel-loader'], // for mapping loaders
+                        use: ['babel-loader'], // for mapping loaders with cache
                     },
                     {
                         test: /\.css$/,
@@ -162,6 +168,12 @@ const config = {
         //         files: './src/javascript/games/balls/**/*'
         //     },
         // }),
+        new ImageminPlugin({
+            disable: process.env.NODE_ENV !== 'production', // Disable during development
+            pngquant: {
+                quality: '95-100'
+            }
+        }),
         isProd &&
         new CleanWebpackPlugin({
             cleanStaleWebpackAssets: false,

@@ -1,13 +1,14 @@
-body {
-    background: var(--colorWhite);
+.app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
 .container {
     width: 100%;
-    max-width: 1200px;
-    margin: 100px auto;
     display: flex;
     background: var(--colorBlack);
+    flex-grow: 1;
 }
 
 .col {
@@ -38,6 +39,7 @@ body {
         &:active,
         &.selected {
             text-decoration: underline;
+            color: var(--colorOrange)
         }
     }
 
@@ -64,12 +66,12 @@ body {
 .header {
     display: flex;
     align-items: center;
-    padding: 15px 0 15px 15px;
-    z-index: 1000;
+    padding: 5px 0 5px 10px;
     background: var(--colorBlack);
+    border-bottom: 1px solid var(--colorWhite);
 }
 
-.menu {
+/* .menu {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -84,10 +86,6 @@ body {
     transform: translateX(-100%);
     transition: transform 0.2s linear;
 
-    &.active {
-        transform: translateX(0);
-    }
-
     &Item {
         color: var(--colorWhite);
         cursor: pointer;
@@ -97,5 +95,11 @@ body {
         &:active {
             background: rgb(61, 54, 54);
         }
+    }
+} */
+
+.homeIcon {
+    &:hover {
+        color: var(--colorOrange);
     }
 }

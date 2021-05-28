@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { ballState } from '../MainView';
+import { ballsTypes } from '../MainView';
 
 const DEFAULT_BALL_MARGIN = 2;
 const BALL_WIDTH = 38;
@@ -53,13 +53,13 @@ const Ball = styled.div<BallsProps>`
     z-index: 2;
 `;
 
+type FlaskProps = {
+    balls: ballsTypes[];
+};
+
 type BallsProps = {
     color: string;
     bottom: number;
-};
-
-type FlaskProps = {
-    balls: ballState[];
 };
 
 const Flask = ({ balls }: FlaskProps) => {
@@ -68,7 +68,7 @@ const Flask = ({ balls }: FlaskProps) => {
 
     return (
         <Container>
-            {balls.map(({ color }, index) => (
+            {balls.map((color, index) => (
                 <Ball color={color} bottom={getBallBottom(index)} />
             ))}
         </Container>

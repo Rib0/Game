@@ -1,13 +1,16 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import cx from 'classnames';
+import classNames from 'classnames/bind';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './styles.css';
 
+const cx = classNames.bind(styles);
+
 class Icon extends PureComponent {
     static IconTypes = {
         faBars: 'bars',
+        faHome: 'home'
     };
 
     static IconSizes = {
@@ -15,12 +18,12 @@ class Icon extends PureComponent {
     };
 
     render() {
-        const { type, size, onClick, rotated } = this.props;
+        const { type, size, className } = this.props;
 
         return (
-            <div onClick={onClick} className={cx(styles.icon, rotated && styles.rotated)}>
+            <div className={cx('icon', className)}>
                 <FontAwesomeIcon size={size} icon={type} />
-            </div>
+            </div >
         );
     }
 }
@@ -28,8 +31,7 @@ class Icon extends PureComponent {
 Icon.propTypes = {
     type: PropTypes.oneOf(Object.values(Icon.IconTypes)),
     size: PropTypes.oneOf(Object.values(Icon.IconSizes)),
-    onClick: PropTypes.func,
-    rotated: PropTypes.bool,
+    iconClassName: PropTypes.string
 };
 
 export default Icon;

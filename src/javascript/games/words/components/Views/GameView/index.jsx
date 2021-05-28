@@ -20,8 +20,8 @@ const HEALTH_STEP = -25;
 
 class GameView extends PureComponent {
     static gameTypes = {
-        survival: 0,
-        time: 1,
+        survival: 'survival',
+        time: 'time',
     };
 
     static gameDifficulties = {
@@ -34,9 +34,10 @@ class GameView extends PureComponent {
         super(props);
 
         const { difficulty, gameType } = props;
-        this.withTime = GameView.gameTypes[gameType];
+
+        this.withTime = gameType === GameView.gameTypes.time;
         this.transitionDuration = !this.withTime
-            ? GameView.gameDifficulties[difficulty]
+            ? difficulty
             : '15000ms';
 
         this.state = {
@@ -108,8 +109,11 @@ class GameView extends PureComponent {
         });
     };
 
-    resetWord = missedIndex => {
+    resetWord = () => {
         const { wordArray } = this.state;
+        const [{ complete: firstWordComplete }] = wordArray;
+
+        if (!firstWordComplete) return;
 
         const resetedWord = wordArray.map(word => ({ ...word, complete: false }));
         this.setState({
@@ -222,11 +226,6 @@ class GameView extends PureComponent {
             increasing,
         } = this.state;
 
-        const innerStyles = {
-            width: `${health}%`,
-            transitionDuration,
-        };
-
         const scoreClassName = cx('score', {
             score__increated: increasing,
         });
@@ -275,7 +274,8 @@ class GameView extends PureComponent {
                         </div>
                         <div className={styles.col}>
                             <ProgressBar
-                                innerStyles={innerStyles}
+                                width={`${health}%`}
+                                transitionDuration={transitionDuration}
                                 handleTransitionEnd={this.handleTransitionEnd}
                             />
                         </div>
@@ -287,8 +287,8 @@ class GameView extends PureComponent {
 }
 
 GameView.propTypes = {
-    gameType: PropTypes.oneOf(Object.keys(GameView.gameTypes)),
-    difficulty: PropTypes.oneOf(Object.keys(GameView.gameDifficulties)),
+    gameType: PropTypes.oneOf(Object.values(GameView.gameTypes)),
+    difficulty: PropTypes.oneOf(Object.values(GameView.gameDifficulties)),
     health: PropTypes.number,
     score: PropTypes.number,
     changeHealth: PropTypes.func,
@@ -300,8 +300,8 @@ GameView.propTypes = {
 };
 
 GameView.defaultProps = {
-    gameType: 'survival',
-    difficulty: 'normal',
+    gameType: GameView.gameTypes.survival,
+    difficulty: GameView.gameDifficulties.normal,
 };
 
 const mapStateToProps = ({ game }) => ({
