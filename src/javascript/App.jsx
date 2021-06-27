@@ -112,13 +112,13 @@ class App extends PureComponent {
                             </Suspense>
                         </Provider>
                     ) : (
-                            <Suspense fallback={<Loader />}>
-                                <Component />
-                            </Suspense>
-                        )
+                        <Suspense fallback={<Loader />}>
+                            <Component />
+                        </Suspense>
+                    )
                 ) : (
-                        this.renderMainMenu()
-                    )}
+                    this.renderMainMenu()
+                )}
             </div>
         );
     }

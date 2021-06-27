@@ -10,6 +10,10 @@
         "esModuleInterop": true,
         "allowJs": true,
         "outDir": "./build",
+        "lib": [
+            "dom",
+            "es2019"
+        ]
     },
     "include": [
         "./src/javascript/games/balls"

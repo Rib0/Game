@@ -36,9 +36,7 @@ class GameView extends PureComponent {
         const { difficulty, gameType } = props;
 
         this.withTime = gameType === GameView.gameTypes.time;
-        this.transitionDuration = !this.withTime
-            ? difficulty
-            : '15000ms';
+        this.transitionDuration = !this.withTime ? difficulty : '15000ms';
 
         this.state = {
             loading: true,

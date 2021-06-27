@@ -22,8 +22,8 @@
         font-size: calc(var(--defaultFontSize) * 1.5);
 
         &:hover {
-            border-color: var(--colorOrange);
             color: var(--colorOrange);
+            border-color: var(--colorOrange);
         }
     }
 

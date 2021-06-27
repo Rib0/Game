@@ -4,10 +4,9 @@ import PropTypes from 'prop-types';
 import styles from './styles.css';
 
 class ProgressBar extends PureComponent {
-
     refDiv = elem => {
         this.progress = elem;
-    }
+    };
 
     componentDidMount() {
         const { handleTransitionEnd } = this.props;
@@ -26,16 +25,12 @@ class ProgressBar extends PureComponent {
 
         const style = {
             width,
-            transitionDuration
+            transitionDuration,
         };
 
         return (
             <div className={styles.progressBar}>
-                <div
-                    ref={this.refDiv}
-                    style={style}
-                    className={styles.progressInner}
-                />
+                <div ref={this.refDiv} style={style} className={styles.progressInner} />
             </div>
         );
     }
@@ -44,7 +39,7 @@ class ProgressBar extends PureComponent {
 ProgressBar.propTypes = {
     handleTransitionEnd: PropTypes.func,
     width: PropTypes.string,
-    transitionDuration: PropTypes.string
+    transitionDuration: PropTypes.string,
 };
 
 export default ProgressBar;

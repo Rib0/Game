@@ -17,7 +17,6 @@ const isAnalyze = process.env.NODE_ENV === 'analyze';
 // todo добавить адаптив
 // todo обновить зависимости в package.json
 // todo change on webpack 5
-// todo use color variables in styled comp
 // todo перенсти некоторые пакеты в devDependencies в package.json
 
 const config = {
@@ -25,7 +24,7 @@ const config = {
     output: {
         path: path.resolve(__dirname, 'build'),
         filename: !isProd ? '[name].js' : '[name].[chunkhash].js',
-        chunkFilename: !isProd ? '[name].js' : '[name].[chunkhash].js', // for code splitting
+        chunkFilename: !isProd ? '[name].js' : '[name].[chunkhash].js', // for code splitting chunks (dynamic import)
     },
     devtool: !isProd ? 'inline-cheap-module-source-map' : 'source-map',
     devServer: {
@@ -117,7 +116,7 @@ const config = {
         ],
     },
     resolve: {
-        extensions: ['.js', '.jsx', '.json', '.tsx', 'ts'],
+        extensions: ['.js', '.jsx', '.json', '.tsx', '.ts'],
         modules: [
             'node_modules',
             path.resolve(__dirname, 'src/javascript'),

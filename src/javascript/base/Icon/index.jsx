@@ -10,7 +10,7 @@ const cx = classNames.bind(styles);
 class Icon extends PureComponent {
     static IconTypes = {
         faBars: 'bars',
-        faHome: 'home'
+        faHome: 'home',
     };
 
     static IconSizes = {
@@ -23,7 +23,7 @@ class Icon extends PureComponent {
         return (
             <div className={cx('icon', className)}>
                 <FontAwesomeIcon size={size} icon={type} />
-            </div >
+            </div>
         );
     }
 }
@@ -31,7 +31,11 @@ class Icon extends PureComponent {
 Icon.propTypes = {
     type: PropTypes.oneOf(Object.values(Icon.IconTypes)),
     size: PropTypes.oneOf(Object.values(Icon.IconSizes)),
-    iconClassName: PropTypes.string
+    iconClassName: PropTypes.string,
+};
+
+Icon.defaultProps = {
+    size: Icon.IconSizes.large,
 };
 
 export default Icon;

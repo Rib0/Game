@@ -39,7 +39,7 @@
         &:active,
         &.selected {
             text-decoration: underline;
-            color: var(--colorOrange)
+            color: var(--colorOrange);
         }
     }
 

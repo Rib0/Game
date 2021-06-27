@@ -11,13 +11,7 @@ class Modal extends PureComponent {
     }
 
     render() {
-        const {
-            caption,
-            isOpen,
-            children,
-            onAccept,
-            acceptButtonText,
-        } = this.props;
+        const { caption, isOpen, children, onAccept, acceptButtonText } = this.props;
 
         if (!isOpen) return null;
 

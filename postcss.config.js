@@ -1,9 +1,9 @@
 module.exports = ({ webpack: { mode } }) => {
-    const isDevMode = mode === 'development';
+    const isProd = mode === 'production';
 
     return {
         plugins: [
-            require('postcss-import'),
+            require('postcss-easy-import'),
             require('postcss-preset-env')({
                 stage: 3,
                 autoprefixer: { grid: false },
@@ -14,7 +14,7 @@ module.exports = ({ webpack: { mode } }) => {
                 importFrom: './src/root.css',
             }),
             require('postcss-flexbugs-fixes'),
-            isDevMode &&
+            isProd &&
             require('cssnano')({
                 preset: 'default',
             }),

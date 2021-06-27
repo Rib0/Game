@@ -20,24 +20,22 @@ class Button extends PureComponent {
     };
 
     render() {
-        const { type, size, iconType, text, className, iconClassName, children, ...otherProps } = this.props;
+        const {
+            type,
+            size,
+            iconType,
+            text,
+            className,
+            iconClassName,
+            children,
+            ...otherProps
+        } = this.props;
 
         const buttonClassName = cx('button', iconType && 'buttonWithIcon', type, size, className);
 
-        if (iconType) return (
-            <button className={buttonClassName} {...otherProps}>
-                <Icon
-                    onClick={this.handleToggleMenu}
-                    type={iconType}
-                    size={Icon.IconSizes.large}
-                    className={iconClassName}
-                />
-            </button>
-        )
-
         return (
             <button className={buttonClassName} {...otherProps}>
-                {text}
+                {iconType ? <Icon type={iconType} className={iconClassName} /> : text}
             </button>
         );
     }
