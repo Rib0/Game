@@ -1,25 +1,21 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import styled from 'styled-components';
 import { nanoid } from 'nanoid';
 
 import Header from '../Header';
-import Flask from '../Flask'; // todo add aliases
-import Icon from '../Icon';
+import Flask from '../Flask';
 
-import reducer, {
-    changeFlasks,
-    changeActiveFlask,
-    changeTransitionedFlask,
-    changeTargetCoords,
-} from './reducer';
-import { IinitialState, flasksType } from './types';
-import { getRandom, splitArray } from '../../utils';
+import reducer, { changeFlasks, changeActiveFlask, changeTargetCoords, setWin } from './reducer';
+import { IinitialState, flaskType, flasksType } from './types';
+import { getRandom, splitArray, isFilledFlask } from '../../utils';
 
 /*
-    todo уровни сложности, кол-во шариков, колбочек, сохранять в localStorage результат,
-    возможность отменить ход, возможность менять темы, возможность добавлять пустую колбу
+    сохранять в localStorage результат,
+    возможность менять темы
+    возможность выбрать уровень сложности
 
-    доделать анимацию шариков
+    todo поменять activeFlask на activeFlaskId
+    поправить код везде
 */
 
 const Container = styled.div`
@@ -58,8 +54,7 @@ export enum ballsColors {
 export const initialState: IinitialState = {
     // theme: default,
     flasks: [],
-    transitionedFlask: null,
-    activeFlask: undefined,
+    activeFlask: null,
     targetCoords: null,
     isWin: false,
 };
@@ -68,10 +63,12 @@ const FLASKS_AMOUNT = 14;
 const BALLS_PER_FLASK = 4;
 
 const MainView = () => {
-    const [{ flasks, transitionedFlask, activeFlask, targetCoords }, dispatch] = useReducer(
+    const [{ flasks, activeFlask, targetCoords, isWin }, dispatch] = useReducer(
         reducer,
         initialState
     );
+    const [targetFlaskId, setTargetFlaskId] = useState('');
+    const [prevMoveSnapshot, setPrevMoveSnapshot] = useState<flasksType[]>([]);
 
     const fillFlasks = () => {
         const colorsKeys: ballsColors[] = Object.values(ballsColors);
@@ -83,20 +80,20 @@ const MainView = () => {
             };
         }, {});
 
-        let resultFlasks: flasksType = new Array(FLASKS_AMOUNT).fill([]);
+        let resultFlasks: flasksType = new Array(FLASKS_AMOUNT).fill({});
 
         resultFlasks = resultFlasks.map((f, i) => {
-            const flask = [];
+            const flask: flaskType = { id: nanoid(5), balls: [] };
 
             if (i > FLASKS_AMOUNT - 3) return flask;
 
-            while (flask.length < BALLS_PER_FLASK) {
+            while (flask.balls.length < BALLS_PER_FLASK) {
                 const randomColorIndex = getRandom(0, colorsKeys.length - 1);
                 const randomColor = colorsKeys[randomColorIndex];
                 const colorCount = colorsCounter[randomColor];
 
                 if (colorCount !== BALLS_PER_FLASK) {
-                    flask.push({ color: randomColor, id: nanoid(5) });
+                    flask.balls.push({ color: randomColor, id: nanoid(5) });
                     colorsCounter[randomColor] = colorCount + 1;
                 }
             }
@@ -107,75 +104,111 @@ const MainView = () => {
         dispatch(changeFlasks(resultFlasks));
     };
 
+    const findFlask = (id: string): Partial<flaskType> => flasks.find(flask => flask.id === id) || {};
+
     const onClick = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!(e.currentTarget instanceof HTMLDivElement)) {
             return;
         }
 
         const {
-            dataset: { index },
+            dataset: { id },
         } = e.currentTarget;
+        const targetFlask = findFlask(id);
+        const isFilled = isFilledFlask(targetFlask.balls);
 
-        const { bottom, left } = e.currentTarget.getBoundingClientRect();
+        if (isFilled || isWin) {
+            dispatch(changeActiveFlask(null));
+            return;
+        }
 
-        if (activeFlask !== +index && activeFlask !== undefined && activeFlask !== null) {
-            const [changedBall] = flasks[activeFlask].slice(-1);
-            const restBalls = flasks[activeFlask].slice(0, -1);
-            const ballsWithChanged = flasks[index].concat(changedBall);
-            const [topTargetBall] = flasks[index].slice(-1);
+        if (activeFlask !== id && activeFlask !== null) {
+            const [changedBall] = findFlask(activeFlask).balls.slice(-1);
+            const [topTargetBall] = targetFlask.balls.slice(-1);
 
             // if (topTargetBall && topTargetBall.color !== changedBall.color) {
             //     dispatch(changeActiveFlask(null));
             //     return;
-            // } todo поправить
+            // }
+
+            const { bottom, left } = e.currentTarget.getBoundingClientRect();
+            const restBalls = findFlask(activeFlask).balls.slice(0, -1);
+            const ballsWithChanged = targetFlask.balls.concat(changedBall);
+            const updatedFlasks = flasks.map((flask, i) =>
+                flask.id === activeFlask ? { ...flask, balls: restBalls } : flask.id === id ? { ...flask, balls: ballsWithChanged } : flask
+            );
 
             dispatch(changeTargetCoords({ bottom, left }));
-            dispatch(changeTransitionedFlask(activeFlask));
-
-            const updatedFlasks = flasks.map((flask, i) =>
-                i === activeFlask ? restBalls : i === +index ? ballsWithChanged : flask
-            );
+            setTargetFlaskId(id);
+            setPrevMoveSnapshot(spanshots => [flasks, ...spanshots]);
 
             setTimeout(() => {
                 dispatch(changeFlasks(updatedFlasks));
                 dispatch(changeActiveFlask(null));
-                dispatch(changeTransitionedFlask(null));
-            }, 500);
-        } else {
-            dispatch(changeActiveFlask(+index));
+                dispatch(changeTargetCoords(null));
+            }, 250);
+        } else if (targetFlask.balls.length) {
+            dispatch(changeActiveFlask(id));
         }
+    };
+
+    const checkWin = () => {
+        const hasWin = flasks.filter(({ balls }) => balls.length).every(({ balls }) => isFilledFlask(balls));
+
+        if (hasWin) {
+            setWin(true);
+        }
+    };
+
+    const handleAddFlask = () => {
+        if (flasks.length > FLASKS_AMOUNT) return;
+
+        dispatch(changeFlasks(flasks.concat({ id: nanoid(5), balls: [] })))
+    };
+
+    const handleCanselLastMoove = () => {
+        if (!prevMoveSnapshot.length) return;
+
+        const [lastSnapshot, ...rest] = prevMoveSnapshot;
+
+        dispatch(changeFlasks(lastSnapshot));
+        setPrevMoveSnapshot(rest)
+    };
+
+    const handleRestart = () => {
+        setWin(false);
+        fillFlasks();
     };
 
     useEffect(fillFlasks, []);
 
+    useEffect(checkWin, [flasks]);
+
     return (
         <Container>
-            <Header />
+            <Header addFlask={handleAddFlask} canselLastMove={handleCanselLastMoove} restart={handleRestart} />
             <GameField>
-                {splitArray(flasks, 7).map((row, rowIndex) => (
+                {splitArray(flasks, FLASKS_AMOUNT / 2, FLASKS_AMOUNT < flasks.length).map((row, rowIndex) => (
                     <Row key={rowIndex}>
-                        {row.map((balls, index) => {
-                            const flaskIndex = rowIndex * 7 + index;
-                            const isActive = flaskIndex === activeFlask;
-                            const isTransitioned = flaskIndex === transitionedFlask;
+                        {row.map(flask => {
+                            const isActive = flask.id === activeFlask;
+                            const targetBallsLength = findFlask(targetFlaskId).balls?.length;
 
                             return (
                                 <Flask
-                                    key={index}
+                                    key={flask.id}
                                     onClick={onClick}
-                                    balls={balls}
-                                    flaskIndex={flaskIndex}
+                                    balls={flask.balls}
+                                    flaskId={flask.id}
                                     isActive={isActive}
-                                    isTransitioned={isTransitioned}
                                     targetCoords={targetCoords}
+                                    targetBallsLength={targetBallsLength}
+                                    flasksLength={flasks.length}
                                 />
                             );
                         })}
                     </Row>
                 ))}
-                <Icon icon="sync-alt" /> {/* todo сделать все в с Button и iconType  */}
-                <Icon icon="reply" />
-                <Icon icon="plus" />
             </GameField>
         </Container>
     );

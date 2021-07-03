@@ -1,15 +1,7 @@
-import {
-    IinitialState,
-    activeFlaskType,
-    transitionedFlaskType,
-    coordsType,
-    flasksType,
-    actionTypes,
-} from './types';
+import { IinitialState, activeFlaskType, coordsType, flasksType, actionTypes } from './types';
 
 export const CHANGE_FLASKS = 'CHANGE_FLASKS';
 export const CHANGE_ACTIVE_FLASK = 'CHANGE_ACTIVE_FLASK';
-export const CHANGE_TRANSITIONED_FLASK = 'CHANGE_TRANSITIONED_FLASK';
 export const CHANGE_ACTIVE_COORDS = 'CHANGE_ACTIVE_COORDS';
 export const CHANGE_TARGET_COORDS = 'CHANGE_TARGET_COORDS';
 export const SET_WIN = 'SET_WIN';
@@ -21,11 +13,6 @@ export const changeFlasks = (payload: flasksType): actionTypes => ({
 
 export const changeActiveFlask = (payload: activeFlaskType): actionTypes => ({
     type: CHANGE_ACTIVE_FLASK,
-    payload,
-});
-
-export const changeTransitionedFlask = (payload: transitionedFlaskType): actionTypes => ({
-    type: CHANGE_TRANSITIONED_FLASK,
     payload,
 });
 
@@ -51,15 +38,11 @@ export default (state: IinitialState, action: actionTypes): IinitialState => {
                 ...state,
                 activeFlask: action.payload === state.activeFlask ? null : action.payload,
             };
-        case CHANGE_TRANSITIONED_FLASK:
-            return {
-                ...state,
-                transitionedFlask: action.payload,
-            };
         case CHANGE_TARGET_COORDS:
             return {
                 ...state,
-                targetCoords: {
+                targetCoords: action.payload && {
+                    ...state,
                     ...action.payload,
                 },
             };

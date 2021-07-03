@@ -2,11 +2,11 @@ import React from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-type IconProps = {
-    icon: 'bars' | 'sync-alt' | 'reply' | 'plus';
+export interface IIconProps {
+    icon: 'sync-alt' | 'reply' | 'plus';
 };
 
-const Icon = ({ icon }: IconProps) => {
+const Icon = ({ icon }: IIconProps) => {
     return <FontAwesomeIcon icon={icon} />;
 };
 

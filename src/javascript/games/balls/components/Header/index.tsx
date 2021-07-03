@@ -1,21 +1,29 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Container = styled.div`
-    display: flex;
-    justify-content: flex-end;
-    padding: 10px 20px;
-    border: 1px solid #b0b8c4;
-`;
+import Button from '../Button';
 
-type HeaderProps = {
+interface IHeaderProps {
     addFlask: () => void;
     canselLastMove: () => void;
     restart: () => void;
 };
 
-const Header = () => {
-    return <Container>Header</Container>;
-};
+const Container = styled.div`
+    display: flex;
+    padding: 10px 20px;
+
+    ${Button}:not(:last-child) {
+        margin-right: 20px;
+    }
+`;
+
+const Header = ({ addFlask, canselLastMove, restart }: IHeaderProps) => (
+    <Container>
+        <Button onClick={restart} icon="sync-alt" />
+        <Button onClick={canselLastMove} icon="reply" />
+        <Button onClick={addFlask} icon="plus" />
+    </Container>
+)
 
 export default Header;
