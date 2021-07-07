@@ -4,10 +4,8 @@ import styled from 'styled-components';
 import Button from '../Button';
 
 interface IHeaderProps {
-    addFlask: () => void;
-    canselLastMove: () => void;
-    restart: () => void;
-};
+    children: React.ReactNode;
+}
 
 const Container = styled.div`
     display: flex;
@@ -18,12 +16,6 @@ const Container = styled.div`
     }
 `;
 
-const Header = ({ addFlask, canselLastMove, restart }: IHeaderProps) => (
-    <Container>
-        <Button onClick={restart} icon="sync-alt" />
-        <Button onClick={canselLastMove} icon="reply" />
-        <Button onClick={addFlask} icon="plus" />
-    </Container>
-)
+const Header = ({ children }: IHeaderProps) => <Container>{children}</Container>;
 
 export default Header;

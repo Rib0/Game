@@ -71,33 +71,6 @@
     border-bottom: 1px solid var(--colorWhite);
 }
 
-/* .menu {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: var(--colorBlack);
-    z-index: 999;
-    text-align: center;
-    font-size: calc(var(--defaultFontSize) * 2);
-    font-weight: bold;
-    padding-top: 150px;
-    transform: translateX(-100%);
-    transition: transform 0.2s linear;
-
-    &Item {
-        color: var(--colorWhite);
-        cursor: pointer;
-        padding: 10px 0;
-
-        &:hover,
-        &:active {
-            background: rgb(61, 54, 54);
-        }
-    }
-} */
-
 .homeIcon {
     &:hover {
         color: var(--colorOrange);

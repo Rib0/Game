@@ -4,23 +4,20 @@ import { nanoid } from 'nanoid';
 
 import Header from '../Header';
 import Flask from '../Flask';
+import Button from '../Button';
+import Modal from '../Modal';
 
-import reducer, { changeFlasks, changeActiveFlask, changeTargetCoords, setWin } from './reducer';
+import reducer, { changeFlasks, changeActiveFlaskId, changeTargetCoords, setWin } from './reducer';
 import { IinitialState, flaskType, flasksType } from './types';
 import { getRandom, splitArray, isFilledFlask } from '../../utils';
 
 /*
-    сохранять в localStorage результат,
     возможность менять темы
     возможность выбрать уровень сложности
-
-    todo поменять activeFlask на activeFlaskId
-    поправить код везде
 */
 
 const Container = styled.div`
     padding: 20px;
-    /* background: #000c3c; todo theme with styled components */
 `;
 
 const GameField = styled.div`
@@ -54,7 +51,7 @@ export enum ballsColors {
 export const initialState: IinitialState = {
     // theme: default,
     flasks: [],
-    activeFlask: null,
+    activeFlaskId: null,
     targetCoords: null,
     isWin: false,
 };
@@ -63,7 +60,7 @@ const FLASKS_AMOUNT = 14;
 const BALLS_PER_FLASK = 4;
 
 const MainView = () => {
-    const [{ flasks, activeFlask, targetCoords, isWin }, dispatch] = useReducer(
+    const [{ flasks, activeFlaskId, targetCoords, isWin }, dispatch] = useReducer(
         reducer,
         initialState
     );
@@ -104,7 +101,8 @@ const MainView = () => {
         dispatch(changeFlasks(resultFlasks));
     };
 
-    const findFlask = (id: string): Partial<flaskType> => flasks.find(flask => flask.id === id) || {};
+    const findFlask = (id: string): Partial<flaskType> =>
+        flasks.find(flask => flask.id === id) || {};
 
     const onClick = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!(e.currentTarget instanceof HTMLDivElement)) {
@@ -118,24 +116,28 @@ const MainView = () => {
         const isFilled = isFilledFlask(targetFlask.balls);
 
         if (isFilled || isWin) {
-            dispatch(changeActiveFlask(null));
+            dispatch(changeActiveFlaskId(null));
             return;
         }
 
-        if (activeFlask !== id && activeFlask !== null) {
-            const [changedBall] = findFlask(activeFlask).balls.slice(-1);
+        if (activeFlaskId !== id && activeFlaskId !== null) {
+            const [changedBall] = findFlask(activeFlaskId).balls.slice(-1);
             const [topTargetBall] = targetFlask.balls.slice(-1);
 
-            // if (topTargetBall && topTargetBall.color !== changedBall.color) {
-            //     dispatch(changeActiveFlask(null));
-            //     return;
-            // }
+            if (topTargetBall && topTargetBall.color !== changedBall.color) {
+                dispatch(changeActiveFlaskId(null));
+                return;
+            }
 
             const { bottom, left } = e.currentTarget.getBoundingClientRect();
-            const restBalls = findFlask(activeFlask).balls.slice(0, -1);
+            const restBalls = findFlask(activeFlaskId).balls.slice(0, -1);
             const ballsWithChanged = targetFlask.balls.concat(changedBall);
             const updatedFlasks = flasks.map((flask, i) =>
-                flask.id === activeFlask ? { ...flask, balls: restBalls } : flask.id === id ? { ...flask, balls: ballsWithChanged } : flask
+                flask.id === activeFlaskId
+                    ? { ...flask, balls: restBalls }
+                    : flask.id === id
+                        ? { ...flask, balls: ballsWithChanged }
+                        : flask
             );
 
             dispatch(changeTargetCoords({ bottom, left }));
@@ -144,16 +146,18 @@ const MainView = () => {
 
             setTimeout(() => {
                 dispatch(changeFlasks(updatedFlasks));
-                dispatch(changeActiveFlask(null));
+                dispatch(changeActiveFlaskId(null));
                 dispatch(changeTargetCoords(null));
-            }, 250);
+            }, 300);
         } else if (targetFlask.balls.length) {
-            dispatch(changeActiveFlask(id));
+            dispatch(changeActiveFlaskId(id));
         }
     };
 
     const checkWin = () => {
-        const hasWin = flasks.filter(({ balls }) => balls.length).every(({ balls }) => isFilledFlask(balls));
+        const hasWin = flasks
+            .filter(({ balls }) => balls.length)
+            .every(({ balls }) => isFilledFlask(balls));
 
         if (hasWin) {
             setWin(true);
@@ -163,7 +167,7 @@ const MainView = () => {
     const handleAddFlask = () => {
         if (flasks.length > FLASKS_AMOUNT) return;
 
-        dispatch(changeFlasks(flasks.concat({ id: nanoid(5), balls: [] })))
+        dispatch(changeFlasks(flasks.concat({ id: nanoid(5), balls: [] })));
     };
 
     const handleCanselLastMoove = () => {
@@ -172,7 +176,7 @@ const MainView = () => {
         const [lastSnapshot, ...rest] = prevMoveSnapshot;
 
         dispatch(changeFlasks(lastSnapshot));
-        setPrevMoveSnapshot(rest)
+        setPrevMoveSnapshot(rest);
     };
 
     const handleRestart = () => {
@@ -186,30 +190,49 @@ const MainView = () => {
 
     return (
         <Container>
-            <Header addFlask={handleAddFlask} canselLastMove={handleCanselLastMoove} restart={handleRestart} />
+            <Header>
+                <Button onClick={handleRestart} icon="sync-alt" />
+                <Button onClick={handleCanselLastMoove} icon="reply" />
+                <Button
+                    disabled={flasks.length > FLASKS_AMOUNT}
+                    onClick={handleAddFlask}
+                    icon="plus"
+                />
+            </Header>
             <GameField>
-                {splitArray(flasks, FLASKS_AMOUNT / 2, FLASKS_AMOUNT < flasks.length).map((row, rowIndex) => (
-                    <Row key={rowIndex}>
-                        {row.map(flask => {
-                            const isActive = flask.id === activeFlask;
-                            const targetBallsLength = findFlask(targetFlaskId).balls?.length;
+                {splitArray(flasks, FLASKS_AMOUNT / 2, FLASKS_AMOUNT < flasks.length).map(
+                    (row, rowIndex) => (
+                        <Row key={rowIndex}>
+                            {row.map(flask => {
+                                const isActive = flask.id === activeFlaskId;
+                                const targetBallsLength = findFlask(targetFlaskId).balls?.length;
 
-                            return (
-                                <Flask
-                                    key={flask.id}
-                                    onClick={onClick}
-                                    balls={flask.balls}
-                                    flaskId={flask.id}
-                                    isActive={isActive}
-                                    targetCoords={targetCoords}
-                                    targetBallsLength={targetBallsLength}
-                                    flasksLength={flasks.length}
-                                />
-                            );
-                        })}
-                    </Row>
-                ))}
+                                return (
+                                    <Flask
+                                        key={flask.id}
+                                        onClick={onClick}
+                                        balls={flask.balls}
+                                        flaskId={flask.id}
+                                        isActive={isActive}
+                                        targetCoords={targetCoords}
+                                        targetBallsLength={targetBallsLength}
+                                        flasksLength={flasks.length}
+                                    />
+                                );
+                            })}
+                        </Row>
+                    )
+                )}
             </GameField>
+            <Modal
+                header="Вы выиграли!"
+                content={<>Хотите сыграть еще?</>}
+                isActive={isWin}
+                acceptButtonText="Начать заного"
+                acceptButtonCallback={handleRestart}
+                declineButtonText="Вернуться в главное меню"
+                declineButtonCallback={(window as any)?.backToMenu}
+            />
         </Container>
     );
 };

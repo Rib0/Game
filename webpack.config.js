@@ -12,9 +12,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const isProd = process.env.NODE_ENV === 'production';
 const isAnalyze = process.env.NODE_ENV === 'analyze';
 
-// todo добавить неподдерживаемый браузер
 // todo проверить все на eslint в конце разработки
-// todo добавить адаптив
 // todo обновить зависимости в package.json
 // todo change on webpack 5
 // todo перенсти некоторые пакеты в devDependencies в package.json
@@ -168,7 +166,7 @@ const config = {
         //     },
         // }),
         new ImageminPlugin({
-            disable: process.env.NODE_ENV !== 'production', // Disable during development
+            disable: process.env.NODE_ENV !== 'production',
             pngquant: {
                 quality: '95-100'
             }

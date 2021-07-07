@@ -13,10 +13,13 @@ const cx = classNames.bind(styles);
 
 class App extends PureComponent {
     state = {
-        isMenuOpen: false,
         isStarted: false,
         active: -1,
     };
+
+    componentDidMount() {
+        window.backToMenu = this.handleChangeBack
+    }
 
     componentDidUpdate(p, prevState) {
         const { isStarted, active } = this.state;
@@ -42,8 +45,6 @@ class App extends PureComponent {
     handleChangeBack = () => {
         this.setState({ active: -1, isStarted: false });
     };
-
-    // handleToggleMenu = () => this.setState(prevState => ({ isMenuOpen: !prevState.isMenuOpen })); для будущего меню
 
     handleStart = () => this.setState({ isStarted: true });
 
@@ -97,13 +98,6 @@ class App extends PureComponent {
                         iconClassName={styles.homeIcon}
                     />
                 </div>
-                {/* <ul className={styles.menu}>
-                    <li className={styles.menuItem} onClick={this.handleChangeBack}>
-                        {' '}
-                        INSERT BUTTON
-                        Вернуться к списку игр ---- ЕСЛИ БУДЕТ НУЖНО МЕНЮ
-                    </li>{' '}
-                </ul> */}
                 {isStarted ? (
                     store ? (
                         <Provider store={store}>
@@ -112,13 +106,13 @@ class App extends PureComponent {
                             </Suspense>
                         </Provider>
                     ) : (
-                        <Suspense fallback={<Loader />}>
-                            <Component />
-                        </Suspense>
-                    )
+                            <Suspense fallback={<Loader />}>
+                                <Component />
+                            </Suspense>
+                        )
                 ) : (
-                    this.renderMainMenu()
-                )}
+                        this.renderMainMenu()
+                    )}
             </div>
         );
     }

@@ -17,7 +17,7 @@ interface IFlaskProps {
     isActive: boolean;
     targetCoords: coordsType;
     targetBallsLength: number;
-    flasksLength: number
+    flasksLength: number;
 }
 
 interface IBallsProps {
@@ -96,7 +96,7 @@ const Flask = ({
     isActive,
     targetCoords,
     targetBallsLength,
-    flasksLength
+    flasksLength,
 }: IFlaskProps) => {
     const [coords, setCoords] = useState({ bottom: null, left: null }); // координаты текущей колбы
     const [ballStyles, setBallStyles] = useState({});
@@ -114,15 +114,17 @@ const Flask = ({
         const isTargetHigher = coords.bottom > targetCoords.bottom;
 
         setBallStyles({
-            [isTargetHigher ? 'bottom' : 'left']: `${isTargetHigher ? resultBottomCoords : resultLeftCoords
-                }px`,
+            [isTargetHigher ? 'bottom' : 'left']: `${
+                isTargetHigher ? resultBottomCoords : resultLeftCoords
+            }px`,
         });
 
         setTimeout(() => {
             setBallStyles(prevStyles => ({
                 ...prevStyles,
-                [isTargetHigher ? 'left' : 'bottom']: `${isTargetHigher ? resultLeftCoords : resultBottomCoords
-                    }px`,
+                [isTargetHigher ? 'left' : 'bottom']: `${
+                    isTargetHigher ? resultLeftCoords : resultBottomCoords
+                }px`,
             }));
         }, 100);
     }, [isActive, targetCoords]);
@@ -131,12 +133,15 @@ const Flask = ({
         setIsFilled(isFilledFlask(balls));
     }, [balls]);
 
-    const refContainer = useCallback(node => {
-        if (node !== null) {
-            const { bottom, left } = node.getBoundingClientRect();
-            setCoords({ bottom, left });
-        }
-    }, [flasksLength]);
+    const refContainer = useCallback(
+        node => {
+            if (node !== null) {
+                const { bottom, left } = node.getBoundingClientRect();
+                setCoords({ bottom, left });
+            }
+        },
+        [flasksLength]
+    );
 
     const getBallBottom = (index: number): number =>
         index * BALL_WIDTH +

@@ -4,7 +4,11 @@ export const getRandom = (min: number, max: number): number => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-export const splitArray = (array: any[], chunkLength: number, hasAdditionalItem: boolean): any[] => {
+export const splitArray = (
+    array: any[],
+    chunkLength: number,
+    hasAdditionalItem: boolean
+): any[] => {
     const chunksArray = [];
     let chunk = [];
 
