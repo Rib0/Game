@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useReducer } from 'react';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import { nanoid } from 'nanoid';
 
 import Header from '../Header';
@@ -11,12 +11,8 @@ import reducer, { changeFlasks, changeActiveFlaskId, changeTargetCoords, setWin 
 import { IinitialState, flaskType, flasksType } from './types';
 import { getRandom, splitArray, isFilledFlask } from '../../utils';
 
-/*
-    возможность менять темы
-    возможность выбрать уровень сложности
-*/
-
 const Container = styled.div`
+    background-color: ${({ theme }) => theme.main};
     padding: 20px;
 `;
 
@@ -48,8 +44,16 @@ export enum ballsColors {
     orange = '#e88c41',
 }
 
+const themes = {
+    default: {
+        main: 'white'
+    },
+    lightblue: {
+        main: 'lightblue'
+    }
+};
+
 export const initialState: IinitialState = {
-    // theme: default,
     flasks: [],
     activeFlaskId: null,
     targetCoords: null,
@@ -66,6 +70,7 @@ const MainView = () => {
     );
     const [targetFlaskId, setTargetFlaskId] = useState('');
     const [prevMoveSnapshot, setPrevMoveSnapshot] = useState<flasksType[]>([]);
+    const [theme, setTheme] = useState(themes.default);
 
     const fillFlasks = () => {
         const colorsKeys: ballsColors[] = Object.values(ballsColors);
@@ -154,13 +159,19 @@ const MainView = () => {
         }
     };
 
+    const toggleTheme = () => {
+        setTheme(theme === themes.default ? themes.lightblue : themes.default)
+    }
+
     const checkWin = () => {
+        if (!flasks.length) return;
+
         const hasWin = flasks
             .filter(({ balls }) => balls.length)
-            .every(({ balls }) => isFilledFlask(balls));
+            .every(({ balls }) => isFilledFlask(balls))
 
         if (hasWin) {
-            setWin(true);
+            dispatch(setWin(true));
         }
     };
 
@@ -180,7 +191,7 @@ const MainView = () => {
     };
 
     const handleRestart = () => {
-        setWin(false);
+        dispatch(setWin(false))
         fillFlasks();
     };
 
@@ -188,52 +199,57 @@ const MainView = () => {
 
     useEffect(checkWin, [flasks]);
 
-    return (
-        <Container>
-            <Header>
-                <Button onClick={handleRestart} icon="sync-alt" />
-                <Button onClick={handleCanselLastMoove} icon="reply" />
-                <Button
-                    disabled={flasks.length > FLASKS_AMOUNT}
-                    onClick={handleAddFlask}
-                    icon="plus"
-                />
-            </Header>
-            <GameField>
-                {splitArray(flasks, FLASKS_AMOUNT / 2, FLASKS_AMOUNT < flasks.length).map(
-                    (row, rowIndex) => (
-                        <Row key={rowIndex}>
-                            {row.map(flask => {
-                                const isActive = flask.id === activeFlaskId;
-                                const targetBallsLength = findFlask(targetFlaskId).balls?.length;
+    console.log(isWin, flasks)
 
-                                return (
-                                    <Flask
-                                        key={flask.id}
-                                        onClick={onClick}
-                                        balls={flask.balls}
-                                        flaskId={flask.id}
-                                        isActive={isActive}
-                                        targetCoords={targetCoords}
-                                        targetBallsLength={targetBallsLength}
-                                        flasksLength={flasks.length}
-                                    />
-                                );
-                            })}
-                        </Row>
-                    )
-                )}
-            </GameField>
-            <Modal
-                header="Вы выиграли!"
-                content={<>Хотите сыграть еще?</>}
-                isActive={isWin}
-                acceptButtonText="Начать заного"
-                acceptButtonCallback={handleRestart}
-                declineButtonText="Вернуться в главное меню"
-                declineButtonCallback={(window as any)?.backToMenu}
-            />
-        </Container>
+    return (
+        <ThemeProvider theme={theme}>
+            <Container>
+                <Header>
+                    <Button onClick={handleRestart} icon="sync-alt" />
+                    <Button onClick={handleCanselLastMoove} icon="reply" />
+                    <Button
+                        disabled={flasks.length > FLASKS_AMOUNT}
+                        onClick={handleAddFlask}
+                        icon="plus"
+                    />
+                    <Button onClick={toggleTheme} icon="palette" />
+                </Header>
+                <GameField>
+                    {splitArray(flasks, FLASKS_AMOUNT / 2, FLASKS_AMOUNT < flasks.length).map(
+                        (row, rowIndex) => (
+                            <Row key={rowIndex}>
+                                {row.map(flask => {
+                                    const isActive = flask.id === activeFlaskId;
+                                    const targetBallsLength = findFlask(targetFlaskId).balls?.length;
+
+                                    return (
+                                        <Flask
+                                            key={flask.id}
+                                            onClick={onClick}
+                                            balls={flask.balls}
+                                            flaskId={flask.id}
+                                            isActive={isActive}
+                                            targetCoords={targetCoords}
+                                            targetBallsLength={targetBallsLength}
+                                            flasksLength={flasks.length}
+                                        />
+                                    );
+                                })}
+                            </Row>
+                        )
+                    )}
+                </GameField>
+                <Modal
+                    header="Вы выиграли!"
+                    content={<>Хотите сыграть еще?</>}
+                    isActive={isWin}
+                    acceptButtonText="Начать заного"
+                    acceptButtonCallback={handleRestart}
+                    declineButtonText="Вернуться в главное меню"
+                    declineButtonCallback={(window as any)?.backToMenu}
+                />
+            </Container>
+        </ThemeProvider>
     );
 };
 

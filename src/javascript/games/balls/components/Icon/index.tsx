@@ -3,7 +3,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export interface IIconProps {
-    icon: 'sync-alt' | 'reply' | 'plus';
+    icon: 'sync-alt' | 'reply' | 'plus' | 'palette';
 }
 
 const Icon = ({ icon }: IIconProps) => {

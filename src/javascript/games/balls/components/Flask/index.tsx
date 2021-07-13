@@ -59,7 +59,7 @@ const Container = styled.div<IContainerProps>`
         width: calc(100% + 20px);
         border: 4px solid #b0b8c4;
         transform: translateX(-13.6px);
-        z-index: -1;
+        background-color: white;
     }
 
     &:after {
@@ -71,7 +71,6 @@ const Container = styled.div<IContainerProps>`
         left: 0;
         right: 0;
         bottom: 0;
-        z-index: 1;
         background-color: white;
     }
 `;
@@ -114,17 +113,15 @@ const Flask = ({
         const isTargetHigher = coords.bottom > targetCoords.bottom;
 
         setBallStyles({
-            [isTargetHigher ? 'bottom' : 'left']: `${
-                isTargetHigher ? resultBottomCoords : resultLeftCoords
-            }px`,
+            [isTargetHigher ? 'bottom' : 'left']: `${isTargetHigher ? resultBottomCoords : resultLeftCoords
+                }px`,
         });
 
         setTimeout(() => {
             setBallStyles(prevStyles => ({
                 ...prevStyles,
-                [isTargetHigher ? 'left' : 'bottom']: `${
-                    isTargetHigher ? resultLeftCoords : resultBottomCoords
-                }px`,
+                [isTargetHigher ? 'left' : 'bottom']: `${isTargetHigher ? resultLeftCoords : resultBottomCoords
+                    }px`,
             }));
         }, 100);
     }, [isActive, targetCoords]);

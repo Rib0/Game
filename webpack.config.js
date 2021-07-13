@@ -16,6 +16,7 @@ const isAnalyze = process.env.NODE_ENV === 'analyze';
 // todo обновить зависимости в package.json
 // todo change on webpack 5
 // todo перенсти некоторые пакеты в devDependencies в package.json
+// файлы деклараций повторить
 
 const config = {
     entry: ['./src', './src/index.css'],
