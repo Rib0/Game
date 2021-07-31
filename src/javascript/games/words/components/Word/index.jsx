@@ -32,7 +32,10 @@ class Word extends PureComponent {
 
         if (prevProps.wordArray !== wordArray) {
             const isComplete = wordArray.every(word => word.complete);
-            isComplete && (getRightWord(), this.resetTransition());
+            if (isComplete) {
+                getRightWord();
+                this.resetTransition();
+            }
         }
     }
 
@@ -54,9 +57,13 @@ class Word extends PureComponent {
 
         const { letter } = currentLetter;
 
-        letter === key
-            ? getRightLetter()
-            : (this.handleMiss(), resetWord(), this.resetTransition());
+        if (letter === key) {
+            getRightLetter();
+        } else {
+            this.handleMiss();
+            resetWord();
+            this.resetTransition();
+        }
     };
 
     componentWillUnmount() {
@@ -71,6 +78,7 @@ class Word extends PureComponent {
             <div className={styles.word}>
                 {wordArray.map(({ letter, complete }, index) => (
                     <span
+                        /* eslint-disable-next-line react/no-array-index-key */
                         key={index}
                         className={cx('letter', { complete, missed: missedIndex === index })}
                     >

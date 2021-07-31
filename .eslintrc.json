@@ -14,16 +14,20 @@
         "sourceType": "module",
         "ecmaFeatures": {
             "jsx": true
-        },
-        "babelOptions": {
-            "configFile": ".babelrc.json"
         }
     },
     "rules": {
+        "import/extensions": "off",
+        "react/no-did-update-set-state": "off",
+        "import/no-cycle": "off",
+        "lines-between-class-members": "off",
+        "react/require-default-props": "off",
+        "jsx-a11y/no-static-element-interactions": "off",
+        "jsx-a11y/click-events-have-key-events": "off",
+        "react/state-in-constructor": "off",
         "react/jsx-props-no-spreading": "off",
         "react/jsx-filename-extension": "off",
         "no-undef": "off",
-        "react/require-default-props": "off",
         "no-return-assign": "off",
         "import/prefer-default-export": "off",
         "react/sort-comp": "off",
@@ -69,7 +73,6 @@
                 "plugin:@typescript-eslint/recommended",
                 "plugin:@typescript-eslint/recommended-requiring-type-checking",
                 "plugin:react-hooks/recommended",
-                "prettier/@typescript-eslint",
                 "prettier"
             ],
             "parser": "@typescript-eslint/parser",
@@ -84,10 +87,18 @@
                 ],
                 "tsconfigRootDir": "."
             },
+            "rules": {
+                "react/require-default-props": "off",
+                "react/jsx-props-no-spreading": "off",
+                "@typescript-eslint/no-unsafe-assignment": "off",
+                "@typescript-eslint/restrict-plus-operands": "off",
+                "no-nested-ternary": "off",
+                "@typescript-eslint/no-unsafe-call": "off",
+                "import/no-cycle": "off"
+            },
             "plugins": [
                 "@typescript-eslint"
-            ],
-            "rules": {}
+            ]
         }
     ]
 }

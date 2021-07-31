@@ -1,28 +1,23 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styled, { keyframes } from 'styled-components';
 
-import { ballsColors } from '../MainView';
-import { IBall, coordsType } from '../MainView/types';
+import { IContainerProps, IFlaskProps, IBallStyles, IBallsProps } from './types';
+
 import { isFilledFlask } from '../../utils';
 
-interface IContainerProps {
-    onClick: (e: React.MouseEvent<HTMLDivElement>) => void;
-    isFilled: boolean;
-}
-
-interface IFlaskProps {
-    balls: IBall[];
-    onClick: (e: React.MouseEvent<HTMLDivElement>) => void;
-    flaskId: number;
-    isActive: boolean;
-    targetCoords: coordsType;
-    targetBallsLength: number;
-    flasksLength: number;
-}
-
-interface IBallsProps {
-    color: ballsColors;
-    bottom: number;
+export enum BallsColors {
+    darkGreen = '#78970e',
+    veryDarkGreen = '#116533',
+    lightGreen = '#61d67d',
+    purple = '#722b93',
+    brown = '#7d4a08',
+    darkBlue = '#3b2fc3',
+    blue = '#55a3e5',
+    pink = '#ea5e7b',
+    yellow = '#f1da58',
+    gray = '#636466',
+    red = '#c52b23',
+    orange = '#e88c41',
 }
 
 const DEFAULT_BALL_MARGIN = 0.1;
@@ -95,11 +90,20 @@ const Flask = ({
     isActive,
     targetCoords,
     targetBallsLength,
-    flasksLength,
 }: IFlaskProps) => {
-    const [coords, setCoords] = useState({ bottom: null, left: null }); // координаты текущей колбы
+    const [coords, setCoords] = useState<IBallStyles>({ bottom: null, left: null }); // координаты текущей колбы
     const [ballStyles, setBallStyles] = useState({});
     const [isFilled, setIsFilled] = useState(false);
+
+    const getBallBottom = useCallback(
+        (index: number): number =>
+            index * BALL_WIDTH +
+            DEFAULT_BALL_MARGIN * (index + 1) +
+            (isActive && index === balls.length - 1
+                ? 220 - (DEFAULT_BALL_MARGIN + BALL_WIDTH) * balls.length
+                : 0),
+        [isActive, balls]
+    );
 
     useEffect(() => {
         if (!isActive || !targetCoords) {
@@ -113,39 +117,31 @@ const Flask = ({
         const isTargetHigher = coords.bottom > targetCoords.bottom;
 
         setBallStyles({
-            [isTargetHigher ? 'bottom' : 'left']: `${isTargetHigher ? resultBottomCoords : resultLeftCoords
-                }px`,
+            [isTargetHigher ? 'bottom' : 'left']: `${
+                isTargetHigher ? resultBottomCoords : resultLeftCoords
+            }px`,
         });
 
         setTimeout(() => {
             setBallStyles(prevStyles => ({
                 ...prevStyles,
-                [isTargetHigher ? 'left' : 'bottom']: `${isTargetHigher ? resultLeftCoords : resultBottomCoords
-                    }px`,
+                [isTargetHigher ? 'left' : 'bottom']: `${
+                    isTargetHigher ? resultLeftCoords : resultBottomCoords
+                }px`,
             }));
         }, 100);
-    }, [isActive, targetCoords]);
+    }, [isActive, targetCoords, coords, targetBallsLength, getBallBottom]);
 
     useEffect(() => {
         setIsFilled(isFilledFlask(balls));
     }, [balls]);
 
-    const refContainer = useCallback(
-        node => {
-            if (node !== null) {
-                const { bottom, left } = node.getBoundingClientRect();
-                setCoords({ bottom, left });
-            }
-        },
-        [flasksLength]
-    );
-
-    const getBallBottom = (index: number): number =>
-        index * BALL_WIDTH +
-        DEFAULT_BALL_MARGIN * (index + 1) +
-        (isActive && index === balls.length - 1
-            ? 220 - (DEFAULT_BALL_MARGIN + BALL_WIDTH) * balls.length
-            : 0);
+    const refContainer = useCallback((node: HTMLDivElement) => {
+        if (node !== null) {
+            const { bottom, left } = node.getBoundingClientRect();
+            setCoords({ bottom, left });
+        }
+    }, []);
 
     return (
         <Container ref={refContainer} data-id={flaskId} onClick={onClick} isFilled={isFilled}>

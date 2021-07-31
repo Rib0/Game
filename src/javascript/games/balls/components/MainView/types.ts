@@ -1,42 +1,42 @@
 import { CHANGE_FLASKS, CHANGE_ACTIVE_FLASK_ID, CHANGE_TARGET_COORDS, SET_WIN } from './reducer';
-import { ballsColors } from './index';
+import { BallsColors } from '../Flask';
 
-export type activeFlaskIdType = string | null;
-export type coordsType = {
+export type ActiveFlaskIdType = string | null;
+export type CoordsType = {
     bottom: number;
     left: number;
 };
 
 export interface IBall {
-    color: ballsColors;
+    color: BallsColors;
     id: string;
 }
 
-export interface flaskType {
+export interface IFlask {
     id: string;
     balls: IBall[];
 }
-export type flasksType = flaskType[];
+export type FlasksType = IFlask[];
 export interface IinitialState {
-    flasks: flasksType;
-    activeFlaskId: activeFlaskIdType;
-    targetCoords: coordsType | null;
+    flasks: FlasksType;
+    activeFlaskId: ActiveFlaskIdType;
+    targetCoords: CoordsType | null;
     isWin: boolean;
 }
 
 export interface IChangeFlasksAction {
     type: typeof CHANGE_FLASKS;
-    payload: flasksType;
+    payload: FlasksType;
 }
 
 export interface IChangeActiveFlaskIdAction {
     type: typeof CHANGE_ACTIVE_FLASK_ID;
-    payload: activeFlaskIdType;
+    payload: ActiveFlaskIdType;
 }
 
 export interface IChangeTargetCoords {
     type: typeof CHANGE_TARGET_COORDS;
-    payload: coordsType;
+    payload: CoordsType;
 }
 
 export interface ISetWin {
@@ -44,7 +44,7 @@ export interface ISetWin {
     payload: boolean;
 }
 
-export type actionTypes =
+export type ActionTypes =
     | IChangeFlasksAction
     | IChangeActiveFlaskIdAction
     | IChangeTargetCoords

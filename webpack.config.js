@@ -13,9 +13,7 @@ const isProd = process.env.NODE_ENV === 'production';
 const isAnalyze = process.env.NODE_ENV === 'analyze';
 
 // todo проверить все на eslint в конце разработки
-// todo обновить зависимости в package.json
 // todo change on webpack 5
-// todo перенсти некоторые пакеты в devDependencies в package.json
 // файлы деклараций повторить
 
 const config = {
@@ -150,22 +148,22 @@ const config = {
             template: './index.html',
             filename: 'index.html',
         }),
-        // new ESLintPlugin({
-        //     extensions: ['js', 'jsx', 'ts', 'tsx'],
-        // }),
-        // new ForkTsCheckerWebpackPlugin({ // for speed up .ts linting and type checking
-        //     typescript: {
-        //         diagnosticOptions: {
-        //             semantic: true,
-        //             syntactic: true,
-        //         },
-        //         mode: 'write-references',
-        //     },
-        //     eslint: {
-        //         enabled: true,
-        //         files: './src/javascript/games/balls/**/*'
-        //     },
-        // }),
+        new ESLintPlugin({
+            extensions: ['js', 'jsx', 'ts', 'tsx'],
+        }),
+        new ForkTsCheckerWebpackPlugin({ // for speed up .ts linting and type checking
+            typescript: {
+                diagnosticOptions: {
+                    semantic: true,
+                    syntactic: true,
+                },
+                mode: 'write-references',
+            },
+            eslint: {
+                enabled: true,
+                files: './src/javascript/games/balls/**/*'
+            },
+        }),
         new ImageminPlugin({
             disable: process.env.NODE_ENV !== 'production',
             pngquant: {

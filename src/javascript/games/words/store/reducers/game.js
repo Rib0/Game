@@ -1,4 +1,5 @@
 import { handleActions } from 'redux-actions';
+import View from 'WordsGame/components/Views/GameView';
 import {
     changeGameType,
     changeDifficulty,
@@ -8,7 +9,6 @@ import {
     setLoading,
     unsetLoading,
 } from '../actions/game';
-import View from 'WordsGame/components/Views/GameView';
 
 export const initialState = {
     gameType: View.gameTypes.survival,

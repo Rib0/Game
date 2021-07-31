@@ -5,7 +5,14 @@ import { render } from 'react-dom';
 import './javascript/polyfills';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faBars, faHome, faSyncAlt, faReply, faPlus, faPalette } from '@fortawesome/free-solid-svg-icons';
+import {
+    faBars,
+    faHome,
+    faSyncAlt,
+    faReply,
+    faPlus,
+    faPalette,
+} from '@fortawesome/free-solid-svg-icons';
 
 import App from 'App';
 

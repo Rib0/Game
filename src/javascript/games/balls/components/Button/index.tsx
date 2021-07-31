@@ -14,13 +14,11 @@ const Button = ({
     icon,
     text,
     ...rest
-}: IStyledButtonProps & React.HTMLAttributes<HTMLButtonElement>) => {
-    return (
-        <button type="button" {...rest}>
-            {icon ? <Icon icon={icon} /> : text}
-        </button>
-    );
-};
+}: IStyledButtonProps & React.HTMLAttributes<HTMLButtonElement>) => (
+    <button type="button" {...rest}>
+        {icon ? <Icon icon={icon} /> : text}
+    </button>
+);
 
 const StyledButton = styled(Button)`
     cursor: pointer;

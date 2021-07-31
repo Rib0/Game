@@ -34,7 +34,7 @@ class Button extends PureComponent {
         const buttonClassName = cx('button', iconType && 'buttonWithIcon', type, size, className);
 
         return (
-            <button className={buttonClassName} {...otherProps}>
+            <button type="button" className={buttonClassName} {...otherProps}>
                 {iconType ? <Icon type={iconType} className={iconClassName} /> : text}
             </button>
         );

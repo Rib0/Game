@@ -31,7 +31,7 @@ class Icon extends PureComponent {
 Icon.propTypes = {
     type: PropTypes.oneOf(Object.values(Icon.IconTypes)),
     size: PropTypes.oneOf(Object.values(Icon.IconSizes)),
-    iconClassName: PropTypes.string,
+    className: PropTypes.string,
 };
 
 Icon.defaultProps = {

@@ -3,6 +3,8 @@ import React, { PureComponent } from 'react';
 import { Button, Modal } from 'Base';
 import Field from '../Field';
 
+import { getRandom } from '../../utils';
+
 import styles from './styles.css';
 
 class MainView extends PureComponent {
@@ -25,19 +27,14 @@ class MainView extends PureComponent {
         }
     }
 
-    getRandom(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min)) + min;
-    }
-
     loadCells() {
         const fieldsCount = MainView.SideSize.length ** 2;
 
         const field = new Array(fieldsCount - 1).fill(1).reduce((acc, v, index) => {
-            let randomValue = this.getRandom(1, fieldsCount);
+            let randomValue = getRandom(1, fieldsCount);
+            /* eslint-disable no-loop-func */
             while (acc.find(({ value }) => value === randomValue)) {
-                randomValue = this.getRandom(1, fieldsCount);
+                randomValue = getRandom(1, fieldsCount);
             }
             acc.push({
                 value: randomValue,
@@ -71,7 +68,7 @@ class MainView extends PureComponent {
             value => !field.map(({ order }) => order).includes(value)
         );
         const emptyCellIndex = [index - 1, index + 1, index - 4, index + 4].find(
-            index => index === emptyCell
+            i => i === emptyCell
         );
 
         return emptyCellIndex;

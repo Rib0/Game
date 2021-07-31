@@ -36,8 +36,6 @@ Modal.propTypes = {
     children: PropTypes.element,
     onAccept: PropTypes.func,
     acceptButtonText: PropTypes.string,
-    onDecline: PropTypes.func,
-    declineButtonText: PropTypes.string,
 };
 
 export default Modal;

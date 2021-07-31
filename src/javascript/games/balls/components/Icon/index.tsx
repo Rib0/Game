@@ -6,8 +6,6 @@ export interface IIconProps {
     icon: 'sync-alt' | 'reply' | 'plus' | 'palette';
 }
 
-const Icon = ({ icon }: IIconProps) => {
-    return <FontAwesomeIcon icon={icon} />;
-};
+const Icon = ({ icon }: IIconProps) => <FontAwesomeIcon icon={icon} />;
 
 export default Icon;

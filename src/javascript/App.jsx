@@ -3,9 +3,8 @@ import React, { PureComponent, Suspense } from 'react';
 import { Provider } from 'react-redux';
 import classNames from 'classnames/bind';
 
-import { COMPONENTS } from './menuItems';
-
 import { Icon, Button, Loader } from 'Base';
+import { COMPONENTS } from './menuItems';
 
 import styles from './styles.css';
 
@@ -18,7 +17,7 @@ class App extends PureComponent {
     };
 
     componentDidMount() {
-        window.backToMenu = this.handleChangeBack
+        window.backToMenu = this.handleChangeBack;
     }
 
     componentDidUpdate(p, prevState) {
@@ -57,7 +56,7 @@ class App extends PureComponent {
                 <div className={styles.col}>
                     {COMPONENTS.map(({ name }, index) => (
                         <div
-                            key={index}
+                            key={name}
                             className={cx('item', 'itemLeft', { selected: index === active })}
                             data-active={index}
                             onClick={this.onChangeActive}
@@ -106,13 +105,13 @@ class App extends PureComponent {
                             </Suspense>
                         </Provider>
                     ) : (
-                            <Suspense fallback={<Loader />}>
-                                <Component />
-                            </Suspense>
-                        )
+                        <Suspense fallback={<Loader />}>
+                            <Component />
+                        </Suspense>
+                    )
                 ) : (
-                        this.renderMainMenu()
-                    )}
+                    this.renderMainMenu()
+                )}
             </div>
         );
     }

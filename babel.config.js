@@ -19,12 +19,7 @@ module.exports = (api) => {
 		],
 		plugins: [
 			"babel-plugin-styled-components",
-			[
-				"@babel/plugin-proposal-class-properties",
-				{
-					loose: true
-				}
-			],
+			"@babel/plugin-proposal-class-properties",
 			[
 				"transform-react-remove-prop-types",
 				{

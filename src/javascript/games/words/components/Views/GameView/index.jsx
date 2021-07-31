@@ -1,3 +1,5 @@
+/* eslint-disable no-shadow */
+
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -39,7 +41,6 @@ class GameView extends PureComponent {
         this.transitionDuration = !this.withTime ? difficulty : '15000ms';
 
         this.state = {
-            loading: true,
             words: [],
             started: false,
             texts: {
@@ -61,7 +62,6 @@ class GameView extends PureComponent {
                 const words = this.getWords(Object.values(data));
 
                 this.setState({
-                    loading: false,
                     words,
                 });
                 unsetLoading();

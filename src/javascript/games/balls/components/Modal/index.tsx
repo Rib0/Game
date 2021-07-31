@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Button from '../Button';
 
 interface IModalProps {
-    isActive: Boolean;
+    isActive: boolean;
     header: string;
     content: React.ReactNode;
     acceptButtonText: string;

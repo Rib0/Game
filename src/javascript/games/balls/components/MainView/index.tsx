@@ -2,13 +2,16 @@ import React, { useState, useEffect, useReducer } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import { nanoid } from 'nanoid';
 
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+
 import Header from '../Header';
-import Flask from '../Flask';
+import Flask, { BallsColors } from '../Flask';
 import Button from '../Button';
 import Modal from '../Modal';
 
 import reducer, { changeFlasks, changeActiveFlaskId, changeTargetCoords, setWin } from './reducer';
-import { IinitialState, flaskType, flasksType } from './types';
+import { IinitialState, IFlask, FlasksType } from './types';
 import { getRandom, splitArray, isFilledFlask } from '../../utils';
 
 const Container = styled.div`
@@ -29,28 +32,13 @@ const Row = styled.div`
     margin-bottom: 60px;
 `;
 
-export enum ballsColors {
-    darkGreen = '#78970e',
-    veryDarkGreen = '#116533',
-    lightGreen = '#61d67d',
-    purple = '#722b93',
-    brown = '#7d4a08',
-    darkBlue = '#3b2fc3',
-    blue = '#55a3e5',
-    pink = '#ea5e7b',
-    yellow = '#f1da58',
-    gray = '#636466',
-    red = '#c52b23',
-    orange = '#e88c41',
-}
-
 const themes = {
     default: {
-        main: 'white'
+        main: 'white',
     },
     lightblue: {
-        main: 'lightblue'
-    }
+        main: 'lightblue',
+    },
 };
 
 export const initialState: IinitialState = {
@@ -69,23 +57,24 @@ const MainView = () => {
         initialState
     );
     const [targetFlaskId, setTargetFlaskId] = useState('');
-    const [prevMoveSnapshot, setPrevMoveSnapshot] = useState<flasksType[]>([]);
+    const [prevMoveSnapshot, setPrevMoveSnapshot] = useState<FlasksType[]>([]);
     const [theme, setTheme] = useState(themes.default);
 
     const fillFlasks = () => {
-        const colorsKeys: ballsColors[] = Object.values(ballsColors);
+        const colorsKeys: BallsColors[] = Object.values(BallsColors);
 
-        const colorsCounter = colorsKeys.reduce((acc, cur) => {
-            return {
+        const colorsCounter = colorsKeys.reduce(
+            (acc, cur) => ({
                 ...acc,
                 [cur]: 0,
-            };
-        }, {});
+            }),
+            {}
+        );
 
-        let resultFlasks: flasksType = new Array(FLASKS_AMOUNT).fill({});
+        let resultFlasks: FlasksType = new Array(FLASKS_AMOUNT).fill({});
 
         resultFlasks = resultFlasks.map((f, i) => {
-            const flask: flaskType = { id: nanoid(5), balls: [] };
+            const flask: IFlask = { id: nanoid(5), balls: [] };
 
             if (i > FLASKS_AMOUNT - 3) return flask;
 
@@ -106,8 +95,7 @@ const MainView = () => {
         dispatch(changeFlasks(resultFlasks));
     };
 
-    const findFlask = (id: string): Partial<flaskType> =>
-        flasks.find(flask => flask.id === id) || {};
+    const findFlask = (id: string): Partial<IFlask> => flasks.find(flask => flask.id === id) || {};
 
     const onClick = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!(e.currentTarget instanceof HTMLDivElement)) {
@@ -137,12 +125,12 @@ const MainView = () => {
             const { bottom, left } = e.currentTarget.getBoundingClientRect();
             const restBalls = findFlask(activeFlaskId).balls.slice(0, -1);
             const ballsWithChanged = targetFlask.balls.concat(changedBall);
-            const updatedFlasks = flasks.map((flask, i) =>
+            const updatedFlasks = flasks.map(flask =>
                 flask.id === activeFlaskId
                     ? { ...flask, balls: restBalls }
                     : flask.id === id
-                        ? { ...flask, balls: ballsWithChanged }
-                        : flask
+                    ? { ...flask, balls: ballsWithChanged }
+                    : flask
             );
 
             dispatch(changeTargetCoords({ bottom, left }));
@@ -160,15 +148,15 @@ const MainView = () => {
     };
 
     const toggleTheme = () => {
-        setTheme(theme === themes.default ? themes.lightblue : themes.default)
-    }
+        setTheme(theme === themes.default ? themes.lightblue : themes.default);
+    };
 
     const checkWin = () => {
         if (!flasks.length) return;
 
         const hasWin = flasks
             .filter(({ balls }) => balls.length)
-            .every(({ balls }) => isFilledFlask(balls))
+            .every(({ balls }) => isFilledFlask(balls));
 
         if (hasWin) {
             dispatch(setWin(true));
@@ -191,15 +179,13 @@ const MainView = () => {
     };
 
     const handleRestart = () => {
-        dispatch(setWin(false))
+        dispatch(setWin(false));
         fillFlasks();
     };
 
     useEffect(fillFlasks, []);
 
     useEffect(checkWin, [flasks]);
-
-    console.log(isWin, flasks)
 
     return (
         <ThemeProvider theme={theme}>
@@ -217,10 +203,12 @@ const MainView = () => {
                 <GameField>
                     {splitArray(flasks, FLASKS_AMOUNT / 2, FLASKS_AMOUNT < flasks.length).map(
                         (row, rowIndex) => (
+                            // eslint-disable-next-line react/no-array-index-key
                             <Row key={rowIndex}>
-                                {row.map(flask => {
+                                {row.map((flask: IFlask) => {
                                     const isActive = flask.id === activeFlaskId;
-                                    const targetBallsLength = findFlask(targetFlaskId).balls?.length;
+                                    const targetBallsLength = findFlask(targetFlaskId).balls
+                                        ?.length;
 
                                     return (
                                         <Flask
@@ -246,7 +234,7 @@ const MainView = () => {
                     acceptButtonText="Начать заного"
                     acceptButtonCallback={handleRestart}
                     declineButtonText="Вернуться в главное меню"
-                    declineButtonCallback={(window as any)?.backToMenu}
+                    declineButtonCallback={(window as any)?.backToMenu} // eslint-disable-line @typescript-eslint/no-explicit-any
                 />
             </Container>
         </ThemeProvider>
