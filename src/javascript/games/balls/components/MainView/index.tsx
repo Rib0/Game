@@ -129,8 +129,8 @@ const MainView = () => {
                 flask.id === activeFlaskId
                     ? { ...flask, balls: restBalls }
                     : flask.id === id
-                    ? { ...flask, balls: ballsWithChanged }
-                    : flask
+                        ? { ...flask, balls: ballsWithChanged }
+                        : flask
             );
 
             dispatch(changeTargetCoords({ bottom, left }));
@@ -139,8 +139,8 @@ const MainView = () => {
 
             setTimeout(() => {
                 dispatch(changeFlasks(updatedFlasks));
-                dispatch(changeActiveFlaskId(null));
                 dispatch(changeTargetCoords(null));
+                dispatch(changeActiveFlaskId(null));
             }, 300);
         } else if (targetFlask.balls.length) {
             dispatch(changeActiveFlaskId(id));

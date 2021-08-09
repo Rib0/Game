@@ -3,12 +3,12 @@ import { IBall } from '../components/MainView/types';
 export const getRandom = (min: number, max: number): number =>
     Math.floor(Math.random() * (max - min + 1)) + min;
 
-export const splitArray = (
-    array: any[],
+export const splitArray = <T>(
+    array: T[],
     chunkLength: number,
     hasAdditionalItem: boolean
-): any[] => {
-    const chunksArray: number[][] = [];
+): T[][] => {
+    const chunksArray: T[][] = [];
     let chunk = [];
 
     array.forEach((v, i) => {

@@ -117,20 +117,19 @@ const Flask = ({
         const isTargetHigher = coords.bottom > targetCoords.bottom;
 
         setBallStyles({
-            [isTargetHigher ? 'bottom' : 'left']: `${
-                isTargetHigher ? resultBottomCoords : resultLeftCoords
-            }px`,
+            [isTargetHigher ? 'bottom' : 'left']: `${isTargetHigher ? resultBottomCoords : resultLeftCoords
+                }px`,
         });
 
         setTimeout(() => {
             setBallStyles(prevStyles => ({
                 ...prevStyles,
-                [isTargetHigher ? 'left' : 'bottom']: `${
-                    isTargetHigher ? resultLeftCoords : resultBottomCoords
-                }px`,
+                [isTargetHigher ? 'left' : 'bottom']: `${isTargetHigher ? resultLeftCoords : resultBottomCoords
+                    }px`,
             }));
         }, 100);
-    }, [isActive, targetCoords, coords, targetBallsLength, getBallBottom]);
+
+    }, [isActive, targetCoords, coords, targetBallsLength]);
 
     useEffect(() => {
         setIsFilled(isFilledFlask(balls));
@@ -147,7 +146,7 @@ const Flask = ({
         <Container ref={refContainer} data-id={flaskId} onClick={onClick} isFilled={isFilled}>
             {balls.map(({ id, color }, index) => (
                 <Ball
-                    style={index === balls.length - 1 ? ballStyles : {}}
+                    style={index === balls.length - 1 && isActive ? ballStyles : {}}
                     key={id}
                     color={color}
                     bottom={getBallBottom(index)}

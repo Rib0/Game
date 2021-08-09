@@ -12,9 +12,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const isProd = process.env.NODE_ENV === 'production';
 const isAnalyze = process.env.NODE_ENV === 'analyze';
 
-// todo проверить все на eslint в конце разработки
 // todo change on webpack 5
-// файлы деклараций повторить
 
 const config = {
     entry: ['./src', './src/index.css'],

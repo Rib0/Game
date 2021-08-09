@@ -6,10 +6,12 @@
   "scripts": {
     "dev": "cross-env webpack-dev-server --mode=development",
     "build": "cross-env NODE_ENV=production webpack --mode=production",
-    "prunecaches": "rimraf ./node_modules/.cache/",
     "analyze": "cross-env NODE_ENV=analyze webpack --mode=production",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "prettier": "prettier --write src/**",
     "eslint": "eslint --cache --ext .js,.jsx,.ts,.tsx src/",
+    "prunecaches": "rimraf ./node_modules/.cache/",
     "repo": "npm repo"
   },
   "repository": {
@@ -22,6 +24,31 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "jest": {
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "testEnvironment": "jsdom",
+    "verbose": true,
+    "setupFilesAfterEnv": [
+      "./setupTests.js"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less)$": "identity-obj-proxy",
+      "\\.(gif|ttf|eot|svg|png)$": "<rootDir>/__mocks__/fileMock.js"
+    },
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "ts",
+      "tsx"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "src",
+      "src/javascript"
+    ]
   },
   "lint-staged": {
     "*.{js}": [
@@ -62,6 +89,7 @@
     "core-js": "^3.15.2",
     "css-loader": "^3.6.0",
     "cssnano": "^4.1.11",
+    "enzyme-to-json": "^3.6.2",
     "eslint-import-resolver-webpack": "^0.11.1",
     "file-loader": "^4.3.0",
     "imagemin-webpack-plugin": "^2.4.2",
@@ -98,6 +126,8 @@
     "cache-loader": "^4.1.0",
     "clean-webpack-plugin": "^4.0.0-alpha.0",
     "cross-env": "^6.0.3",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
     "eslint": "^7.31.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-airbnb-typescript": "^12.3.1",
@@ -111,6 +141,8 @@
     "fork-ts-checker-webpack-plugin": "^6.2.13",
     "html-webpack-plugin": "^4.5.2",
     "husky": "^3.1.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^27.0.6",
     "lint-staged": "^9.5.0",
     "prettier": "^1.19.1",
     "stylelint": "^12.0.1",
