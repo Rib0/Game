@@ -20,16 +20,7 @@ class Button extends PureComponent {
     };
 
     render() {
-        const {
-            type,
-            size,
-            iconType,
-            text,
-            className,
-            iconClassName,
-            children,
-            ...otherProps
-        } = this.props;
+        const { type, size, iconType, text, className, iconClassName, ...otherProps } = this.props;
 
         const buttonClassName = cx('button', iconType && 'buttonWithIcon', type, size, className);
 
@@ -55,7 +46,6 @@ Button.propTypes = {
     onClick: PropTypes.func,
     className: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     iconClassName: PropTypes.string,
-    children: PropTypes.element,
 };
 
 export default Button;

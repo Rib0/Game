@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Digits game - MainView test MainView should render 1`] = `
+<div
+  className="container"
+>
+  <Button
+    className="button"
+    disabled={false}
+    onClick={[Function]}
+    size="large"
+    text="Сгенерировать"
+    type="styled"
+  />
+  <Field
+    field={Array []}
+    loading={false}
+    onClick={[Function]}
+  />
+  <Modal
+    acceptButtonText="Начать заного"
+    caption="Вы выиграли!"
+    isOpen={false}
+    onAccept={[Function]}
+  >
+    <Content>
+      Игра окончена
+    </Content>
+  </Modal>
+</div>
+`;

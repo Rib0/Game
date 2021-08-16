@@ -9,6 +9,7 @@
     "analyze": "cross-env NODE_ENV=analyze webpack --mode=production",
     "test": "jest",
     "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
     "prettier": "prettier --write src/**",
     "eslint": "eslint --cache --ext .js,.jsx,.ts,.tsx src/",
     "prunecaches": "rimraf ./node_modules/.cache/",
@@ -31,12 +32,15 @@
     ],
     "testEnvironment": "jsdom",
     "verbose": true,
+    "collectCoverage": true,
+    "clearMocks": true,
     "setupFilesAfterEnv": [
       "./setupTests.js"
     ],
     "moduleNameMapper": {
       "\\.(css|less)$": "identity-obj-proxy",
-      "\\.(gif|ttf|eot|svg|png)$": "<rootDir>/__mocks__/fileMock.js"
+      "\\.(gif|ttf|eot|svg|png)$": "<rootDir>/__mocks__/fileMock.js",
+      "Base$": "<rootDir>/src/javascript/base"
     },
     "moduleFileExtensions": [
       "js",

@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Modal test Modal should render 1`] = `
+<Modal
+  acceptButtonText="Ok"
+  caption="some caption"
+  isOpen={true}
+  onAccept={[MockFunction]}
+>
+  <div
+    className="overlay"
+  />
+  <div
+    className="modal"
+  >
+    <div
+      className="caption"
+    >
+      some caption
+    </div>
+    <div
+      className="buttons"
+    >
+      <Button
+        onClick={[MockFunction]}
+        size="medium"
+        text="Ok"
+        type="styled"
+      >
+        <button
+          className="button styled medium"
+          onClick={[MockFunction]}
+          type="button"
+        >
+          Ok
+        </button>
+      </Button>
+    </div>
+  </div>
+</Modal>
+`;

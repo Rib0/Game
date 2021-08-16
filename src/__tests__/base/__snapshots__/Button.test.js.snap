@@ -2,8 +2,12 @@
 
 exports[`Button test Button should render 1`] = `
 <button
-  className="button styled large className"
-  icon="bars"
+  className="button buttonWithIcon styled large customClassName"
   type="button"
-/>
+>
+  <Icon
+    size="3x"
+    type="bars"
+  />
+</button>
 `;

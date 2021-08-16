@@ -117,18 +117,19 @@ const Flask = ({
         const isTargetHigher = coords.bottom > targetCoords.bottom;
 
         setBallStyles({
-            [isTargetHigher ? 'bottom' : 'left']: `${isTargetHigher ? resultBottomCoords : resultLeftCoords
-                }px`,
+            [isTargetHigher ? 'bottom' : 'left']: `${
+                isTargetHigher ? resultBottomCoords : resultLeftCoords
+            }px`,
         });
 
         setTimeout(() => {
             setBallStyles(prevStyles => ({
                 ...prevStyles,
-                [isTargetHigher ? 'left' : 'bottom']: `${isTargetHigher ? resultLeftCoords : resultBottomCoords
-                    }px`,
+                [isTargetHigher ? 'left' : 'bottom']: `${
+                    isTargetHigher ? resultLeftCoords : resultBottomCoords
+                }px`,
             }));
         }, 100);
-
     }, [isActive, targetCoords, coords, targetBallsLength]);
 
     useEffect(() => {

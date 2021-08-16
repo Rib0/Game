@@ -129,8 +129,8 @@ const MainView = () => {
                 flask.id === activeFlaskId
                     ? { ...flask, balls: restBalls }
                     : flask.id === id
-                        ? { ...flask, balls: ballsWithChanged }
-                        : flask
+                    ? { ...flask, balls: ballsWithChanged }
+                    : flask
             );
 
             dispatch(changeTargetCoords({ bottom, left }));
