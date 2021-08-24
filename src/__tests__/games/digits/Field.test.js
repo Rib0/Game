@@ -17,15 +17,15 @@ describe('Digits game - Field test', () => {
         onClick: jest.fn(),
     };
 
-    test('Field should render', () => {
+    test('Should render', () => {
         const Component = setUp(props);
         expect(Component).toMatchSnapshot();
     });
-    test('Field should have 5 cells', () => {
+    test('Should have 5 cells', () => {
         const Component = setUp(props);
         expect(Component.find('Cell')).toHaveLength(5);
     });
-    test('Callback should call if field clicked', () => {
+    test('Should call if field clicked', () => {
         const Component = setUp(props);
         const cell = Component.find('Cell').first();
         cell.simulate('click');

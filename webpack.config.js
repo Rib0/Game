@@ -59,7 +59,7 @@ const config = {
             {
                 oneOf: [
                     {
-                        test: /\.(js|jsx|tsx|ts)$/,
+                        test: /\.(js|jsx|ts|tsx)$/,
                         exclude: /node_modules/,
                         use: ['babel-loader'], // for mapping loaders with cache
                     },

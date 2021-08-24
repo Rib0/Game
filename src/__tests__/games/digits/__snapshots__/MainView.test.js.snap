@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Digits game - MainView test MainView should render 1`] = `
+exports[`Digits game - MainView test Should render 1`] = `
 <div
   className="container"
 >

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Digits game - Field test Field should render 1`] = `
+exports[`Digits game - Field test Should render 1`] = `
 <div
   className="field"
 >

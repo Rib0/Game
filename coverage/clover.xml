@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1629150550308" clover="3.2.0">
-  <project timestamp="1629150550308" name="All files">
-    <metrics statements="83" coveredstatements="53" conditionals="32" coveredconditionals="24" methods="27" coveredmethods="13" elements="142" coveredelements="90" complexity="0" loc="83" ncloc="83" packages="8" files="8" classes="8"/>
+<coverage generated="1629837729915" clover="3.2.0">
+  <project timestamp="1629837729915" name="All files">
+    <metrics statements="126" coveredstatements="126" conditionals="38" coveredconditionals="37" methods="44" coveredmethods="44" elements="208" coveredelements="207" complexity="0" loc="126" ncloc="126" packages="10" files="10" classes="10"/>
     <package name="base">
       <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="index.js" path="C:\Users\Rib0\Desktop\programming\Game\src\javascript\base\index.js">
@@ -59,7 +59,7 @@
       <file name="utils.js" path="C:\Users\Rib0\Desktop\programming\Game\src\javascript\games\digits\utils.js">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="3" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
+        <line num="2" count="255" type="stmt"/>
       </file>
     </package>
     <package name="games.digits.components.Field">
@@ -81,56 +81,111 @@
       </file>
     </package>
     <package name="games.digits.components.MainView">
-      <metrics statements="47" coveredstatements="17" conditionals="12" coveredconditionals="4" methods="17" coveredmethods="3"/>
+      <metrics statements="47" coveredstatements="47" conditionals="12" coveredconditionals="12" methods="17" coveredmethods="17"/>
       <file name="index.jsx" path="C:\Users\Rib0\Desktop\programming\Game\src\javascript\games\digits\components\MainView\index.jsx">
-        <metrics statements="47" coveredstatements="17" conditionals="12" coveredconditionals="4" methods="17" coveredmethods="3"/>
+        <metrics statements="47" coveredstatements="47" conditionals="12" coveredconditionals="12" methods="17" coveredmethods="17"/>
         <line num="11" count="2" type="stmt"/>
         <line num="12" count="2" type="stmt"/>
         <line num="13" count="2" type="stmt"/>
-        <line num="15" count="2" type="stmt"/>
-        <line num="22" count="1" type="stmt"/>
-        <line num="23" count="1" type="stmt"/>
-        <line num="25" count="1" type="cond" truecount="3" falsecount="1"/>
-        <line num="26" count="1" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
-        <line num="33" count="0" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="36" count="0" type="stmt"/>
-        <line num="37" count="0" type="stmt"/>
-        <line num="39" count="0" type="stmt"/>
-        <line num="44" count="0" type="stmt"/>
-        <line num="47" count="0" type="stmt"/>
-        <line num="52" count="2" type="stmt"/>
-        <line num="53" count="0" type="stmt"/>
-        <line num="54" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="56" count="0" type="stmt"/>
-        <line num="57" count="0" type="stmt"/>
-        <line num="58" count="0" type="stmt"/>
-        <line num="59" count="0" type="stmt"/>
-        <line num="64" count="0" type="stmt"/>
-        <line num="65" count="0" type="stmt"/>
-        <line num="67" count="0" type="stmt"/>
-        <line num="68" count="0" type="stmt"/>
-        <line num="70" count="0" type="stmt"/>
-        <line num="71" count="0" type="stmt"/>
-        <line num="74" count="0" type="stmt"/>
-        <line num="78" count="1" type="stmt"/>
-        <line num="79" count="1" type="stmt"/>
-        <line num="81" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="15" count="9" type="stmt"/>
+        <line num="22" count="11" type="stmt"/>
+        <line num="23" count="11" type="stmt"/>
+        <line num="25" count="11" type="cond" truecount="4" falsecount="0"/>
+        <line num="26" count="7" type="stmt"/>
+        <line num="31" count="5" type="stmt"/>
+        <line num="33" count="5" type="stmt"/>
+        <line num="34" count="75" type="stmt"/>
+        <line num="36" count="1672" type="stmt"/>
+        <line num="37" count="179" type="stmt"/>
+        <line num="39" count="75" type="stmt"/>
+        <line num="44" count="75" type="stmt"/>
+        <line num="47" count="5" type="stmt"/>
+        <line num="52" count="9" type="stmt"/>
+        <line num="53" count="3" type="stmt"/>
+        <line num="54" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="56" count="2" type="stmt"/>
+        <line num="57" count="2" type="stmt"/>
+        <line num="58" count="1" type="stmt"/>
+        <line num="59" count="1" type="stmt"/>
+        <line num="64" count="3" type="stmt"/>
+        <line num="65" count="3" type="stmt"/>
+        <line num="67" count="3" type="stmt"/>
+        <line num="68" count="45" type="stmt"/>
+        <line num="70" count="3" type="stmt"/>
+        <line num="71" count="6" type="stmt"/>
+        <line num="74" count="3" type="stmt"/>
+        <line num="78" count="7" type="stmt"/>
+        <line num="79" count="7" type="stmt"/>
+        <line num="81" count="7" type="cond" truecount="2" falsecount="0"/>
         <line num="82" count="1" type="stmt"/>
-        <line num="88" count="2" type="stmt"/>
-        <line num="89" count="0" type="stmt"/>
-        <line num="91" count="0" type="stmt"/>
-        <line num="94" count="2" type="stmt"/>
-        <line num="97" count="0" type="stmt"/>
-        <line num="98" count="0" type="stmt"/>
-        <line num="99" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="101" count="0" type="stmt"/>
-        <line num="102" count="0" type="stmt"/>
-        <line num="103" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="106" count="0" type="stmt"/>
-        <line num="112" count="3" type="stmt"/>
-        <line num="114" count="3" type="stmt"/>
+        <line num="88" count="9" type="stmt"/>
+        <line num="89" count="1" type="stmt"/>
+        <line num="91" count="1" type="stmt"/>
+        <line num="94" count="9" type="stmt"/>
+        <line num="97" count="2" type="stmt"/>
+        <line num="98" count="2" type="stmt"/>
+        <line num="99" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="101" count="1" type="stmt"/>
+        <line num="102" count="1" type="stmt"/>
+        <line num="103" count="15" type="cond" truecount="2" falsecount="0"/>
+        <line num="106" count="1" type="stmt"/>
+        <line num="112" count="20" type="stmt"/>
+        <line num="114" count="20" type="stmt"/>
+      </file>
+    </package>
+    <package name="games.words.components.ProgressBar">
+      <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="4"/>
+      <file name="index.jsx" path="C:\Users\Rib0\Desktop\programming\Game\src\javascript\games\words\components\ProgressBar\index.jsx">
+        <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="4"/>
+        <line num="7" count="7" type="stmt"/>
+        <line num="8" count="9" type="stmt"/>
+        <line num="12" count="9" type="stmt"/>
+        <line num="14" count="9" type="stmt"/>
+        <line num="18" count="2" type="stmt"/>
+        <line num="20" count="2" type="stmt"/>
+        <line num="24" count="7" type="stmt"/>
+        <line num="26" count="7" type="stmt"/>
+        <line num="31" count="7" type="stmt"/>
+        <line num="39" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="games.words.components.Word">
+      <metrics statements="33" coveredstatements="33" conditionals="6" coveredconditionals="5" methods="13" coveredmethods="13"/>
+      <file name="index.jsx" path="C:\Users\Rib0\Desktop\programming\Game\src\javascript\games\words\components\Word\index.jsx">
+        <metrics statements="33" coveredstatements="33" conditionals="6" coveredconditionals="5" methods="13" coveredmethods="13"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="10" count="10" type="stmt"/>
+        <line num="16" count="12" type="stmt"/>
+        <line num="20" count="3" type="stmt"/>
+        <line num="23" count="3" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="31" count="8" type="stmt"/>
+        <line num="33" count="8" type="cond" truecount="2" falsecount="0"/>
+        <line num="34" count="3" type="stmt"/>
+        <line num="35" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="36" count="1" type="stmt"/>
+        <line num="37" count="1" type="stmt"/>
+        <line num="43" count="2" type="stmt"/>
+        <line num="45" count="2" type="stmt"/>
+        <line num="46" count="2" type="stmt"/>
+        <line num="47" count="2" type="stmt"/>
+        <line num="48" count="1" type="stmt"/>
+        <line num="52" count="10" type="stmt"/>
+        <line num="53" count="2" type="stmt"/>
+        <line num="54" count="2" type="stmt"/>
+        <line num="56" count="2" type="stmt"/>
+        <line num="58" count="2" type="stmt"/>
+        <line num="60" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="61" count="1" type="stmt"/>
+        <line num="63" count="1" type="stmt"/>
+        <line num="64" count="1" type="stmt"/>
+        <line num="65" count="1" type="stmt"/>
+        <line num="70" count="2" type="stmt"/>
+        <line num="74" count="18" type="stmt"/>
+        <line num="75" count="18" type="stmt"/>
+        <line num="77" count="18" type="stmt"/>
+        <line num="80" count="54" type="stmt"/>
+        <line num="96" count="1" type="stmt"/>
       </file>
     </package>
   </project>

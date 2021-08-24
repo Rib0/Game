@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Words game - Word test should render 1`] = `
+<div
+  className="word"
+>
+  <span
+    className="letter"
+    key="0"
+  >
+    с
+    <div
+      className="inner"
+      style={
+        Object {
+          "transitionDuration": ".2s",
+        }
+      }
+    >
+      с
+    </div>
+  </span>
+  <span
+    className="letter"
+    key="1"
+  >
+    ы
+    <div
+      className="inner"
+      style={
+        Object {
+          "transitionDuration": ".2s",
+        }
+      }
+    >
+      ы
+    </div>
+  </span>
+  <span
+    className="letter"
+    key="2"
+  >
+    р
+    <div
+      className="inner"
+      style={
+        Object {
+          "transitionDuration": ".2s",
+        }
+      }
+    >
+      р
+    </div>
+  </span>
+</div>
+`;
