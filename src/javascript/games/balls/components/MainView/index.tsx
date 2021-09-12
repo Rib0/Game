@@ -235,9 +235,8 @@ const MainView = () => {
                     acceptButtonText="Начать заного"
                     acceptButtonCallback={handleRestart}
                     declineButtonText="Вернуться в главное меню"
-                    declineButtonCallback={window.backToMenu} // eslint-disable-line @typescript-eslint/no-explicit-any
+                    declineButtonCallback={window.backToMenu}
                 />{' '}
-                {/*to do declare global window interface */}
             </Container>
         </ThemeProvider>
     );
