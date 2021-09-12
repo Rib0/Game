@@ -50,6 +50,7 @@ export const initialState: IinitialState = {
 
 const FLASKS_AMOUNT = 14;
 const BALLS_PER_FLASK = 4;
+const ID_LENGTH = 5;
 
 const MainView = () => {
     const [{ flasks, activeFlaskId, targetCoords, isWin }, dispatch] = useReducer(
@@ -74,7 +75,7 @@ const MainView = () => {
         let resultFlasks: FlasksType = new Array(FLASKS_AMOUNT).fill({});
 
         resultFlasks = resultFlasks.map((f, i) => {
-            const flask: IFlask = { id: nanoid(5), balls: [] };
+            const flask: IFlask = { id: nanoid(ID_LENGTH), balls: [] };
 
             if (i > FLASKS_AMOUNT - 3) return flask;
 
@@ -84,7 +85,7 @@ const MainView = () => {
                 const colorCount = colorsCounter[randomColor];
 
                 if (colorCount !== BALLS_PER_FLASK) {
-                    flask.balls.push({ color: randomColor, id: nanoid(5) });
+                    flask.balls.push({ color: randomColor, id: nanoid(ID_LENGTH) });
                     colorsCounter[randomColor] = colorCount + 1;
                 }
             }
@@ -129,8 +130,8 @@ const MainView = () => {
                 flask.id === activeFlaskId
                     ? { ...flask, balls: restBalls }
                     : flask.id === id
-                    ? { ...flask, balls: ballsWithChanged }
-                    : flask
+                        ? { ...flask, balls: ballsWithChanged }
+                        : flask
             );
 
             dispatch(changeTargetCoords({ bottom, left }));
@@ -166,7 +167,7 @@ const MainView = () => {
     const handleAddFlask = () => {
         if (flasks.length > FLASKS_AMOUNT) return;
 
-        dispatch(changeFlasks(flasks.concat({ id: nanoid(5), balls: [] })));
+        dispatch(changeFlasks(flasks.concat({ id: nanoid(ID_LENGTH), balls: [] })));
     };
 
     const handleCanselLastMoove = () => {
@@ -234,8 +235,9 @@ const MainView = () => {
                     acceptButtonText="Начать заного"
                     acceptButtonCallback={handleRestart}
                     declineButtonText="Вернуться в главное меню"
-                    declineButtonCallback={(window as any)?.backToMenu} // eslint-disable-line @typescript-eslint/no-explicit-any
-                />
+                    declineButtonCallback={window.backToMenu} // eslint-disable-line @typescript-eslint/no-explicit-any
+                />{' '}
+                {/*to do declare global window interface */}
             </Container>
         </ThemeProvider>
     );

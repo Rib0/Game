@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1629837729915" clover="3.2.0">
-  <project timestamp="1629837729915" name="All files">
-    <metrics statements="126" coveredstatements="126" conditionals="38" coveredconditionals="37" methods="44" coveredmethods="44" elements="208" coveredelements="207" complexity="0" loc="126" ncloc="126" packages="10" files="10" classes="10"/>
+<coverage generated="1631486406662" clover="3.2.0">
+  <project timestamp="1631486406662" name="All files">
+    <metrics statements="141" coveredstatements="138" conditionals="44" coveredconditionals="39" methods="48" coveredmethods="46" elements="233" coveredelements="223" complexity="0" loc="141" ncloc="141" packages="12" files="12" classes="12"/>
     <package name="base">
       <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="index.js" path="C:\Users\Rib0\Desktop\programming\Game\src\javascript\base\index.js">
@@ -54,12 +54,39 @@
         <line num="33" count="3" type="stmt"/>
       </file>
     </package>
+    <package name="games.balls.components.Button">
+      <metrics statements="11" coveredstatements="8" conditionals="6" coveredconditionals="2" methods="3" coveredmethods="2"/>
+      <file name="index.tsx" path="C:\Users\Rib0\Desktop\programming\Game\src\javascript\games\balls\components\Button\index.tsx">
+        <metrics statements="11" coveredstatements="8" conditionals="6" coveredconditionals="2" methods="3" coveredmethods="2"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="28" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="30" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="38" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="games.balls.components.Icon">
+      <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+      <file name="index.tsx" path="C:\Users\Rib0\Desktop\programming\Game\src\javascript\games\balls\components\Icon\index.tsx">
+        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+      </file>
+    </package>
     <package name="games.digits">
       <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
       <file name="utils.js" path="C:\Users\Rib0\Desktop\programming\Game\src\javascript\games\digits\utils.js">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="3" type="stmt"/>
-        <line num="2" count="255" type="stmt"/>
+        <line num="2" count="239" type="stmt"/>
       </file>
     </package>
     <package name="games.digits.components.Field">
@@ -95,8 +122,8 @@
         <line num="31" count="5" type="stmt"/>
         <line num="33" count="5" type="stmt"/>
         <line num="34" count="75" type="stmt"/>
-        <line num="36" count="1672" type="stmt"/>
-        <line num="37" count="179" type="stmt"/>
+        <line num="36" count="1654" type="stmt"/>
+        <line num="37" count="163" type="stmt"/>
         <line num="39" count="75" type="stmt"/>
         <line num="44" count="75" type="stmt"/>
         <line num="47" count="5" type="stmt"/>
@@ -154,8 +181,8 @@
       <file name="index.jsx" path="C:\Users\Rib0\Desktop\programming\Game\src\javascript\games\words\components\Word\index.jsx">
         <metrics statements="33" coveredstatements="33" conditionals="6" coveredconditionals="5" methods="13" coveredmethods="13"/>
         <line num="7" count="1" type="stmt"/>
-        <line num="10" count="10" type="stmt"/>
-        <line num="16" count="12" type="stmt"/>
+        <line num="10" count="11" type="stmt"/>
+        <line num="16" count="13" type="stmt"/>
         <line num="20" count="3" type="stmt"/>
         <line num="23" count="3" type="stmt"/>
         <line num="24" count="1" type="stmt"/>
@@ -170,7 +197,7 @@
         <line num="46" count="2" type="stmt"/>
         <line num="47" count="2" type="stmt"/>
         <line num="48" count="1" type="stmt"/>
-        <line num="52" count="10" type="stmt"/>
+        <line num="52" count="11" type="stmt"/>
         <line num="53" count="2" type="stmt"/>
         <line num="54" count="2" type="stmt"/>
         <line num="56" count="2" type="stmt"/>
@@ -181,10 +208,10 @@
         <line num="64" count="1" type="stmt"/>
         <line num="65" count="1" type="stmt"/>
         <line num="70" count="2" type="stmt"/>
-        <line num="74" count="18" type="stmt"/>
-        <line num="75" count="18" type="stmt"/>
-        <line num="77" count="18" type="stmt"/>
-        <line num="80" count="54" type="stmt"/>
+        <line num="74" count="19" type="stmt"/>
+        <line num="75" count="19" type="stmt"/>
+        <line num="77" count="19" type="stmt"/>
+        <line num="80" count="57" type="stmt"/>
         <line num="96" count="1" type="stmt"/>
       </file>
     </package>

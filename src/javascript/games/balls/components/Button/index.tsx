@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import Icon, { IIconProps } from '../Icon';
 
-interface IStyledButtonProps {
+export interface IStyledButtonProps {
     onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
     icon?: IIconProps['icon'];
     text?: string;
