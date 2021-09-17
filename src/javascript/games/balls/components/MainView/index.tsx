@@ -48,7 +48,7 @@ export const initialState: IinitialState = {
     isWin: false,
 };
 
-const FLASKS_AMOUNT = 14;
+export const FLASKS_AMOUNT = 14;
 const BALLS_PER_FLASK = 4;
 const ID_LENGTH = 5;
 
@@ -130,8 +130,8 @@ const MainView = () => {
                 flask.id === activeFlaskId
                     ? { ...flask, balls: restBalls }
                     : flask.id === id
-                        ? { ...flask, balls: ballsWithChanged }
-                        : flask
+                    ? { ...flask, balls: ballsWithChanged }
+                    : flask
             );
 
             dispatch(changeTargetCoords({ bottom, left }));
@@ -235,7 +235,7 @@ const MainView = () => {
                     acceptButtonText="Начать заного"
                     acceptButtonCallback={handleRestart}
                     declineButtonText="Вернуться в главное меню"
-                    declineButtonCallback={window.backToMenu}
+                    declineButtonCallback={() => window.backToMenu()}
                 />{' '}
             </Container>
         </ThemeProvider>

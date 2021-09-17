@@ -1,5 +1,5 @@
 import reducer, { initialState } from 'games/words/store/reducers/game';
-import * as actions from 'games/words/store/actions'
+import * as actions from 'games/words/store/actions';
 
 describe('Words game - game reducer test', () => {
     test('should change game type', () => {
@@ -8,9 +8,9 @@ describe('Words game - game reducer test', () => {
 
         expect(resultState).toEqual({
             ...initialState,
-            gameType: 'newGameType'
-        })
-    })
+            gameType: 'newGameType',
+        });
+    });
 
     test('should change game difficulty', () => {
         const action = actions.changeDifficulty('newDifficulty');
@@ -18,9 +18,9 @@ describe('Words game - game reducer test', () => {
 
         expect(resultState).toEqual({
             ...initialState,
-            difficulty: 'newDifficulty'
-        })
-    })
+            difficulty: 'newDifficulty',
+        });
+    });
 
     test('should change health', () => {
         const action = actions.changeHealth(20);
@@ -28,9 +28,9 @@ describe('Words game - game reducer test', () => {
 
         expect(resultState).toEqual({
             ...initialState,
-            health: 20
-        })
-    })
+            health: 20,
+        });
+    });
 
     test('should change score', () => {
         const action = actions.changeScore(30);
@@ -38,9 +38,9 @@ describe('Words game - game reducer test', () => {
 
         expect(resultState).toEqual({
             ...initialState,
-            score: 30
-        })
-    })
+            score: 30,
+        });
+    });
 
     test('should drop store', () => {
         const action = actions.dropStore();
@@ -48,8 +48,8 @@ describe('Words game - game reducer test', () => {
 
         expect(resultState).toEqual({
             ...initialState,
-        })
-    })
+        });
+    });
 
     test('should drop store', () => {
         const action = actions.dropStore();
@@ -57,8 +57,8 @@ describe('Words game - game reducer test', () => {
 
         expect(resultState).toEqual({
             ...initialState,
-        })
-    })
+        });
+    });
 
     test('should start loading', () => {
         const action = actions.setLoading();
@@ -66,9 +66,9 @@ describe('Words game - game reducer test', () => {
 
         expect(resultState).toEqual({
             ...initialState,
-            loading: true
-        })
-    })
+            loading: true,
+        });
+    });
 
     test('should end loading', () => {
         const action = actions.unsetLoading();
@@ -76,7 +76,7 @@ describe('Words game - game reducer test', () => {
 
         expect(resultState).toEqual({
             ...initialState,
-            loading: false
-        })
-    })
-})
+            loading: false,
+        });
+    });
+});

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styled, { keyframes } from 'styled-components';
 
+import { FLASKS_AMOUNT } from '../MainView';
 import { IContainerProps, IFlaskProps, IBallStyles, IBallsProps } from './types';
 
 import { isFilledFlask } from '../../utils';
@@ -90,6 +91,7 @@ const Flask = ({
     isActive,
     targetCoords,
     targetBallsLength,
+    flasksLength,
 }: IFlaskProps) => {
     const [coords, setCoords] = useState<IBallStyles>({ bottom: null, left: null }); // координаты текущей колбы
     const [ballStyles, setBallStyles] = useState({});
@@ -111,10 +113,13 @@ const Flask = ({
             return;
         }
 
-        const resultLeftCoords = targetCoords.left - coords.left + 2;
+        let resultLeftCoords = targetCoords.left - coords.left + 2;
         const resultBottomCoords =
             getBallBottom(targetBallsLength) - (targetCoords.bottom - coords.bottom);
         const isTargetHigher = coords.bottom > targetCoords.bottom;
+        if (coords.bottom === targetCoords.bottom && flasksLength > FLASKS_AMOUNT) {
+            resultLeftCoords += 36; // не знаю почему так, но без этого криво работает
+        }
 
         setBallStyles({
             [isTargetHigher ? 'bottom' : 'left']: `${

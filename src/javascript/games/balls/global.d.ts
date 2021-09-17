@@ -1,3 +1,3 @@
 interface Window {
-    backToMenu(): void
+    backToMenu(): void;
 }
