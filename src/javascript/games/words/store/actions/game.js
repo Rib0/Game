@@ -6,7 +6,6 @@ export const {
     changeGameType,
     changeDifficulty,
     changeHealth,
-    changeTime,
     changeScore,
     dropStore,
     setLoading,
