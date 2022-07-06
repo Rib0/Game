@@ -3,7 +3,6 @@ const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const ImageminPlugin = require('imagemin-webpack-plugin').default
 const ESLintPlugin = require('eslint-webpack-plugin');
@@ -12,44 +11,48 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const isProd = process.env.NODE_ENV === 'production';
 const isAnalyze = process.env.NODE_ENV === 'analyze';
 
-// todo change on webpack 5
-
 const config = {
-    entry: ['./src', './src/index.css'],
+    entry: ['./src', './src/root.css', './src/index.css'],
     output: {
         path: path.resolve(__dirname, 'build'),
         filename: !isProd ? '[name].js' : '[name].[chunkhash].js',
-        chunkFilename: !isProd ? '[name].js' : '[name].[chunkhash].js', // for code splitting chunks (dynamic import)
+        chunkFilename: !isProd ? '[id].js' : '[name].[chunkhash].js', // for code splitting chunks (dynamic import)
+        clean: true
     },
     devtool: !isProd ? 'inline-cheap-module-source-map' : 'source-map',
     devServer: {
-        compress: true,
-        overlay: true,
         hot: true,
         historyApiFallback: true,
         port: 8080,
-        open: 'chrome',
-        contentBase: path.resolve(__dirname, 'build/'),
+        open: {
+            app: {
+                name: 'chrome',
+            },
+        },
     },
+    cache: !isProd,
     optimization: {
         runtimeChunk: true, // чтобы при изменении одного модуля не менялся весь app,
+        // выносит ссылки на модули в отдельный чанк, обычно при изменении других модулей меняется ссылки на них, а не весь app
         // вместо него будут менять лишь runtimechunk весом в 2кб
-        // использовать с HashedModuleIdsPlugin
+        // использовать с moduleIds: 'deterministic'
         splitChunks: {
-            chunks: 'all', // выносит общие модули и из node_modules из всех чанков
+            chunks: 'all', // выносит общие модули из node_modules и из всего приложения
         },
+        chunkIds: 'deterministic',
+        moduleIds: 'deterministic',
+        minimize: true,
         minimizer: [
             new TerserPlugin({
                 terserOptions: {
                     compress: {
                         drop_console: true,
                     },
-                    output: {
+                    format: {
                         comments: false,
                     },
                 },
                 extractComments: false,
-                cache: true,
                 parallel: true,
             }),
         ],
@@ -61,24 +64,19 @@ const config = {
                     {
                         test: /\.(js|jsx|ts|tsx)$/,
                         exclude: /node_modules/,
-                        use: ['babel-loader'], // for mapping loaders with cache
+                        loader: 'babel-loader',
                     },
                     {
                         test: /\.css$/,
                         use: [
-                            {
-                                loader: MiniCssExtractPlugin.loader,
-                                options: {
-                                    hmr: !isProd,
-                                },
-                            },
+                            MiniCssExtractPlugin.loader,
                             {
                                 loader: 'css-loader',
                                 options: {
                                     modules: {
-                                        localIdentName: '[name]__[local]--[hash:base64:5]',
+                                        localIdentName: '[name]__[local]--[contenthash:base64:5]',
                                     },
-                                    importLoaders: 3,
+                                    importLoaders: 1,
                                 },
                             },
                             'postcss-loader',
@@ -86,31 +84,18 @@ const config = {
                     },
                     {
                         exclude: /\.(js|css|html|svg|json)/,
-                        use: [
-                            {
-                                loader: 'file-loader',
-                                options: {
-                                    name: 'media/[name]_[hash].[ext]',
-                                },
-                            },
-                        ],
+                        type: 'asset/resource',
+                        generator: {
+                            filename: 'media/[hash][ext]',
+                        }
                     },
-                ].map(loader => ({
-                    ...loader,
-                    use: [...loader.use, {
-                        loader: 'cache-loader',
-                        options: {
-                            cacheDirectory: path.resolve(
-                                __dirname,
-                                'node_modules/.cache/cache-loader'
-                            ),
-                        },
-                    },]
-                })),
+                ]
             },
         ],
     },
     resolve: {
+        symlinks: false,
+        cacheWithContext: false,
         extensions: ['.js', '.jsx', '.json', '.tsx', '.ts'],
         modules: [
             'node_modules',
@@ -126,22 +111,21 @@ const config = {
         },
     },
     stats: {
-        builtAt: false,
         children: false,
         colors: true,
         hash: false,
+        outputPath: false,
         publicPath: false,
+        depth: true,
     },
     plugins: [
         new MiniCssExtractPlugin({
-            filename: !isProd ? '[name].css' : '[name].[contenthash].css',
+            filename: !isProd ? '[name].css' : '[name]_[contenthash].css',
+            experimentalUseImportModule: false
         }),
         new webpack.DefinePlugin({
             _ENV: JSON.stringify(process.env.NODE_ENV),
         }),
-        isProd && new webpack.HashedModuleIdsPlugin({ // при импорте модулю дается id порядкового импорта, при изменении порядка импорта
-            hashDigestLength: 5,                     // id поменяется и все чанки поменяют свой chunkhash, чтобы этого не случилось,
-        }),                                         // этот плагин дает id вне зависимости от порядка импорта модуля
         new HtmlWebpackPlugin({
             template: './index.html',
             filename: 'index.html',
@@ -155,11 +139,8 @@ const config = {
                     semantic: true,
                     syntactic: true,
                 },
+                build: true,
                 mode: 'write-references',
-            },
-            eslint: {
-                enabled: true,
-                files: './src/javascript/games/balls/**/*'
             },
         }),
         new ImageminPlugin({
@@ -167,10 +148,6 @@ const config = {
             pngquant: {
                 quality: '95-100'
             }
-        }),
-        isProd &&
-        new CleanWebpackPlugin({
-            cleanStaleWebpackAssets: false,
         }),
         isAnalyze &&
         new BundleAnalyzerPlugin({

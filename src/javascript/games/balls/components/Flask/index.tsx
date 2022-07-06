@@ -84,7 +84,7 @@ const Ball = styled.div<IBallsProps>`
     transition: bottom 0.1s linear, left 0.1s linear;
 `;
 
-const Flask = ({
+const Flask: React.FC<IFlaskProps> = ({
     balls,
     onClick,
     flaskId,
@@ -92,7 +92,7 @@ const Flask = ({
     targetCoords,
     targetBallsLength,
     flasksLength,
-}: IFlaskProps) => {
+}) => {
     const [coords, setCoords] = useState<IBallStyles>({ bottom: null, left: null }); // координаты текущей колбы
     const [ballStyles, setBallStyles] = useState({});
     const [isFilled, setIsFilled] = useState(false);
@@ -122,20 +122,18 @@ const Flask = ({
         }
 
         setBallStyles({
-            [isTargetHigher ? 'bottom' : 'left']: `${
-                isTargetHigher ? resultBottomCoords : resultLeftCoords
-            }px`,
+            [isTargetHigher ? 'bottom' : 'left']: `${isTargetHigher ? resultBottomCoords : resultLeftCoords
+                }px`,
         });
 
         setTimeout(() => {
             setBallStyles(prevStyles => ({
                 ...prevStyles,
-                [isTargetHigher ? 'left' : 'bottom']: `${
-                    isTargetHigher ? resultLeftCoords : resultBottomCoords
-                }px`,
+                [isTargetHigher ? 'left' : 'bottom']: `${isTargetHigher ? resultLeftCoords : resultBottomCoords
+                    }px`,
             }));
         }, 100);
-    }, [isActive, targetCoords, coords, targetBallsLength]);
+    }, [isActive, targetCoords, coords, targetBallsLength, flasksLength, getBallBottom]);
 
     useEffect(() => {
         setIsFilled(isFilledFlask(balls));

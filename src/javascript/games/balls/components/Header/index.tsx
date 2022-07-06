@@ -16,6 +16,6 @@ const Container = styled.div`
     }
 `;
 
-const Header = ({ children }: IHeaderProps) => <Container>{children}</Container>;
+const Header: React.FC<IHeaderProps> = ({ children }) => <Container>{children}</Container>;
 
 export default Header;

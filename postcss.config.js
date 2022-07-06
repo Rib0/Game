@@ -1,4 +1,4 @@
-module.exports = ({ webpack: { mode } }) => {
+module.exports = ({ mode }) => {
     const isProd = mode === 'production';
 
     return {

@@ -56,7 +56,10 @@ class Field extends PureComponent {
 }
 
 Field.propTypes = {
-    field: PropTypes.arrayOf(PropTypes.object),
+    field: PropTypes.arrayOf(PropTypes.shape({
+        value: PropTypes.string,
+        order: PropTypes.string,
+    })),
     onClick: PropTypes.func,
     loading: PropTypes.bool,
 };

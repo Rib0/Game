@@ -61,7 +61,13 @@ const mapDispatchToProps = {
 };
 
 MenuView.propTypes = {
-    options: PropTypes.arrayOf(PropTypes.object),
+    options: PropTypes.arrayOf(PropTypes.shape({
+        value: PropTypes.string,
+        label: PropTypes.string,
+        actionName: PropTypes.string,
+        type: PropTypes.string,
+        tooltipText: PropTypes.string,
+    })),
     storeKeyName: PropTypes.oneOf(Object.keys(gameInitialState)),
 };
 

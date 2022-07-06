@@ -10,11 +10,11 @@ export interface IStyledButtonProps {
     disabled?: boolean;
 }
 
-const Button = ({
+const Button: React.FC<IStyledButtonProps & React.HTMLAttributes<HTMLButtonElement>> = ({
     icon,
     text,
     ...rest
-}: IStyledButtonProps & React.HTMLAttributes<HTMLButtonElement>) => (
+}) => (
     <button type="button" {...rest}>
         {icon ? <Icon icon={icon} /> : text}
     </button>

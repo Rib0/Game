@@ -9,7 +9,7 @@ export const splitArray = <T>(
     hasAdditionalItem: boolean
 ): T[][] => {
     const chunksArray: T[][] = [];
-    let chunk = [];
+    let chunk: T[] = [];
 
     array.forEach((v, i) => {
         chunk.push(v);

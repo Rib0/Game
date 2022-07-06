@@ -1,7 +1,7 @@
 import { lazy } from 'react';
 
 import WordsStore from 'WordsGame/store';
-import WordsBg from 'images/bg.png';
+import WordsBg from 'Images/bg.png';
 
 export const COMPONENTS = [
     {
