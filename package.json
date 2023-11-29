@@ -1,8 +1,9 @@
 {
-  "name": "Games",
-  "version": "1.0.0",
+  "name": "games",
+  "version": "3.6.4",
   "description": "Games",
   "main": "src/index.js",
+  "private": true,
   "scripts": {
     "dev": "cross-env webpack serve --mode=development",
     "build": "cross-env NODE_ENV=production webpack --mode=production",
@@ -19,6 +20,9 @@
     "type": "git",
     "url": "https://github.com/Rib0/Game"
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "author": "Nikita Sidenko",
   "license": "ISC",
   "husky": {
@@ -91,8 +95,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "styled-components": "^5.3.0",
-    "terser-webpack-plugin": "^5.3.3",
-    "unfetch": "^4.2.0"
+    "terser-webpack-plugin": "^5.3.3"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.14.7",
