@@ -1,0 +1,1 @@
+export { COMPONENTS } from './menuItems';

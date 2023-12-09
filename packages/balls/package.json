@@ -1,0 +1,99 @@
+{
+  "name": "balls",
+  "version": "1.0.0",
+  "description": "Balls",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "cross-env webpack serve --mode=development",
+    "build": "cross-env NODE_ENV=production webpack --mode=production",
+    "test": "jest",
+    "test:watch": "jest -o --watch",
+    "test:coverage": "jest --coverage",
+    "prettier": "prettier --write src/**",
+    "eslint": "eslint --cache --ext .js,.jsx,.ts,.tsx src/"
+  },
+  "author": "Nikita Sidenko",
+  "license": "ISC",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js}": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "browserslist": [
+    "> 0.5%",
+    "last 2 versions",
+    "Firefox ESR",
+    "not dead",
+    "not ie <= 8"
+  ],
+  "dependencies": {
+    "@babel/core": "^7.14.8",
+    "@babel/plugin-proposal-class-properties": "^7.14.5",
+    "@babel/plugin-transform-react-constant-elements": "^7.14.5",
+    "@babel/preset-env": "^7.14.8",
+    "@babel/preset-react": "^7.14.5",
+    "@babel/preset-typescript": "^7.14.5",
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/react-fontawesome": "^0.1.14",
+    "@types/styled-components": "^5.1.11",
+    "@welldone-software/why-did-you-render": "^7.0.1",
+    "babel-loader": "^8.2.2",
+    "babel-plugin-styled-components": "^2.0.7",
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+    "classnames": "^2.3.1",
+    "core-js": "^3.15.2",
+    "enzyme-to-json": "^3.6.2",
+    "nanoid": "^3.1.23",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "styled-components": "^5.3.0",
+    "terser-webpack-plugin": "^5.3.3",
+    "ts-node": "^10.9.1"
+  },
+  "devDependencies": {
+    "@babel/register": "^7.22.15",
+    "@stylistic/eslint-plugin-js": "^1.4.1",
+    "@types/enzyme": "^3.10.16",
+    "@types/jest": "^27.0.1",
+    "@types/react": "18.2.37",
+    "@types/react-dom": "latest",
+    "@typescript-eslint/eslint-plugin": "^5.29.0",
+    "@typescript-eslint/parser": "^5.29.0",
+    "cross-env": "^6.0.3",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
+    "eslint": "latest",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-airbnb-typescript": "^12.3.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-import-resolver-webpack": "^0.13.8",
+    "eslint-plugin-babel": "^5.3.1",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^5.0.1",
+    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-webpack-plugin": "^3.1.1",
+    "fork-ts-checker-webpack-plugin": "^7.2.11",
+    "html-webpack-plugin": "^5.5.0",
+    "husky": "^3.1.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^27.0.6",
+    "lint-staged": "^9.5.0",
+    "prettier": "latest",
+    "ts-jest": "^27.0.5",
+    "typescript": "4",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.9.2"
+  }
+}

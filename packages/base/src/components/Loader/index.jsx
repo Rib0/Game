@@ -1,0 +1,10 @@
+import React from 'react';
+
+import styles from './styles.css';
+
+export default () => (
+    <>
+        <div className={styles.loadingContainer} />
+        <div className={styles.loader} />
+    </>
+);

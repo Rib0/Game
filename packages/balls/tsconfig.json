@@ -1,0 +1,26 @@
+{
+	"compilerOptions": {
+        "target": "esnext",
+        "lib": [
+            "dom",
+            "esnext"
+        ],
+        "baseUrl": ".",
+        "noImplicitAny": true,
+        "allowJs": true,
+        "jsx": "react",
+        "module": "esnext",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "useUnknownInCatchVariables": false,
+        "skipLibCheck": true,
+        "noEmit": true,
+        "forceConsistentCasingInFileNames": true,
+        "paths": {
+			    "@/*": ["src/*"],
+		    }
+    },
+	"exclude": ["node_modules"]
+}
